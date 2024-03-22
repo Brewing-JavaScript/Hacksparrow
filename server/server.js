@@ -23,7 +23,7 @@ const genAI = new GoogleGenerativeAI("AIzaSyDbUQj2jSe1THDWuFVdGKRCJ7ozrzd1MyA");
 let PORT = 5000;
 
 mongoose.connect(
-  "mongodb+srv://varad:varad6862@cluster0.0suvvd6.mongodb.net/recursion",
+  "mongodb+srv://varad:varad6862@cluster0.0suvvd6.mongodb.net/hacksparrow",
   {
     autoIndex: true,
   }
@@ -293,6 +293,16 @@ server.post("/google", async (req, res) => {
   return res.status(200).json(text);
 });
 
+server.post('/news' , (req , res)=>{
+  try {
+    
+  } catch (error) {
+    return res.status(499).json({
+      error :"unable to fetch new"
+    })
+    
+  }
+})
 
 
 server.listen(PORT, () => {
