@@ -10,21 +10,22 @@ import Home from "./Home/Home";
 import NewsPage from "./Home/NewsDetails";
 import ArticleDetail from "./Home/NewsDetails";
 
-export  const UrlContext = createContext();
+export const UrlContext = createContext();
 
 
 function App() {
   const [currentUrl, setCurrentUrl] = useState('');
   return (
     <UrlContext.Provider value={{ currentUrl, setCurrentUrl }}>
-    <Router>
+      <Router>
 
-      <Routes>
-        <Route path="/auth" element={<Authentication />} />
-        <Route path="/" element={<Home />} />
-        <Route path="/detail" element={<ArticleDetail />} />
-      </Routes>
-    </Router>
+        <Routes>
+          {/* <Route path="/" element={<Nav />} /> */}
+          <Route path="/" element={<Home />} />
+          <Route path="/auth" element={<Authentication />} />
+          <Route path="/detail" element={<ArticleDetail />} />
+        </Routes>
+      </Router>
     </UrlContext.Provider>
   );
 }
