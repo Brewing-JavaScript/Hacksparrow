@@ -12,7 +12,9 @@ import cron from "node-cron";
 import jwt from "jsonwebtoken";
 import cors from "cors";
 import User from "./schema/UserSchems.js";
-
+import axios from "axios";
+import { JSDOM } from "jsdom";
+import { Readability } from "@mozilla/readability";
 const server = express();
 
 server.use(express.json());
@@ -44,7 +46,7 @@ const sendEmail = async function (data, user) {
     },
   });
 
-  const emailTemplate = ""
+  const emailTemplate = "";
 
   await transporter.sendMail({
     // from: process.env.SMPT_FROM_HOST ,
@@ -293,18 +295,53 @@ server.post("/google", async (req, res) => {
   return res.status(200).json(text);
 });
 
-server.post('/news' , (req , res)=>{
-  try {
-    
-  } catch (error) {
-    return res.status(499).json({
-      error :"unable to fetch new"
-    })
-    
-  }
-})
+server.post("/news", async (req, res) => {
+  const { country = "in", category = "sport", pageSize = 6 } = req.body;
+  const apiKey = "c6016f699894412bbf4a510194f7787b";
+  const url = `https://newsapi.org/v2/top-headlines?country=${country}&category=${category}&apiKey=${apiKey}&page=1&pageSize=${pageSize}`;
 
+  try {
+    const response = await axios.get(url);
+    console.log(response.data); // Log the response data
+
+    return res.status(200).json(response.data);
+  } catch (error) {
+    console.error("Error fetching news:", error);
+    return res.status(500).json({
+      error: "Unable to fetch news",
+    });
+  }
+});
+
+server.post("/detail-news", async (req, res) => {
+  try {
+
+    const {articleUrl} = req.body
+    // Fetch the HTML content of the article using axios
+    const articleHtml = await axios.get(articleUrl);
+
+    // Create a DOM object from the article HTML using JSDOM
+    const dom = new JSDOM(articleHtml.data, {
+      url: "https://sportstar.thehindu.com/" // Provide a valid URL here if needed
+    });
+
+    // Parse the article content using Readability
+    const article = new Readability(dom.window.document).parse();
+
+    // Send the parsed article content as JSON response
+    return res.status(200).json({ article });
+  } catch (error) {
+    console.error('Error fetching or parsing the article:', error);
+    return res.status(500).json({
+      error: 'Unable to fetch or parse the article'
+    });
+  }
+});
 
 server.listen(PORT, () => {
   console.log(`listing on ${PORT}`);
 });
+
+// https://newsapi.org/v2/everything?q=tesla&from=2024-02-22&sortBy=publishedAt&apiKey=API_KEY
+
+// https://newsapi.org/v2/top-headlines?country=us&category=business&apiKey=API_KEY
