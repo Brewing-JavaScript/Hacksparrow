@@ -316,9 +316,9 @@ server.post("/news", async (req, res) => {
 server.post("/detail-news", async (req, res) => {
   try {
 
-    const {articleUrl} = req.body
+    const {currentUrl} = req.body
     // Fetch the HTML content of the article using axios
-    const articleHtml = await axios.get(articleUrl);
+    const articleHtml = await axios.get(currentUrl);
 
     // Create a DOM object from the article HTML using JSDOM
     const dom = new JSDOM(articleHtml.data, {
