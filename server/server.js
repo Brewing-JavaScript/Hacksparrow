@@ -52,13 +52,72 @@ const sendEmail = async function (data, user) {
     },
   });
 
-  const emailTemplate = "";
+  const emailTemplate = `<!DOCTYPE html>
+  <html lang="en">
+  <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>News Summary</title>
+  <style>
+      body {
+          font-family: Arial, sans-serif;
+          margin: 0;
+          padding: 0;
+          background-color: #f4f4f4; /* Light gray background color */
+      }
+      .container {
+          max-width: 800px;
+          margin: 20px auto;
+          padding: 0 20px;
+          background-color: #fff; /* White background color */
+          border-radius: 8px; /* Rounded corners for the container */
+          box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Box shadow for a subtle elevation effect */
+      }
+      h1 {
+          text-align: center; /* Center-align the heading */
+          margin-top: 20px; /* Add some space above the heading */
+          color: #333; /* Dark text color */
+      }
+      .news-item {
+          margin-bottom: 20px;
+          border-bottom: 1px solid #ccc;
+          padding-bottom: 15px; /* Increased padding for better spacing */
+      }
+      .news-item h2 {
+          margin-top: 0;
+          margin-bottom: 10px; /* Add space below the heading */
+          color: #333; /* Dark text color */
+      }
+      .news-item p {
+          margin-bottom: 10px; /* Adjust spacing between paragraphs */
+          color: #555; /* Medium dark text color */
+      }
+      .news-item a {
+          text-decoration: none;
+          color: #007bff; /* Link color */
+      }
+      .news-item a:hover {
+          text-decoration: underline; /* Underline on hover */
+      }
+  </style>
+  </head>
+  <body>
+  <div class="container">
+      <h1>Latest News</h1>
+      <div class="news-item">
+          <h2>News Title 1</h2>
+          <p>${data}</p>      </div>
+  </div>
+  </body>
+  </html>
+  
+  `;
 
   await transporter.sendMail({
     // from: process.env.SMPT_FROM_HOST ,
     from: "fakeacc6862@gmail.com",
     to: user,
-    subject: "new placement offer from your college",
+    subject: "new summmury",
     html: emailTemplate,
   });
 };
@@ -302,7 +361,7 @@ server.post("/google", async (req, res) => {
 });
 
 server.post("/news", async (req, res) => {
-  const { country = "in", cat, pagesize = 15 , page } = req.body;
+  const { country = "in", cat, pagesize = 15, page } = req.body;
 
   let category = cat ? cat : "";
   // const apiKey = "c6016f699894412bbf4a510194f7787b";
@@ -540,6 +599,18 @@ server.post("/translate", async (req, res) => {
     res.status(500).json({ error: "Translation failed" }); // Send an error response
   }
 });
+
+server.post("/send-sum-mail", async (req, res) => {
+  try {
+    const { sum, _id } = req.body;
+    const user = await User.findById(_id);
+    await sendEmail(sum, user.email);
+    return res.status(200).json({ message: "email send successfully.." });
+  } catch (error) {
+    res.status(500).json({ error: error.message }); // Send an error response
+  }
+});
+
 server.listen(PORT, () => {
   console.log(`listing on ${PORT}`);
 });
