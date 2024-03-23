@@ -13,11 +13,9 @@ const ArticleDetail = () => {
 
 
   useEffect(() => {
-    // Used to stop speaking.
-    speechSynthesis.cancel();
-
-    
-    setSpeaking(false);
+    // Used to cancel
+    // speechSynthesis.cancel();
+    // setSpeaking(false);
     const fetchData = async () => {
       try {
         if (currentUrl) {
