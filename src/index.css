@@ -87,7 +87,10 @@ figure{
 .input:focus {
   border-color: black;
 }
-
+nav ul li{
+  font-size: 1.2rem;
+  cursor: pointer;
+}
 .row{
   display: grid;
   grid-template-columns: auto auto auto;

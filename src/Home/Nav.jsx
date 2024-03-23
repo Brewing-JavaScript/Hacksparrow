@@ -19,6 +19,24 @@ const Nav = () => {
         }
     );
 
+    function darkenColor(hexColor) {
+        // Convert hexadecimal color to RGB
+
+        const red = parseInt(hexColor.slice(1, 3), 16);
+        const green = parseInt(hexColor.slice(3, 5), 16);
+        const blue = parseInt(hexColor.slice(5, 7), 16);
+      
+        // Reduce each RGB component by 10 (you can adjust this value as needed)
+        const darkerRed = Math.max(0, red - 40);
+        const darkerGreen = Math.max(0, green - 40);
+        const darkerBlue = Math.max(0, blue - 40);
+      
+        // Convert darker RGB values back to hexadecimal
+        const darkerHexColor = `#${darkerRed.toString(16).padStart(2, '0')}${darkerGreen.toString(16).padStart(2, '0')}${darkerBlue.toString(16).padStart(2, '0')}`;
+      
+        return darkerHexColor;
+      }
+
     // Function to handle background color change
     const handleBackgroundColorChange = (color) => {
         setThemeSettings((prevSettings) => ({
@@ -52,9 +70,12 @@ const Nav = () => {
         setUi(themeSettings);
     }, [themeSettings, setUi]);
 
+    
+
     return (
         <div className='relative' style={{backgroundColor: themeSettings.backgroundColor}}>
-            <div className='flex items-center justify-between w-full h-20 border p-4'>
+            <div className='flex items-center justify-between w-full h-20 border p-4' style={{backgroundColor: darkenColor(themeSettings.backgroundColor)}}>
+                <div className='container flex items-center justify-between'>
                 <div className='w-12 h-full'>
                     <img
                         className='w-full h-full object-cover'
@@ -62,8 +83,21 @@ const Nav = () => {
                         alt="logo"
                     />
                 </div>
+
+                <nav style={{width: "50%"}}>
+                <ul className="block lg:flex" style={{justifyContent: "space-evenly", color: themeSettings.textColor}}>
+                  <li NavLink="/general">General</li>
+                  <li>Sports</li>
+                  <li NavLink="/#">Entertainment</li>
+                  <li NavLink="/#">Business</li>
+                  <li NavLink="/#">Science</li>
+                  <li NavLink="/#">Health</li>
+                  <li NavLink="/#">Technology</li>
+                </ul>
+                </nav>
                 <div className='p-4 flex items-center justify-center'>
                     <MenuIcon onClick={() => setShowOptions(!showOptions)} className="cursor-pointer" style={{background: themeSettings.backgroundColor === '#000000'? 'white' : ''}} />
+                </div>
                 </div>
             </div>
 
@@ -87,11 +121,11 @@ const Nav = () => {
                         />
                         {/* Basic color combinations */}
                         <div className="flex justify-between mt-2">
-                            {['#ffffff', '#f0f0f0', '#000000', '#ff0000', '#00ff00'].map((color) => (
+                            {['#ffffff', '#bababa', '#000000', '#ff0000', '#00ff00'].map((color) => (
                                 <div
                                     key={color}
                                     className="rounded-full h-6 w-6 cursor-pointer"
-                                    style={{ backgroundColor: color }}
+                                    style={{ backgroundColor: color , border: themeSettings.backgroundColor === "#ffffff"? "1px solid black" : themeSettings.backgroundColor === color ? "1px solid #ffffff" : ""}}
                                     onClick={() => handleBackgroundColorChange(color)}
                                 ></div>
                             ))}
@@ -108,11 +142,11 @@ const Nav = () => {
                         />
                         {/* Basic color combinations */}
                         <div className="flex justify-between mt-2">
-                            {['#ffffff', '#f0f0f0', '#000000', '#ff0000', '#00ff00'].map((color) => (
+                            {['#ffffff', '#bababa', '#000000', '#ff0000', '#00ff00'].map((color) => (
                                 <div
                                     key={color}
                                     className="rounded-full h-6 w-6 cursor-pointer"
-                                    style={{ backgroundColor: color }}
+                                    style={{ backgroundColor: color , border: themeSettings.backgroundColor === '#000000'? "1px solid white" : "1px solid black"}}
                                     onClick={() => handleTextColorChange(color)}
                                 ></div>
                             ))}

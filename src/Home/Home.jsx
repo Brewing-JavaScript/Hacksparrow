@@ -40,7 +40,7 @@ const Home = ({ country = 'in', category = '', pagesize = 6 }) => {
     <>
       <Nav />
       <div style={{ backgroundColor: ui.backgroundColor, color: ui.textColor }} className="container my-3 d-flex align-items-center justify-content-center flex-column varad">
-        <h1 className="text-center">Top headlines</h1>
+        <h1 className="text-center" style={{fontSize: "4rem", fontWeight: 700 }}>Top headlines</h1>
 
         {loading && <Spinner />}
 
