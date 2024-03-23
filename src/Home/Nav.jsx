@@ -109,11 +109,11 @@ const Nav = () => {
               alt="logo"
             />
           </div>
-          <nav className="flex gap-5">
+          <nav className="flex gap-12">
             {cats.length &&
               cats.map((cate, i) => (
                 <div
-                  className="m-2 text-xl font-bold cursor-pointer capitalize"
+                  className="m-2 text-xl font-bold cursor-pointer capitalize transition duration-300 ease-in-out hover:bg-gray-200 hover:shadow-md px-4 py-2 rounded-lg"
                   key={i}
                   onClick={() => setCat(cate)}
                 >
