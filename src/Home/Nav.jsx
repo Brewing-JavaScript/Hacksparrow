@@ -2,6 +2,8 @@ import React, { useState, useEffect, useContext } from 'react';
 import MenuIcon from '@mui/icons-material/Menu';
 import { UiContext, catContext } from '../App';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import api from '../Api/Api';
 
 const Nav = () => {
     const [showOptions, setShowOptions] = useState(false);
@@ -32,9 +34,11 @@ const Nav = () => {
         const darkerBlue = Math.max(0, blue - 40);
       
         const darkerHexColor = `#${darkerRed.toString(16).padStart(2, '0')}${darkerGreen.toString(16).padStart(2, '0')}${darkerBlue.toString(16).padStart(2, '0')}`;
-      
+
         return darkerHexColor;
     }
+
+    const [cats, setCats] = useState([])
 
     const handleBackgroundColorChange = (color) => {
         setThemeSettings((prevSettings) => ({
@@ -61,9 +65,33 @@ const Nav = () => {
     };
 
     useEffect(() => {
+        getCats(); // Always fetch cats when component mounts or themeSettings/setUi change
         sessionStorage.setItem('themeSettings', JSON.stringify(themeSettings));
         setUi(themeSettings);
-    }, [themeSettings, setUi]);
+    }, [themeSettings, setUi]); // Include setUi as a dependency if it affects cats fetching
+    
+
+    const navigate = useNavigate()
+
+    const hanleSignOut = () => {
+        sessionStorage.clear()
+        navigate('/auth')
+
+    }
+
+    const getCats = () => {
+        const userInSession = sessionStorage.getItem('_id');
+        const _id = JSON.parse(userInSession);
+        try {
+            api.post('/get-cats', { _id }).then((res) => {
+                setCats(res.data)
+            })
+        } catch (error) {
+
+            console.log(error.message);
+
+        }
+    }
 
     return (
         <div className='relative' style={{ backgroundColor: themeSettings.backgroundColor }}>
@@ -72,24 +100,22 @@ const Nav = () => {
                     <div className='w-12 h-full'>
                         <img
                             className='w-full h-full object-cover'
-                            src="https://ideogram.ai/api/images/direct/5_ghuJHaTzKEhrH7Rq4Q5A.png"
+                            src="https://varad177.github.io/portfolio/assets/hero.jpg"
                             alt="logo"
                         />
                     </div>
 
-                    <nav className="flex-grow">
-                        <ul className="flex justify-evenly text-lg font-semibold">
-                            <li onClick={() => setCat('general')}>General</li>
-                            <li onClick={() => setCat('sports')}>Sports</li>
-                            <li onClick={() => setCat('entertainment')}>Entertainment</li>
-                            <li onClick={() => setCat('business')}>Business</li>
-                            <li onClick={() => setCat('science')}>Science</li>
-                            <li onClick={() => setCat('health')}>Health</li>
-                            <li onClick={() => setCat('technology')}>Technology</li>
+                    <nav style={{ width: "50%" }}>
+                        <ul className="block lg:flex" style={{ justifyContent: "space-evenly", color: themeSettings.textColor }}>
+
+                            {cats.length && cats.map((cate, i) => {
+                                return <li onClick={() => setCat(`${cate}`)}>{cate}</li>
+                            })}
+
                         </ul>
                     </nav>
-
-                    <div className='p-4 flex items-center justify-center'>
+                    <div className='p-4 flex items-center justify-center gap-4'>
+                        <button onClick={hanleSignOut} className='px-16 py-3 border bg-[#2BC2D2] text-xs font-bold'>Sign Out</button>
                         <MenuIcon onClick={() => setShowOptions(!showOptions)} className="cursor-pointer" style={{ background: themeSettings.backgroundColor === '#000000' ? 'white' : '' }} />
                     </div>
                 </div>

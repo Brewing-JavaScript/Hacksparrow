@@ -42,6 +42,7 @@ function App() {
             <Route path="/auth" element={<Authentication />} />
             <Route path="/detail" element={<ArticleDetail />} />
             <Route path="/speech" element={<SpeechToText />} />
+            <Route path="/recomendation" element={<Recommendation />} />
             <Route path="/tts" element={<TextToSpeechTrial />} />
             <Route path="/recommendation" element={<Recommendation />} />
 

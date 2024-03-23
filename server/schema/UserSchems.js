@@ -23,18 +23,8 @@ const userSchema = new mongoose.Schema({
     default: "student",
     type: String,
   },
-  logourl: {
-    type: String,
-  },
-  public_url: {
-    type: String,
-  },
-  cover: {
-    type: String,
-  },
-  hired: {
-    default: false,
-    type: Boolean,
+  cats: {
+    type: [String], // Assuming it's an array of strings representing categories
   },
 });
 
