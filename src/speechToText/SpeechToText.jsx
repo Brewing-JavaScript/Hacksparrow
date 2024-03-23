@@ -4,29 +4,26 @@ import api from "../Api/Api";
 import { useNavigate } from "react-router-dom";
 import Recording from "../Loader/Recording";
 
-
 function SpeechToText() {
   const [transcription, setTranscription] = useState("");
-  const [recording, setRecording] = useState(false);
-  const recognition = new window.webkitSpeechRecognition();
+  const [recognition, setRecognition] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
-    recognition.continuous = true;
-    recognition.interimResults = true;
-    recognition.lang = "en-US";
+    let recognitionInstance = new window.webkitSpeechRecognition();
+    recognitionInstance.continuous = true;
+    recognitionInstance.interimResults = true;
+    recognitionInstance.lang = "en-US";
 
-    recognition.onstart = () => {
+    recognitionInstance.onstart = () => {
       console.log("Speech recognition started");
-      setRecording(true);
     };
 
-    recognition.onend = () => {
+    recognitionInstance.onend = () => {
       console.log("Speech recognition ended");
-      setRecording(false);
     };
 
-    recognition.onresult = (event) => {
+    recognitionInstance.onresult = (event) => {
       let finalTranscript = "";
       for (let i = event.resultIndex; i < event.results.length; ++i) {
         if (event.results[i].isFinal) {
@@ -37,20 +34,22 @@ function SpeechToText() {
       handleTranscribe(finalTranscript);
     };
 
-    recognition.onerror = (event) => {
+    recognitionInstance.onerror = (event) => {
       console.error("Speech recognition error:", event.error);
     };
 
-    if (recording) {
-      recognition.start();
-    } else {
-      recognition.stop();
-    }
+    setRecognition(recognitionInstance);
+
+    // Start recognition when component mounts
+    recognitionInstance.start();
 
     return () => {
-      recognition.stop();
+      if (recognitionInstance) {
+        recognitionInstance.stop();
+        recognitionInstance = null;
+      }
     };
-  }, [recording]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleTranscribe = async (text) => {
     console.log("Transcribed text:", text);
@@ -82,22 +81,15 @@ function SpeechToText() {
 
   return (
     <>
-      {
-        recording ? <Recording />
-          :
-          <div className="w-full h-screen flex items-center flex-col gap-12 justify-center">
-            <h1 className="text-3xl font-bold shadow-md p-8">give voice command to customize display</h1>
-            <button className="py-4 px-20 border" onClick={() => setRecording((prev) => !prev)}>
-              {recording ? "Stop Recording" : "Start Recording"}
-            </button>
-            {transcription && (
-              <div className="w-[80%] ">
-                <h2>Transcription:</h2>
-                <p>{transcription}</p>
-              </div>
-            )}
+      <div className="w-full h-screen flex items-center flex-col gap-12 justify-center">
+        <h1 className="text-3xl font-bold shadow-md p-8">Give voice command to customize display</h1>
+        {transcription && (
+          <div className="w-[80%]">
+            <h2>Transcription:</h2>
+            <p>{transcription}</p>
           </div>
-      }
+        )}
+      </div>
     </>
   );
 }
