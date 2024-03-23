@@ -24,7 +24,7 @@ server.use(cors());
 
 const genAI = new GoogleGenerativeAI("AIzaSyCvf6GdLaxRKR8-5RscFksqV1jrKlo-zNc");
 
-let PORT = 5000;
+let PORT = 8000;
 
 mongoose.connect(
   "mongodb+srv://varad:varad6862@cluster0.0suvvd6.mongodb.net/hacksparrow",

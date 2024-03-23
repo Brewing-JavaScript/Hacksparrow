@@ -10,6 +10,7 @@ import Home from "./Home/Home";
 import NewsPage from "./Home/NewsDetails";
 import ArticleDetail from "./Home/NewsDetails";
 import SpeechToText from "./speechToText/SpeechToText";
+import TextToSpeechTrial from "./TextToSpeechTrial";
 
 export const UrlContext = createContext();
 export const UiContext = createContext();
@@ -40,6 +41,7 @@ function App() {
             <Route path="/auth" element={<Authentication />} />
             <Route path="/detail" element={<ArticleDetail />} />
             <Route path="/speech" element={<SpeechToText />} />
+            <Route path="/tts" element={<TextToSpeechTrial />} />
 
           </Routes>
         </Router>

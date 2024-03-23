@@ -10,7 +10,7 @@ const Nav = () => {
     const { setCat } = useContext(catContext);
     const storedThemeSettings = JSON.parse(sessionStorage.getItem('themeSettings'));
 
-    const [selectedCategory, setSelectedCategory] = useState('');
+    const [selectedCategory, setSelectedCategory] = useState('general');
     
     // Function to handle category selection
   
