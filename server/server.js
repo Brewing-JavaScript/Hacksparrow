@@ -33,6 +33,8 @@ mongoose.connect(
   }
 );
 
+
+
 const sendEmail = async function (data, user) {
   console.log("varad");
   const transporter = nodemailer.createTransport({
