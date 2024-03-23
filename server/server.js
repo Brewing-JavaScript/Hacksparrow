@@ -297,7 +297,8 @@ server.post("/google", async (req, res) => {
 
 server.post("/news", async (req, res) => {
   const { country = "in", category = "sport", pageSize = 6 } = req.body;
-  const apiKey = "c6016f699894412bbf4a510194f7787b";
+  // const apiKey = "c6016f699894412bbf4a510194f7787b";
+  const apiKey = "720f8330961644819519fcbb2766699a";
   const url = `https://newsapi.org/v2/top-headlines?country=${country}&category=${category}&apiKey=${apiKey}&page=1&pageSize=${pageSize}`;
 
   try {
