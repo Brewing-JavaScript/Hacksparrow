@@ -7,6 +7,7 @@ import ArticleDetail from "./Home/NewsDetails";
 import SpeechToText from "./speechToText/SpeechToText";
 import TextToSpeechTrial from "./TextToSpeechTrial";
 import Recommendation from "./Recommendation/Recommendation";
+import Community from "./Home/Community";
 
 // import Speech from "./Speech/Speech";
 
@@ -29,19 +30,23 @@ function App() {
   return (
     <UrlContext.Provider value={{ currentUrl, setCurrentUrl }}>
       <UiContext.Provider value={{ ui, setUi }}>
-        <catContext.Provider value={{ cat, setCat }}>
-          <Router>
-            <Routes>
-              {/* <Route path="/" element={<Nav />} /> */}
-              <Route path="/" element={<Home />} />
-              <Route path="/auth" element={<Authentication />} />
-              <Route path="/recomendation" element={<Recommendation />} />
-              <Route path="/detail" element={<ArticleDetail />} />
-              <Route path="/speech" element={<SpeechToText />} />
-              <Route path="/tts" element={<TextToSpeechTrial />} />
-            </Routes>
-          </Router>
-        </catContext.Provider>
+      <catContext.Provider value={{ cat, setCat }}>
+        <Router>
+
+          <Routes>
+            {/* <Route path="/" element={<Nav />} /> */}
+            <Route path="/" element={<Home />} />
+            <Route path="/auth" element={<Authentication />} />
+            <Route path="/detail" element={<ArticleDetail />} />
+            <Route path="/speech" element={<SpeechToText />} />
+            <Route path="/recomendation" element={<Recommendation />} />
+            <Route path="/tts" element={<TextToSpeechTrial />} />
+            <Route path="/recommendation" element={<Recommendation />} />
+            <Route path="/feedback" element={<Community />} />
+
+          </Routes>
+        </Router>
+      </catContext.Provider>
       </UiContext.Provider>
     </UrlContext.Provider>
   );

@@ -4,8 +4,7 @@ import api from "../Api/Api";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import { UrlContext, UiContext } from "../App";
-
-
+import VolumeUpIcon from "@mui/icons-material/VolumeUp";
 const ArticleDetail = () => {
   const [article, setArticle] = useState(null);
   const { currentUrl, setCurrentUrl } = useContext(UrlContext);
@@ -40,8 +39,9 @@ const ArticleDetail = () => {
   }, [currentUrl]);
 
   useEffect(() => {
-    document.getElementById("root").style.backgroundColor = ui.backgroundColor;
-document.getElementById("root").style.color = ui.textColor;
+    document.getElementById("news-page").style.backgroundColor = ui.backgroundColor;
+    document.getElementById("bgOfNews").style.backgroundColor = ui.backgroundColor;
+    document.getElementById("news-page").style.color = ui.textColor;
   });
 
   useEffect(() => {
@@ -93,9 +93,9 @@ document.getElementById("root").style.color = ui.textColor;
   };
 
   return (
-    <div className="w-full bg-gray-100">
+    <div id="bgOfNews" className="w-full bg-gray-100">
       <div className="max-w-screen-xl mx-auto px-4">
-        <div className="news-page bg-white shadow-md rounded p-8 mb-4">
+        <div id="news-page" className="news-page bg-white shadow-md rounded p-8 mb-4">
           {article ? (
             <div>
               <h2 className="text-2xl font-semibold mb-2">
@@ -164,12 +164,11 @@ document.getElementById("root").style.color = ui.textColor;
                   translate
                 </div>
                 {trans && (
-                  <button
+                  <VolumeUpIcon>
                     onClick={hindiSpeaking}
-                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                  >
-                    Speak
-                  </button>
+                    className="bg-blue-500 hover:bg-blue-700 text-white
+                    font-bold py-2 px-4 rounded"
+                  </VolumeUpIcon>
                 )}
               </div>
 
