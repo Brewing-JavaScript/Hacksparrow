@@ -49,7 +49,7 @@ const NewsItem = ({ title, description, imgUrl, newsurl, author, date, source })
                     {/* Author and date */}
                     <p className="mt-2 text-sm text-gray-500">By {author} on {date}</p>
                     {/* Button to read more */}
-                    <div onClick={() => handleMove(newsurl)} className="mt-4 px-4 py-2 bg-blue-500 text-white rounded-md cursor-pointer hover:bg-blue-600 transition-all duration-300">Read More</div>
+                    <div onClick={() => handleMove(newsurl)} className="w-fit mt-4 px-4 py-2 bg-blue-500 text-white rounded-md cursor-pointer hover:bg-blue-600 transition-all duration-300">Read More</div>
                 </div>
             </div>
         </div>
