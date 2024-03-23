@@ -57,8 +57,8 @@ const Home = ({ country = "in", category = "general", pagesize = 6 }) => {
       {loading && <Loader message={"Loading news..."} />}
       <Nav />
       <div
-        style={{ backgroundColor: ui.backgroundColor, color: ui.textColor }}
-        className="d-flex align-items-center justify-content-center flex-column varad"
+        style={{ backgroundColor: ui.backgroundColor, color: ui.textColor , width: "80%"}}
+        className="container my-3 d-flex align-items-center justify-content-center flex-column mx-auto"
       >
         <div
           onClick={() => navigate("/feedback")}

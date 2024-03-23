@@ -105,28 +105,28 @@ const Nav = () => {
   };
 
   return (
+    <main style={{ backgroundColor: themeSettings.backgroundColor }}>
     <div
       className="relative"
-      style={{ backgroundColor: themeSettings.backgroundColor }}
+      style={{width: "80%", margin: "0 auto"}}
     >
-      <div
-        className="mt-4 flex items-center justify-between w-full h-28 border p-4 rounded-2xl"
-        style={{ backgroundColor: darkenColor(themeSettings.backgroundColor) }}
-      >
-        <div className="container flex items-center justify-between">
-          <div className="w-20 h-full rounded-full overflow-hidden">
+      <div className="flex items-center justify-between w-full h-20 ">
+        <div className="flex items-center justify-between" style={{width: "100%" }}>
+          <div className="w-12 h-full  flex justify-between" style={{alignItems: "center"}}>
             <img
+              style={{borderRadius: "50%"}}
               className="w-full h-full object-cover"
               src="https://ideogram.ai/api/images/direct/5_ghuJHaTzKEhrH7Rq4Q5A.png"
               alt="logo"
             />
+            <h3 className="ml-4" style={{fontWeight: 500, fontSize: "1.5rem", marginLeftL :"0.5rem"}}>NewsWeb</h3>
           </div>
-          <nav className="flex gap-12">
+          <nav className="flex">
             {cats.length &&
               cats.map((cate, i) => (
                 <div
-                  style={{ color: themeSettings.textColor }}
-                  className="m-2 text-xl font-bold cursor-pointer capitalize transition duration-300 ease-in-out hover:bg-gray-200 hover:shadow-md px-4 py-2 rounded-lg"
+                style={{color: themeSettings.textColor, fontWeight: 500}}
+                  className="m-2 text-xl font-bold  cursor-pointer capitalize transition duration-300 ease-in-out hover:bg-gray-200 hover:shadow-md px-4 py-2 rounded-lg"
                   key={i}
                   onClick={() => setCat(cate)}
                 >
@@ -134,19 +134,28 @@ const Nav = () => {
                 </div>
               ))}
           </nav>
-          <div className="p-4 flex items-center justify-center gap-4">
+
+          <div className="py-4 flex items-center justify-center gap-4">
             <MicIcon
-              className={`cursor-pointer ${listening ? 'text-green-500' : 'text-gray-500'}`}
-              onClick={toggleListening}
-              style={{ fontSize: "48px" }}
+              className="cursor-pointer"
+              onClick={() => navigate("/speech")}
+              style={{ color: "black", fontSize: "30px" }}
             />
+            <button
+            style={{backgroundColor: themeSettings.textColor, color: themeSettings.backgroundColor, padding: "1rem 2rem"}}
+              onClick={handleSignOut}
+              className="px-6 py-2 bg-blue-500 text-white text-xs font-bold rounded-md shadow-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
+            >
+              Sign Out
+            </button>
+
             <MenuIcon
               onClick={() => setShowOptions(!showOptions)}
               className="cursor-pointer"
               fontSize="large"
               style={{
                 background:
-                  themeSettings.backgroundColor === "#000000" ? "white" : "",
+                  themeSettings.backgroundColor === "#000000" ? "white" : "", width: "2rem", height: "2rem"
               }}
             />
             <button
@@ -179,6 +188,7 @@ const Nav = () => {
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
+                style={{width: "2rem", height: "2rem"}}
               >
                 <path
                   strokeLinecap="round"
@@ -193,6 +203,7 @@ const Nav = () => {
         </>
       )}
     </div>
+    </main>
   );
 };
 
