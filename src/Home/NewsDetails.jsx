@@ -44,35 +44,49 @@ const ArticleDetail = () => {
     const translatedContent = article.content.replace('MS Dhoni', 'Mahendra Singh Dhoni');
     setTranslatedArticle(translatedContent);
   };
+  const [trans , setTrans] = useState('')
+
+  const translate = () => {
+    try {
+      api.post('/translate', { text: article.title }).then((res) => {
+        setTrans(res.data.translatedText)
+      })
+    } catch (error) {
+      console.log(error);
+
+    }
+  }
 
   return (
     <div className="w-full bg-gray-100">
       <div className="max-w-screen-xl mx-auto px-4">
         <div className="news-page bg-white shadow-md rounded p-8 mb-4">
-          
+
           {article ? (
             <div>
-              <h2 className="text-2xl font-semibold mb-2">{article.title}</h2>
+              <h2 className="text-2xl font-semibold mb-2">{trans ? trans : article.title}</h2>
               {analytics && (
-            <div className="flex justify-between mb-4">
-              <div className="flex flex-col items-center">
-                <div className={`text-xl font-semibold ${analytics.probabilities.fake > analytics.probabilities.true ? 'text-red-600' : 'text-green-600'} animate-pulse`}>
-                  Fake Probability:
+                <div className="flex justify-between mb-4">
+                  <div className="flex flex-col items-center">
+                    <div className={`text-xl font-semibold ${analytics.probabilities.fake > analytics.probabilities.true ? 'text-red-600' : 'text-green-600'} animate-pulse`}>
+                      Fake Probability:
+                    </div>
+                    <div className={`text-2xl font-bold ${analytics.probabilities.fake > analytics.probabilities.true ? 'text-red-600' : 'text-green-600'}`}>
+                      {analytics.probabilities.fake.toFixed(2)}%
+                    </div>
+                  </div>
+                  <div className="flex flex-col items-center">
+                    <div className={`text-xl font-semibold ${analytics.probabilities.true > analytics.probabilities.fake ? 'text-green-600' : 'text-red-600'} animate-pulse`}>
+                      True Probability:
+                    </div>
+                    <div className={`text-2xl font-bold ${analytics.probabilities.true > analytics.probabilities.fake ? 'text-green-600' : 'text-red-600'}`}>
+                      {analytics.probabilities.true.toFixed(2)}%
+                    </div>
+                  </div>
                 </div>
-                <div className={`text-2xl font-bold ${analytics.probabilities.fake > analytics.probabilities.true ? 'text-red-600' : 'text-green-600'}`}>
-                  {analytics.probabilities.fake.toFixed(2)}%
-                </div>
-              </div>
-              <div className="flex flex-col items-center">
-                <div className={`text-xl font-semibold ${analytics.probabilities.true > analytics.probabilities.fake ? 'text-green-600' : 'text-red-600'} animate-pulse`}>
-                  True Probability:
-                </div>
-                <div className={`text-2xl font-bold ${analytics.probabilities.true > analytics.probabilities.fake ? 'text-green-600' : 'text-red-600'}`}>
-                  {analytics.probabilities.true.toFixed(2)}%
-                </div>
-              </div>
-            </div>
-          )}
+              )}
+
+              <div className='border py-4 px-20 bg-red-300' onClick={translate}>translate</div>
               <p className="text-gray-600 mb-2">{article.byline}</p>
               <p className="text-gray-600 mb-2">Published Time: {new Date(article.publishedTime).toLocaleString()}</p>
               <img src={article.image} alt="Article" className="w-full rounded mb-4" />
