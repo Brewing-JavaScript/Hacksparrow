@@ -9,6 +9,7 @@ import Authentication from "./user/Authentication";
 import Home from "./Home/Home";
 import NewsPage from "./Home/NewsDetails";
 import ArticleDetail from "./Home/NewsDetails";
+import SpeechToText from "./speechToText/SpeechToText";
 
 export const UrlContext = createContext();
 export const UiContext = createContext();
@@ -35,6 +36,8 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/auth" element={<Authentication />} />
             <Route path="/detail" element={<ArticleDetail />} />
+            <Route path="/speech" element={<SpeechToText />} />
+
           </Routes>
         </Router>
       </UiContext.Provider>
