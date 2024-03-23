@@ -1,70 +1,68 @@
 import React, { useState, useEffect, useContext } from "react";
-import '../App.css';
+import "../App.css";
 import NewsItem from "./NewsItem";
 import { Spinner } from "flowbite-react";
 import toast from "react-hot-toast";
-import api from '../Api/Api'
-import { getUi } from '../Api/GetUi'
+import api from "../Api/Api";
+import { getUi } from "../Api/GetUi";
 import Nav from "./Nav";
 import { UiContext, catContext } from "../App";
 import { useNavigate } from "react-router-dom";
 import Loader from "../Loader/Spinner";
 
-const Home = ({ country = 'in', category = 'general', pagesize = 6 }) => {
+const Home = ({ country = "in", category = "general", pagesize = 6 }) => {
   const [loading, setLoading] = useState(false);
   const [totalResults, setTotalResults] = useState(0);
   const [page, setPage] = useState(1);
   const [articles, setArticles] = useState([]);
 
-
-  const { cat } = useContext(catContext)
+  const { cat } = useContext(catContext);
   const { ui } = useContext(UiContext); // Destructure ui from UiContext
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   useEffect(() => {
-
-    const userInsession = sessionStorage.getItem('access_token')
-    const token = JSON.parse(userInsession)
+    const userInsession = sessionStorage.getItem("access_token");
+    const token = JSON.parse(userInsession);
     if (!token) {
-      navigate('/auth')
+      navigate("/auth");
     }
-
-
 
     fetchNews();
 
     // getUi();
-    document.getElementById('root').style.backgroundColor = ui.backgroundColor
+    document.getElementById("root").style.backgroundColor = ui.backgroundColor;
   }, [country, category, pagesize, api, ui, cat]);
-
-
-
 
   const fetchNews = () => {
     try {
-
-      setLoading(true)
-      api.post('/news', { cat }).then((res) => {
-        setLoading(false)
-        setArticles(res.data.articles)
-      })
-
+      setLoading(true);
+      api.post("/news", { cat }).then((res) => {
+        setLoading(false);
+        setArticles(res.data.articles);
+      });
     } catch (error) {
-      setLoading(false)
+      setLoading(false);
 
-      toast.error(error.message)
-
+      toast.error(error.message);
     }
-  }
+  };
 
   return (
-    <>       {loading && <Loader message={"loading news..."} />}
+    <>
+      {" "}
+      {loading && <Loader message={"loading news..."} />}
       <Nav />
-      <div style={{ backgroundColor: ui.backgroundColor, color: ui.textColor }} className="container my-3 d-flex align-items-center justify-content-center flex-column varad">
-        <h1 className="text-center" style={{ fontSize: "4rem", fontWeight: 700 }}>Top headlines</h1>
-
-        
+      <div
+        style={{ backgroundColor: ui.backgroundColor, color: ui.textColor }}
+        className="container my-3 d-flex align-items-center justify-content-center flex-column varad"
+      >
+        <h1
+          className="text-center"
+          style={{ fontSize: "4rem", fontWeight: 700 }}
+        >
+          Top Headlines
+        </h1>
 
         <div className="row">
           {!loading &&
@@ -72,7 +70,11 @@ const Home = ({ country = 'in', category = 'general', pagesize = 6 }) => {
               <div className="col-md-4" key={ele.url}>
                 <NewsItem
                   title={ele.title ? ele.title.slice(0, 50) : ""}
-                  description={ele.description ? ele.description.slice(0, 90) : "description"}
+                  description={
+                    ele.description
+                      ? ele.description.slice(0, 90)
+                      : "description"
+                  }
                   imgUrl={ele.urlToImage}
                   newsurl={ele.url}
                   author={ele.author}
