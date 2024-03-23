@@ -221,7 +221,7 @@ import api from "../Api/Api";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import { UrlContext, UiContext } from "../App";
-
+import VolumeUpIcon from "@mui/icons-material/VolumeUp";
 const ArticleDetail = () => {
   const [article, setArticle] = useState(null);
   const { currentUrl, setCurrentUrl } = useContext(UrlContext);
@@ -380,12 +380,11 @@ const ArticleDetail = () => {
                   translate
                 </div>
                 {trans && (
-                  <button
+                  <VolumeUpIcon>
                     onClick={hindiSpeaking}
-                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                  >
-                    Speak
-                  </button>
+                    className="bg-blue-500 hover:bg-blue-700 text-white
+                    font-bold py-2 px-4 rounded"
+                  </VolumeUpIcon>
                 )}
               </div>
 
