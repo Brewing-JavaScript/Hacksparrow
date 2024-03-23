@@ -10,6 +10,7 @@ const Nav = () => {
   const [showOptions, setShowOptions] = useState(false);
   const { setUi } = useContext(UiContext);
   const { setCat } = useContext(catContext);
+  const [listening, setListening] = useState(false);
   const [cats, setCats] = useState([]);
   const [themeSettings, setThemeSettings] = useState(() => {
     const storedThemeSettings = JSON.parse(
@@ -42,22 +43,34 @@ const Nav = () => {
       .padStart(2, "0")}${darkerBlue.toString(16).padStart(2, "0")}`;
   };
 
-  const handleBackgroundColorChange = (color) => {
-    setThemeSettings((prevSettings) => ({
-      ...prevSettings,
-      backgroundColor: color,
-    }));
-  };
+  const navigate = useNavigate();
 
-  const handleTextColorChange = (color) => {
-    setThemeSettings((prevSettings) => ({ ...prevSettings, textColor: color }));
-  };
 
-  const handleFontSizeChange = (category, newSize) => {
-    setThemeSettings((prevSettings) => ({
-      ...prevSettings,
-      fontSizes: { ...prevSettings.fontSizes, [category]: newSize },
-    }));
+  useEffect(() => {
+    const recognition = new window.webkitSpeechRecognition();
+    recognition.lang = 'en-US';
+    recognition.continuous = true;
+
+    recognition.onresult = (event) => {
+      const command = event.results[event.results.length - 1][0].transcript.toLowerCase().trim();
+      console.log('Recognized command:', command);
+
+      if (command === 'take my speech') {
+        navigate("/speech");
+      }
+
+      recognition.start();
+    };
+
+    recognition.start();
+
+    return () => {
+      recognition.stop();
+    };
+  }, [navigate]);
+
+  const toggleListening = () => {
+    setListening((prevListening) => !prevListening);
   };
 
   useEffect(() => {
@@ -74,8 +87,6 @@ const Nav = () => {
     sessionStorage.setItem("themeSettings", JSON.stringify(themeSettings));
     setUi(themeSettings);
   }, [themeSettings, setUi]);
-
-  const navigate = useNavigate();
 
   const handleSignOut = () => {
     sessionStorage.clear();
@@ -115,7 +126,7 @@ const Nav = () => {
               cats.map((cate, i) => (
                 <div
                   style={{ color: themeSettings.textColor }}
-                  className="m-2 text-xl font-bold  cursor-pointer capitalize transition duration-300 ease-in-out hover:bg-gray-200 hover:shadow-md px-4 py-2 rounded-lg"
+                  className="m-2 text-xl font-bold cursor-pointer capitalize transition duration-300 ease-in-out hover:bg-gray-200 hover:shadow-md px-4 py-2 rounded-lg"
                   key={i}
                   onClick={() => setCat(cate)}
                 >
@@ -123,15 +134,12 @@ const Nav = () => {
                 </div>
               ))}
           </nav>
-
           <div className="p-4 flex items-center justify-center gap-4">
             <MicIcon
-              className="cursor-pointer"
-              onClick={() => navigate("/speech")}
-              style={{ color: "black", fontSize: "28px" }}
+              className={`cursor-pointer ${listening ? 'text-green-500' : 'text-gray-500'}`}
+              onClick={toggleListening}
+              style={{ fontSize: "48px" }}
             />
-
-
             <MenuIcon
               onClick={() => setShowOptions(!showOptions)}
               className="cursor-pointer"
@@ -180,86 +188,7 @@ const Nav = () => {
                 />
               </svg>
             </button>
-            <div className="mb-6">
-              <label
-                htmlFor="backgroundColor"
-                className="block mb-2 font-semibold"
-
-                style={{ color: themeSettings.textColor }}>
-                Background Color:
-              </label>
-              <input
-                id="backgroundColor"
-                type="color"
-                value={themeSettings.backgroundColor}
-                onChange={(e) => handleBackgroundColorChange(e.target.value)}
-                className="mb-2 border border-gray-300 rounded-md w-full py-1 px-2"
-              />
-            </div>
-            <div className="mb-6">
-              <label htmlFor="textColor" className="block mb-2 font-semibold"
-                style={{ color: themeSettings.textColor }}>
-                Text Color:
-              </label>
-              <input
-                id="textColor"
-                type="color"
-                value={themeSettings.textColor}
-                onChange={(e) => handleTextColorChange(e.target.value)}
-                className="mb-2 border border-gray-300 rounded-md w-full py-1 px-2"
-              />
-            </div>
-            <div className="mb-6">
-              <label htmlFor="h1FontSize" className="block mb-2 font-semibold"
-                style={{ color: themeSettings.textColor }}>
-                H1 Font Size:
-              </label>
-              <input
-                id="h1FontSize"
-                type="number"
-                min="10"
-                max="50"
-                value={themeSettings.fontSizes.h1}
-                onChange={(e) =>
-                  handleFontSizeChange("h1", parseInt(e.target.value))
-                }
-                className="mb-2 border border-gray-300 rounded-md w-full py-1 px-2"
-              />
-            </div>
-            <div className="mb-6">
-              <label htmlFor="h2FontSize" className="block mb-2 font-semibold"
-                style={{ color: themeSettings.textColor }}>
-                H2 Font Size:
-              </label>
-              <input
-                id="h2FontSize"
-                type="number"
-                min="10"
-                max="50"
-                value={themeSettings.fontSizes.h2}
-                onChange={(e) =>
-                  handleFontSizeChange("h2", parseInt(e.target.value))
-                }
-                className="mb-2 border border-gray-300 rounded-md w-full py-1 px-2"
-              />
-            </div>
-            <div className="mb-6">
-              <label htmlFor="pFontSize" className="block mb-2 font-semibold"
-                style={{ color: themeSettings.textColor }}>
-                Paragraph Font Size:
-              </label>
-              <input
-                id="pFontSize"
-                type="number"
-                min="10"
-                max="50"
-                value={themeSettings.fontSizes.p}
-                onChange={(e) =>
-                  handleFontSizeChange("p", parseInt(e.target.value))
-                }
-                className="mb-2 border border-gray-300 rounded-md w-full py-1 px-2"
-              />
-            </div>
+            {/* Option controls */}
           </div>
         </>
       )}
