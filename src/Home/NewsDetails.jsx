@@ -11,7 +11,13 @@ const ArticleDetail = () => {
   const [translatedArticle, setTranslatedArticle] = useState(null);
   const [analytics, setAnalytics] = useState(null);
 
+
   useEffect(() => {
+    // Used to stop speaking.
+    speechSynthesis.cancel();
+
+    
+    setSpeaking(false);
     const fetchData = async () => {
       try {
         if (currentUrl) {
@@ -44,6 +50,17 @@ const ArticleDetail = () => {
     const translatedContent = article.content.replace('MS Dhoni', 'Mahendra Singh Dhoni');
     setTranslatedArticle(translatedContent);
   };
+
+
+    //Text to speech
+    const [text, setText] = useState('');
+    const [lang, setLang] = useState('en-US'); // Default language is English (United States)
+
+    const handleSpeak = () => {
+        const utterance = new SpeechSynthesisUtterance(article.content);
+        utterance.lang = lang;
+        speechSynthesis.speak(utterance);
+    };
 
   return (
     <div className="w-full bg-gray-100">
@@ -82,6 +99,24 @@ const ArticleDetail = () => {
           ) : (
             <p>Loading...</p>
           )}
+
+        <div>
+            {/* <textarea value={text} onChange={(e) => setText(article.content)} />
+            <select value={lang} onChange={(e) => setLang(e.target.value)}>
+                <option value="en-US">English (US)</option>
+                <option value="en-GB">English (UK)</option>
+                <option value="fr-FR">French</option>
+                <option value="hi-IN">Hindi</option>
+                <option value="mr-IN">Marathi</option>
+                <option value="zh-CN">Chinese</option>
+
+                Add more language options as needed
+            </select> */}
+            <button onClick={()=>{
+                setText(article.content.substring(0, 10)) 
+                handleSpeak()}}
+                className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded'> Speak</button>
+        </div>
         </div>
       </div>
     </div>
