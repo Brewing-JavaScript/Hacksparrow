@@ -98,11 +98,11 @@ const Nav = () => {
       style={{ backgroundColor: themeSettings.backgroundColor }}
     >
       <div
-        className="flex items-center justify-between w-full h-20 border p-4"
+        className="flex items-center justify-between w-full h-20 border p-4 rounded-b-2xl"
         style={{ backgroundColor: darkenColor(themeSettings.backgroundColor) }}
       >
         <div className="container flex items-center justify-between">
-          <div className="w-12 h-full">
+          <div className="w-12 h-full rounded-full overflow-hidden">
             <img
               className="w-full h-full object-cover"
               src="https://ideogram.ai/api/images/direct/5_ghuJHaTzKEhrH7Rq4Q5A.png"
@@ -113,7 +113,7 @@ const Nav = () => {
             {cats.length &&
               cats.map((cate, i) => (
                 <div
-                  className="m-2 text-xl font-bold  cursor-pointer"
+                  className="m-2 text-xl font-bold cursor-pointer capitalize"
                   key={i}
                   onClick={() => setCat(cate)}
                 >
@@ -259,3 +259,4 @@ const Nav = () => {
 };
 
 export default Nav;
+
