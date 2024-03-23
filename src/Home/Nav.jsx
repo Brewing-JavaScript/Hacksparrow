@@ -20,8 +20,7 @@ const Nav = () => {
     );
 
     // Function to handle background color change
-    const handleBackgroundColorChange = (e) => {
-        const color = e.target.value;
+    const handleBackgroundColorChange = (color) => {
         setThemeSettings((prevSettings) => ({
             ...prevSettings,
             backgroundColor: color,
@@ -29,8 +28,7 @@ const Nav = () => {
     };
 
     // Function to handle text color change
-    const handleTextColorChange = (e) => {
-        const color = e.target.value;
+    const handleTextColorChange = (color) => {
         setThemeSettings((prevSettings) => ({
             ...prevSettings,
             textColor: color,
@@ -84,9 +82,20 @@ const Nav = () => {
                             id="backgroundColor"
                             type="color"
                             value={themeSettings.backgroundColor}
-                            onChange={handleBackgroundColorChange}
+                            onChange={(e) => handleBackgroundColorChange(e.target.value)}
                             className="mb-2 border border-gray-300 rounded-md w-full py-1 px-2"
                         />
+                        {/* Basic color combinations */}
+                        <div className="flex justify-between mt-2">
+                            {['#ffffff', '#f0f0f0', '#000000', '#ff0000', '#00ff00'].map((color) => (
+                                <div
+                                    key={color}
+                                    className="rounded-full h-6 w-6 cursor-pointer"
+                                    style={{ backgroundColor: color }}
+                                    onClick={() => handleBackgroundColorChange(color)}
+                                ></div>
+                            ))}
+                        </div>
                     </div>
                     <div className="mb-6">
                         <label htmlFor="textColor" className="block mb-2 font-semibold">Text Color:</label>
@@ -94,9 +103,20 @@ const Nav = () => {
                             id="textColor"
                             type="color"
                             value={themeSettings.textColor}
-                            onChange={handleTextColorChange}
+                            onChange={(e) => handleTextColorChange(e.target.value)}
                             className="mb-2 border border-gray-300 rounded-md w-full py-1 px-2"
                         />
+                        {/* Basic color combinations */}
+                        <div className="flex justify-between mt-2">
+                            {['#ffffff', '#f0f0f0', '#000000', '#ff0000', '#00ff00'].map((color) => (
+                                <div
+                                    key={color}
+                                    className="rounded-full h-6 w-6 cursor-pointer"
+                                    style={{ backgroundColor: color }}
+                                    onClick={() => handleTextColorChange(color)}
+                                ></div>
+                            ))}
+                        </div>
                     </div>
                     <div className="mb-6">
                         <label htmlFor="h1FontSize" className="block mb-2 font-semibold">H1 Font Size:</label>
