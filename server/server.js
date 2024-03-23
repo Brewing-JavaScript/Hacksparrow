@@ -298,21 +298,22 @@ server.post("/google", async (req, res) => {
 });
 
 server.post("/news", async (req, res) => {
-  const { country = "in", category = "sport", pageSize = 6 } = req.body;
+  const { country = "in", cat:category , pageSize = 6 } = req.body;
+  console.log(category);
   // const apiKey = "c6016f699894412bbf4a510194f7787b";
-   const apiKey = "720f8330961644819519fcbb2766699a";
+  const apiKey = "720f8330961644819519fcbb2766699a";
   const url = `https://newsapi.org/v2/top-headlines?country=${country}&category=${category}&apiKey=${apiKey}&page=1&pageSize=${pageSize}`;
 
   try {
-    const response = await axios.get(url);
-    console.log(response.data); // Log the response data
+      const response = await axios.get(url);
+      console.log(response.data); // Log the response data
 
-    return res.status(200).json(response.data);
+      return res.status(200).json(response.data);
   } catch (error) {
-    console.error("Error fetching news:", error);
-    return res.status(500).json({
-      error: "Unable to fetch news",
-    });
+      console.error("Error fetching news:", error);
+      return res.status(500).json({
+          error: "Unable to fetch news",
+      });
   }
 });
 

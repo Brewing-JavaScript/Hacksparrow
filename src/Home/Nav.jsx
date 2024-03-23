@@ -1,11 +1,19 @@
 import React, { useState, useEffect, useContext } from 'react';
 import MenuIcon from '@mui/icons-material/Menu';
-import { UiContext } from '../App';
+import { UiContext, catContext } from '../App';
+import axios from 'axios';
+
 
 const Nav = () => {
     const [showOptions, setShowOptions] = useState(false);
     const { setUi } = useContext(UiContext);
+    const { setCat } = useContext(catContext);
     const storedThemeSettings = JSON.parse(sessionStorage.getItem('themeSettings'));
+
+    const [selectedCategory, setSelectedCategory] = useState('');
+    
+    // Function to handle category selection
+  
 
     const [themeSettings, setThemeSettings] = useState(
         storedThemeSettings || {
@@ -86,13 +94,13 @@ const Nav = () => {
 
                 <nav style={{width: "50%"}}>
                 <ul className="block lg:flex" style={{justifyContent: "space-evenly", color: themeSettings.textColor}}>
-                  <li NavLink="/general">General</li>
-                  <li>Sports</li>
-                  <li NavLink="/#">Entertainment</li>
-                  <li NavLink="/#">Business</li>
-                  <li NavLink="/#">Science</li>
-                  <li NavLink="/#">Health</li>
-                  <li NavLink="/#">Technology</li>
+                <li onClick={() => setCat('general')}>General</li>
+                <li onClick={() => setCat('sports')}>Sports</li>
+                <li onClick={() => setCat('entertainment')}>Entertainment</li>
+                <li onClick={() => setCat('business')}>Business</li>
+                <li onClick={() => setCat('science')}>Science</li>
+                <li onClick={() => setCat('health')}>Health</li>
+                <li onClick={() => setCat('technology')}>Technology</li>
                 </ul>
                 </nav>
                 <div className='p-4 flex items-center justify-center'>
