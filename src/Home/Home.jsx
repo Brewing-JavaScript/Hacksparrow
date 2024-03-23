@@ -64,7 +64,7 @@ const Home = ({ country = 'in', category = 'general', pagesize = 6 }) => {
       <div style={{ backgroundColor: ui.backgroundColor, color: ui.textColor }} className="container my-3 d-flex align-items-center justify-content-center flex-column varad">
         <h1 className="text-center" style={{ fontSize: "4rem", fontWeight: 700 }}>Top headlines</h1>
 
-
+        
 
         <div className="row">
           {!loading &&
