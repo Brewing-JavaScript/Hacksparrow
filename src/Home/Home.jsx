@@ -6,7 +6,7 @@ import toast from "react-hot-toast";
 import api from '../Api/Api'
 import { getUi } from '../Api/GetUi'
 import Nav from "./Nav";
-import { UiContext } from "../App";
+import { UiContext, catContext } from "../App";
 
 const Home = ({ country = 'in', category = '', pagesize = 6 }) => {
   const [loading, setLoading] = useState(false);
@@ -15,16 +15,22 @@ const Home = ({ country = 'in', category = '', pagesize = 6 }) => {
   const [articles, setArticles] = useState([]);
 
 
+  const {cat} = useContext(catContext)
   const { ui } = useContext(UiContext); // Destructure ui from UiContext
   useEffect(() => {
-    fetchNews();
+    if(cat){
+
+        fetchNews();
+    }
     // getUi();
-  }, [country, category, pagesize, api, ui]);
+    document.getElementById('root').style.backgroundColor = ui.backgroundColor
+  }, [country, category, pagesize, api, ui , cat]);
 
 
   const fetchNews = () => {
     try {
-      api.post('/news').then((res) => {
+        console.log('varad');
+      api.post('/news', {cat}).then((res) => {
         setArticles(res.data.articles)
       })
 
@@ -39,7 +45,7 @@ const Home = ({ country = 'in', category = '', pagesize = 6 }) => {
     <>
       <Nav />
       <div style={{ backgroundColor: ui.backgroundColor, color: ui.textColor }} className="container my-3 d-flex align-items-center justify-content-center flex-column varad">
-        <h1 className="text-center">Top headlines</h1>
+        <h1 className="text-center" style={{fontSize: "4rem", fontWeight: 700 }}>Top headlines</h1>
 
         {loading && <Spinner />}
 

@@ -9,13 +9,16 @@ import Authentication from "./user/Authentication";
 import Home from "./Home/Home";
 import NewsPage from "./Home/NewsDetails";
 import ArticleDetail from "./Home/NewsDetails";
+import SpeechToText from "./speechToText/SpeechToText";
 
 export const UrlContext = createContext();
 export const UiContext = createContext();
+export const catContext = createContext();
 
 
 function App() {
   const [currentUrl, setCurrentUrl] = useState('');
+  const [cat, setCat] = useState('');
   const [ui, setUi] = useState({
     backgroundColor: '#3F83F8',
     textColor: '#000000',
@@ -28,6 +31,7 @@ function App() {
   return (
     <UrlContext.Provider value={{ currentUrl, setCurrentUrl }}>
       <UiContext.Provider value={{ ui, setUi }}>
+      <catContext.Provider value={{ cat, setCat }}>
         <Router>
 
           <Routes>
@@ -35,8 +39,11 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/auth" element={<Authentication />} />
             <Route path="/detail" element={<ArticleDetail />} />
+            <Route path="/speech" element={<SpeechToText />} />
+
           </Routes>
         </Router>
+      </catContext.Provider>
       </UiContext.Provider>
     </UrlContext.Provider>
   );
