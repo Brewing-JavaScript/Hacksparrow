@@ -15,8 +15,8 @@ import User from "./schema/UserSchems.js";
 import axios from "axios";
 import { JSDOM } from "jsdom";
 import { Readability } from "@mozilla/readability";
-import puppeteer from 'puppeteer';
-import { AssemblyAI } from 'assemblyai'
+import puppeteer from "puppeteer";
+import { AssemblyAI } from "assemblyai";
 const server = express();
 
 server.use(express.json());
@@ -234,7 +234,7 @@ const upload = multer({
 //all routes come below
 
 server.post("/signup", async (req, res) => {
-  const { username, email, password } = req.body;
+  const { username, email, password, country } = req.body;
 
   try {
     // Check if the email is already registered
@@ -245,7 +245,7 @@ server.post("/signup", async (req, res) => {
     }
 
     // Create a new user
-    const newUser = new User({ username, email, password });
+    const newUser = new User({ username, email, password, country });
     return newUser.save().then((u) => {
       return res.status(200).json(formatDataToSend(u));
     });
@@ -298,35 +298,34 @@ server.post("/google", async (req, res) => {
 });
 
 server.post("/news", async (req, res) => {
-  const { country = "in", cat:category , pageSize = 6 } = req.body;
+  const { country = "in", cat: category, pageSize = 6 } = req.body;
   console.log(category);
   // const apiKey = "c6016f699894412bbf4a510194f7787b";
   const apiKey = "720f8330961644819519fcbb2766699a";
   const url = `https://newsapi.org/v2/top-headlines?country=${country}&category=${category}&apiKey=${apiKey}&page=1&pageSize=${pageSize}`;
 
   try {
-      const response = await axios.get(url);
-      console.log(response.data); // Log the response data
+    const response = await axios.get(url);
+    console.log(response.data); // Log the response data
 
-      return res.status(200).json(response.data);
+    return res.status(200).json(response.data);
   } catch (error) {
-      console.error("Error fetching news:", error);
-      return res.status(500).json({
-          error: "Unable to fetch news",
-      });
+    console.error("Error fetching news:", error);
+    return res.status(500).json({
+      error: "Unable to fetch news",
+    });
   }
 });
 
 server.post("/detail-news", async (req, res) => {
   try {
-
-    const {currentUrl} = req.body
+    const { currentUrl } = req.body;
     // Fetch the HTML content of the article using axios
     const articleHtml = await axios.get(currentUrl);
 
     // Create a DOM object from the article HTML using JSDOM
     const dom = new JSDOM(articleHtml.data, {
-      url: "https://sportstar.thehindu.com/" // Provide a valid URL here if needed
+      url: "https://sportstar.thehindu.com/", // Provide a valid URL here if needed
     });
 
     // Parse the article content using Readability
@@ -335,36 +334,44 @@ server.post("/detail-news", async (req, res) => {
     // Send the parsed article content as JSON response
     return res.status(200).json({ article });
   } catch (error) {
-    console.error('Error fetching or parsing the article:', error);
+    console.error("Error fetching or parsing the article:", error);
     return res.status(500).json({
-      error: 'Unable to fetch or parse the article'
+      error: "Unable to fetch or parse the article",
     });
   }
 });
 
-
-
-server.post('/speech-to-text', async (req, res) => {
+server.post("/speech-to-text", async (req, res) => {
   const { transcription } = req.body; // Assuming the transcribed text is sent in the request body
-  
+
   // Extract color name from the transcription
   const colorName = extractColorName(transcription);
-  
+
   if (!colorName) {
-    return res.status(400).json({ error: 'No color name found in the transcription' });
+    return res
+      .status(400)
+      .json({ error: "No color name found in the transcription" });
   }
 
-  console.log(colorName); 
+  console.log(colorName);
   return res.status(200).json({ colorName });
-
- 
-  
 });
 
 function extractColorName(text) {
   // Logic to extract color name from the text (you can use regex or any other method)
-  const colorNames = ['red', 'blue', 'green', 'yellow', 'orange', 'purple', 'pink', 'brown', 'black', 'white'];
-  const words = text.toLowerCase().split(' ');
+  const colorNames = [
+    "red",
+    "blue",
+    "green",
+    "yellow",
+    "orange",
+    "purple",
+    "pink",
+    "brown",
+    "black",
+    "white",
+  ];
+  const words = text.toLowerCase().split(" ");
   for (const word of words) {
     if (colorNames.includes(word)) {
       return word;
@@ -373,20 +380,48 @@ function extractColorName(text) {
   return null; // Return null if no color name is found
 }
 
-
-
-
-
-
 const client = new AssemblyAI({
-  apiKey: "255d5603d3394e408f18ab3b618920e5"
-})
+  apiKey: "255d5603d3394e408f18ab3b618920e5",
+});
 
 const audioUrl =
-  'https://storage.googleapis.com/aai-web-samples/5_common_sports_injuries.mp3'
+  "https://storage.googleapis.com/aai-web-samples/5_common_sports_injuries.mp3";
 
+// Assuming you have an Express app instance
+server.post("/update-cats", async (req, res) => {
+  const { cats, _id: userId } = req.body;
 
+  try {
+    // Find the user by userId and update the 'cats' field with the new categories
+    const updatedUser = await User.findByIdAndUpdate(
+      userId,
+      { $set: { cats: cats } }, // Using $set to replace existing categories with new categories
+      { new: true }
+    );
 
+    if (!updatedUser) {
+      // Handle case where user is not found
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    res.status(200).json(updatedUser);
+  } catch (error) {
+    console.error("Error updating user categories:", error);
+    res.status(500).json({ error: "Could not update user categories" });
+  }
+});
+
+server.post("/get-cats", async (req, res) => {
+  try {
+    const { _id } = req.body;
+
+    const users = await User.findById(_id);
+
+    return res.status(200).json(users.cats);
+  } catch (error) {
+    console.log(error.message);
+  }
+});
 
 server.listen(PORT, () => {
   console.log(`listing on ${PORT}`);
