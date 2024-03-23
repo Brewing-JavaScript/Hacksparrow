@@ -6,6 +6,7 @@ import { UrlContext, UiContext } from "../App";
 import VolumeUpIcon from "@mui/icons-material/VolumeUp";
 import Loader from "../Loader/Spinner";
 import fetch from 'isomorphic-fetch';
+import toast from "react-hot-toast";
 
 const ArticleDetail = () => {
   const [article, setArticle] = useState(null);
@@ -86,11 +87,11 @@ const ArticleDetail = () => {
     speechSynthesis.speak(utterance);
   };
 
-  
-const summarizeArticle = async () => {
-  try {
 
-    // let currentUrl = 'https://www.moneycontrol.com/news/politics/tm-krishna-award-row-annamalai-zohos-sridhar-vembu-back-ranjani-gayatri-12511121.html'
+  const summarizeArticle = async () => {
+    try {
+
+      // let currentUrl = 'https://www.moneycontrol.com/news/politics/tm-krishna-award-row-annamalai-zohos-sridhar-vembu-back-ranjani-gayatri-12511121.html'
 
       const apiKey = 'd5e53e8c63760fc7cac37a74b6151770'; // Replace with your actual key
 
@@ -100,19 +101,43 @@ const summarizeArticle = async () => {
       formData.append('sentences', 5); // Adjust the number of sentences as needed
 
       const response = await fetch('http://api.meaningcloud.com/summarization-1.0', {
-          method: 'POST',
-          body: formData,
+        method: 'POST',
+        body: formData,
       });
 
       const data = await response.json();
       setSummary(data.summary);
       return data.summary;
-  } catch (error) {
+    } catch (error) {
       console.error('Error summarizing article:', error);
       // Handle errors gracefully, e.g., display an error message to the user
       return null; // Or return an empty string or error indicator
+    }
+  };
+
+  const sendmail = (sum) => {
+    try {
+
+
+
+      setLoader(true)
+      const userInSession = sessionStorage.getItem("_id");
+      const _id = JSON.parse(userInSession);
+      api.post('/send-sum-mail', { sum, _id }).then((res) => {
+        setLoader(false)
+        toast.success('mail send')
+
+      })
+        .catch(err => {
+          setLoader(false)
+          toast.error(err.message)
+        })
+
+    } catch (error) {
+      console.log(error);
+
+    }
   }
-};
 
   return (
     <>
@@ -149,7 +174,7 @@ const summarizeArticle = async () => {
                     >
                       Translate to Hindi
                     </button>
-                    
+
                   </div>
                   {analytics && (
                     <div
@@ -158,44 +183,40 @@ const summarizeArticle = async () => {
                     >
                       <div className="flex flex-col items-center">
                         <div
-                          className={`text-xl font-semibold ${
-                            analytics.probabilities.fake >
+                          className={`text-xl font-semibold ${analytics.probabilities.fake >
                             analytics.probabilities.true
-                              ? "text-red-600"
-                              : "text-green-600"
-                          } animate-pulse`}
+                            ? "text-red-600"
+                            : "text-green-600"
+                            } animate-pulse`}
                         >
                           Fake Probability:
                         </div>
                         <div
-                          className={`text-2xl font-bold ${
-                            analytics.probabilities.fake >
+                          className={`text-2xl font-bold ${analytics.probabilities.fake >
                             analytics.probabilities.true
-                              ? "text-red-600"
-                              : "text-green-600"
-                          }`}
+                            ? "text-red-600"
+                            : "text-green-600"
+                            }`}
                         >
                           {analytics.probabilities.fake.toFixed(2)}%
                         </div>
                       </div>
                       <div className="flex flex-col items-center">
                         <div
-                          className={`text-xl font-semibold ${
-                            analytics.probabilities.true >
+                          className={`text-xl font-semibold ${analytics.probabilities.true >
                             analytics.probabilities.fake
-                              ? "text-green-600"
-                              : "text-red-600"
-                          } animate-pulse`}
+                            ? "text-green-600"
+                            : "text-red-600"
+                            } animate-pulse`}
                         >
                           True Probability:
                         </div>
                         <div
-                          className={`text-2xl font-bold ${
-                            analytics.probabilities.true >
+                          className={`text-2xl font-bold ${analytics.probabilities.true >
                             analytics.probabilities.fake
-                              ? "text-green-600"
-                              : "text-red-600"
-                          }`}
+                            ? "text-green-600"
+                            : "text-red-600"
+                            }`}
                         >
                           {analytics.probabilities.true.toFixed(2)}%
                         </div>
@@ -220,7 +241,7 @@ const summarizeArticle = async () => {
                     }}
                   ></div>
                   <p className="text-gray-600">Length: {article.length} words</p>
-                
+
                 </div>
               ) : (
                 <Loader />
@@ -246,18 +267,20 @@ const summarizeArticle = async () => {
                   </button>
                 )}
                 <button
-                      className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-8"
-                      onClick={summarizeArticle}
-                    >
-                      Summarize
-                    </button>
-                    {summary && (
-                    <div className="mt-4">
-                      <h3 className="text-xl font-semibold mb-2">Summary:</h3>
-                      <p>{summary}</p>
-                    </div>
-                  )}
-                  
+                  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-8"
+                  onClick={summarizeArticle}
+                >
+                  Summarize
+                </button>
+                {summary && (
+                  <div className="mt-4">
+                    <h3 className="text-xl font-semibold mb-2">Summary:</h3>
+                    <p>{summary}</p>
+                    <button className="py-4 px-12 border bg-black text-white text-xl m-4" onClick={() => sendmail(summary)}>Send Mail</button>
+                  </div>
+
+                )}
+
               </div>
             </div>
           </div>
