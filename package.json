@@ -5,11 +5,15 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "webpack --mode production",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "start": "webpack serve --mode development --open"
   },
   "dependencies": {
+    "@aws-sdk/client-polly": "^3.540.0",
+    "@babel/core": "^7.24.3",
+    "@babel/preset-env": "^7.24.3",
     "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.11.0",
     "@heroicons/react": "^2.1.1",
@@ -25,6 +29,7 @@
     "flowbite-react": "^0.7.2",
     "framer-motion": "^11.0.8",
     "google-translate-api": "^2.3.0",
+    "google-translate-api-x": "^10.6.8",
     "node-summarizer": "^1.0.7",
     "node-summary": "^1.2.0",
     "react": "^18.2.0",

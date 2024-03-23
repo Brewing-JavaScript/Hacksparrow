@@ -1,199 +1,185 @@
 import React, { useState, useEffect, useContext } from 'react';
 import MenuIcon from '@mui/icons-material/Menu';
-import { UiContext, catContext } from '../App';
-import axios from 'axios';
+import MicIcon from '@mui/icons-material/Mic';
 import { useNavigate } from 'react-router-dom';
+import { UiContext, catContext } from '../App';
 import api from '../Api/Api';
 
 const Nav = () => {
-    const [showOptions, setShowOptions] = useState(false);
-    const { setUi } = useContext(UiContext);
-    const { setCat } = useContext(catContext);
+  const [showOptions, setShowOptions] = useState(false);
+  const { setUi } = useContext(UiContext);
+  const { setCat } = useContext(catContext);
+  const [cats, setCats] = useState([]);
+  const [themeSettings, setThemeSettings] = useState(() => {
     const storedThemeSettings = JSON.parse(sessionStorage.getItem('themeSettings'));
-
-    const [selectedCategory, setSelectedCategory] = useState('general');
-    const [themeSettings, setThemeSettings] = useState(
-        storedThemeSettings || {
-            backgroundColor: '#3F83F8',
-            textColor: '#000000',
-            fontSizes: {
-                h1: 24,
-                h2: 20,
-                p: 16,
-            },
-        }
-    );
-
-    function darkenColor(hexColor) {
-        const red = parseInt(hexColor.slice(1, 3), 16);
-        const green = parseInt(hexColor.slice(3, 5), 16);
-        const blue = parseInt(hexColor.slice(5, 7), 16);
-      
-        const darkerRed = Math.max(0, red - 40);
-        const darkerGreen = Math.max(0, green - 40);
-        const darkerBlue = Math.max(0, blue - 40);
-      
-        const darkerHexColor = `#${darkerRed.toString(16).padStart(2, '0')}${darkerGreen.toString(16).padStart(2, '0')}${darkerBlue.toString(16).padStart(2, '0')}`;
-
-        return darkerHexColor;
-    }
-
-    const [cats, setCats] = useState([])
-
-    const handleBackgroundColorChange = (color) => {
-        setThemeSettings((prevSettings) => ({
-            ...prevSettings,
-            backgroundColor: color,
-        }));
+    return storedThemeSettings || {
+      backgroundColor: '#3F83F8',
+      textColor: '#000000',
+      fontSizes: {
+        h1: 24,
+        h2: 20,
+        p: 16,
+      },
     };
+  });
 
-    const handleTextColorChange = (color) => {
-        setThemeSettings((prevSettings) => ({
-            ...prevSettings,
-            textColor: color,
-        }));
-    };
+  const darkenColor = (hexColor) => {
+    const red = parseInt(hexColor.slice(1, 3), 16);
+    const green = parseInt(hexColor.slice(3, 5), 16);
+    const blue = parseInt(hexColor.slice(5, 7), 16);
 
-    const handleFontSizeChange = (category, newSize) => {
-        setThemeSettings((prevSettings) => ({
-            ...prevSettings,
-            fontSizes: {
-                ...prevSettings.fontSizes,
-                [category]: newSize,
-            },
-        }));
-    };
+    const darkerRed = Math.max(0, red - 40);
+    const darkerGreen = Math.max(0, green - 40);
+    const darkerBlue = Math.max(0, blue - 40);
 
-    useEffect(() => {
-        getCats(); // Always fetch cats when component mounts or themeSettings/setUi change
-        sessionStorage.setItem('themeSettings', JSON.stringify(themeSettings));
-        setUi(themeSettings);
-    }, [themeSettings, setUi]); // Include setUi as a dependency if it affects cats fetching
-    
+    return `#${darkerRed.toString(16).padStart(2, '0')}${darkerGreen.toString(16).padStart(2, '0')}${darkerBlue.toString(16).padStart(2, '0')}`;
+  };
 
-    const navigate = useNavigate()
+  const handleBackgroundColorChange = (color) => {
+    setThemeSettings((prevSettings) => ({ ...prevSettings, backgroundColor: color }));
+  };
 
-    const hanleSignOut = () => {
-        sessionStorage.clear()
-        navigate('/auth')
+  const handleTextColorChange = (color) => {
+    setThemeSettings((prevSettings) => ({ ...prevSettings, textColor: color }));
+  };
 
+  const handleFontSizeChange = (category, newSize) => {
+    setThemeSettings((prevSettings) => ({
+      ...prevSettings,
+      fontSizes: { ...prevSettings.fontSizes, [category]: newSize },
+    }));
+  };
+
+  useEffect(() => {
+    const storedThemeSettings = JSON.parse(sessionStorage.getItem('themeSettings'));
+    if (storedThemeSettings) {
+      setThemeSettings(storedThemeSettings);
     }
+    getCats();
+  }, []);
 
-    const getCats = () => {
-        const userInSession = sessionStorage.getItem('_id');
-        const _id = JSON.parse(userInSession);
-        try {
-            api.post('/get-cats', { _id }).then((res) => {
-                setCats(res.data)
-            })
-        } catch (error) {
+  useEffect(() => {
+    sessionStorage.setItem('themeSettings', JSON.stringify(themeSettings));
+    setUi(themeSettings);
+  }, [themeSettings, setUi]);
 
-            console.log(error.message);
+  const navigate = useNavigate();
 
-        }
+  const handleSignOut = () => {
+    sessionStorage.clear();
+    navigate('/auth');
+  };
+
+  const getCats = async () => {
+    try {
+      const userInSession = sessionStorage.getItem('_id');
+      const _id = JSON.parse(userInSession);
+      const res = await api.post('/get-cats', { _id });
+      setCats(res.data);
+    } catch (error) {
+      console.log(error.message);
     }
+  };
 
-    return (
-        <div className='relative' style={{ backgroundColor: themeSettings.backgroundColor }}>
-            <div className='flex items-center justify-between w-full h-20 border p-4' style={{ backgroundColor: darkenColor(themeSettings.backgroundColor) }}>
-                <div className='container flex items-center justify-between'>
-                    <div className='w-12 h-full'>
-                        <img
-                            className='w-full h-full object-cover'
-                            src="https://varad177.github.io/portfolio/assets/hero.jpg"
-                            alt="logo"
-                        />
-                    </div>
-
-                    <nav style={{ width: "50%" }}>
-                        <ul className="block lg:flex" style={{ justifyContent: "space-evenly", color: themeSettings.textColor }}>
-
-                            {cats.length && cats.map((cate, i) => {
-                                return <li onClick={() => setCat(`${cate}`)}>{cate}</li>
-                            })}
-
-                        </ul>
-                    </nav>
-                    <div className='p-4 flex items-center justify-center gap-4'>
-                        <button onClick={hanleSignOut} className='px-16 py-3 border bg-[#2BC2D2] text-xs font-bold'>Sign Out</button>
-                        <MenuIcon onClick={() => setShowOptions(!showOptions)} className="cursor-pointer" style={{ background: themeSettings.backgroundColor === '#000000' ? 'white' : '' }} />
-                    </div>
-                </div>
-            </div>
-
-            {showOptions && (
-                <>
-                    <div onClick={() => setShowOptions(!showOptions)} className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-lg z-40"></div>
-                    <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50 bg-white p-6 rounded-lg shadow-lg border w-96" style={{ backgroundColor: themeSettings.backgroundColor }}>
-                        <button
-                            className="absolute top-2 right-2 text-gray-500 hover:text-gray-800 focus:outline-none"
-                            onClick={() => setShowOptions(false)}
-                        >
-                            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                            </svg>
-                        </button>
-                        <div className="mb-6">
-                            <label htmlFor="backgroundColor" className="block mb-2 font-semibold">Background Color:</label>
-                            <input
-                                id="backgroundColor"
-                                type="color"
-                                value={themeSettings.backgroundColor}
-                                onChange={(e) => handleBackgroundColorChange(e.target.value)}
-                                className="mb-2 border border-gray-300 rounded-md w-full py-1 px-2"
-                            />
-                        </div>
-                        <div className="mb-6">
-                            <label htmlFor="textColor" className="block mb-2 font-semibold">Text Color:</label>
-                            <input
-                                id="textColor"
-                                type="color"
-                                value={themeSettings.textColor}
-                                onChange={(e) => handleTextColorChange(e.target.value)}
-                                className="mb-2 border border-gray-300 rounded-md w-full py-1 px-2"
-                            />
-                        </div>
-                        <div className="mb-6">
-                            <label htmlFor="h1FontSize" className="block mb-2 font-semibold">H1 Font Size:</label>
-                            <input
-                                id="h1FontSize"
-                                type="number"
-                                min="10"
-                                max="50"
-                                value={themeSettings.fontSizes.h1}
-                                onChange={(e) => handleFontSizeChange('h1', parseInt(e.target.value))}
-                                className="mb-2 border border-gray-300 rounded-md w-full py-1 px-2"
-                            />
-                        </div>
-                        <div className="mb-6">
-                            <label htmlFor="h2FontSize" className="block mb-2 font-semibold">H2 Font Size:</label>
-                            <input
-                                id="h2FontSize"
-                                type="number"
-                                min="10"
-                                max="50"
-                                value={themeSettings.fontSizes.h2}
-                                onChange={(e) => handleFontSizeChange('h2', parseInt(e.target.value))}
-                                className="mb-2 border border-gray-300 rounded-md w-full py-1 px-2"
-                            />
-                        </div>
-                        <div className="mb-6">
-                            <label htmlFor="pFontSize" className="block mb-2 font-semibold">Paragraph Font Size:</label>
-                            <input
-                                id="pFontSize"
-                                type="number"
-                                min="10"
-                                max="50"
-                                value={themeSettings.fontSizes.p}
-                                onChange={(e) => handleFontSizeChange('p', parseInt(e.target.value))}
-                                className="mb-2 border border-gray-300 rounded-md w-full py-1 px-2"
-                            />
-                        </div>
-                    </div>
-                </>
-            )}
+  return (
+    <div className="relative" style={{ backgroundColor: themeSettings.backgroundColor }}>
+      <div className="flex items-center justify-between w-full h-20 border p-4" style={{ backgroundColor: darkenColor(themeSettings.backgroundColor) }}>
+        <div className="container flex items-center justify-between">
+          <div className="w-12 h-full">
+            <img className="w-full h-full object-cover" src="https://ideogram.ai/api/images/direct/5_ghuJHaTzKEhrH7Rq4Q5A.png" alt="logo" />
+          </div>
+          <nav className="flex gap-5">
+            {cats.length && cats.map((cate, i) => (
+              <div className='m-2 text-xl font-bold  cursor-pointer' key={i} onClick={() => setCat(cate)}>{cate}</div>
+            ))}
+          </nav>
+          <div className="p-4 flex items-center justify-center gap-4">
+            <MicIcon
+              className="cursor-pointer"
+              onClick={() => navigate('/speech')}
+              style={{ color: 'white', fontSize: '24px' }}
+            />
+            <button onClick={handleSignOut} className="px-16 py-3 border bg-[#2BC2D2] text-xs font-bold">
+              Sign Out
+            </button>
+            <MenuIcon
+              onClick={() => setShowOptions(!showOptions)}
+              className="cursor-pointer"
+              style={{ background: themeSettings.backgroundColor === '#000000' ? 'white' : '' }}
+            />
+          </div>
         </div>
-    );
+      </div>
+      {showOptions && (
+        <>
+          <div onClick={() => setShowOptions(!showOptions)} className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-lg z-40"></div>
+          <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50 bg-white p-6 rounded-lg shadow-lg border w-96" style={{ backgroundColor: themeSettings.backgroundColor }}>
+            <button className="absolute top-2 right-2 text-gray-500 hover:text-gray-800 focus:outline-none" onClick={() => setShowOptions(false)}>
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+            <div className="mb-6">
+              <label htmlFor="backgroundColor" className="block mb-2 font-semibold">Background Color:</label>
+              <input
+                id="backgroundColor"
+                type="color"
+                value={themeSettings.backgroundColor}
+                onChange={(e) => handleBackgroundColorChange(e.target.value)}
+                className="mb-2 border border-gray-300 rounded-md w-full py-1 px-2"
+              />
+            </div>
+            <div className="mb-6">
+              <label htmlFor="textColor" className="block mb-2 font-semibold">Text Color:</label>
+              <input
+                id="textColor"
+                type="color"
+                value={themeSettings.textColor}
+                onChange={(e) => handleTextColorChange(e.target.value)}
+                className="mb-2 border border-gray-300 rounded-md w-full py-1 px-2"
+              />
+            </div>
+            <div className="mb-6">
+              <label htmlFor="h1FontSize" className="block mb-2 font-semibold">H1 Font Size:</label>
+              <input
+                id="h1FontSize"
+                type="number"
+                min="10"
+                max="50"
+                value={themeSettings.fontSizes.h1}
+                onChange={(e) => handleFontSizeChange('h1', parseInt(e.target.value))}
+                className="mb-2 border border-gray-300 rounded-md w-full py-1 px-2"
+              />
+            </div>
+            <div className="mb-6">
+              <label htmlFor="h2FontSize" className="block mb-2 font-semibold">H2 Font Size:</label>
+              <input
+                id="h2FontSize"
+                type="number"
+                min="10"
+                max="50"
+                value={themeSettings.fontSizes.h2}
+                onChange={(e) => handleFontSizeChange('h2', parseInt(e.target.value))}
+                className="mb-2 border border-gray-300 rounded-md w-full py-1 px-2"
+              />
+            </div>
+            <div className="mb-6">
+              <label htmlFor="pFontSize" className="block mb-2 font-semibold">Paragraph Font Size:</label>
+              <input
+                id="pFontSize"
+                type="number"
+                min="10"
+                max="50"
+                value={themeSettings.fontSizes.p}
+                onChange={(e) => handleFontSizeChange('p', parseInt(e.target.value))}
+                className="mb-2 border border-gray-300 rounded-md w-full py-1 px-2"
+              />
+            </div>
+          </div>
+        </>
+      )}
+    </div>
+  );
 };
 
 export default Nav;
