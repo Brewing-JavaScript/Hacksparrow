@@ -302,7 +302,7 @@ server.post("/google", async (req, res) => {
 });
 
 server.post("/news", async (req, res) => {
-  const { country = "in", cat, pageSize = 6 } = req.body;
+  const { country = "in", cat, pageSize = 15 } = req.body;
 
   let category = cat ? cat : "";
   // const apiKey = "c6016f699894412bbf4a510194f7787b";

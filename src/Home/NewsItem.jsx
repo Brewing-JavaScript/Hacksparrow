@@ -32,7 +32,7 @@ const NewsItem = ({ title, description, imgUrl, newsurl, author, date, source })
 
     return (
         <div className='my-3'>
-            <div className="bg-white rounded-lg overflow-hidden shadow-md mx-auto" style={{width: "25rem"}}>
+            <div className="bg-white rounded-lg overflow-hidden shadow-md mx-auto hover:scale-110 duration-150" style={{width: "25rem"}}>
                 
                 {/* News image */}
                 <img
@@ -49,7 +49,7 @@ const NewsItem = ({ title, description, imgUrl, newsurl, author, date, source })
                     {/* Author and date */}
                     <p style={{color: ui.textColor}} className="mt-2 text-sm text-gray-500">By {author} on {date}</p>
                     {/* Button to read more */}
-                    <div onClick={() => handleMove(newsurl)} className="w-fit mt-4 px-4 py-2 bg-blue-500 text-white rounded-md cursor-pointer transition-all duration-300" style={{backgroundColor: ui.textColor, color: ui.backgroundColor}}>Read More</div>
+                    <div onClick={() => handleMove(newsurl)} className="w-fit mt-4 px-4 py-2 bg-blue-500 text-white rounded-md cursor-pointer transition-all duration-300 hover:scale-110" style={{backgroundColor: ui.textColor, color: ui.backgroundColor}}>Read More</div>
                 </div>
             </div>
         </div>
