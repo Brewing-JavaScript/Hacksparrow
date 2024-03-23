@@ -166,12 +166,9 @@ const ArticleDetail = () => {
                 className="flex"
                 style={{ width: "50%", justifyContent: "space-between" }}
               >
-                <div
-                  className="border py-4 px-20 bg-red-300"
-                  onClick={translate}
-                >
-                  translate
-                </div>
+                <button onClick={translate} className="bg-red-500 text-white py-2 px-4 rounded">
+                Translate to Hindi
+                </button>
               </div>
 
               <p className="text-gray-600 mb-2">{article.byline}</p>
