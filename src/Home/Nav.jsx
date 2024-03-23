@@ -99,11 +99,11 @@ const Nav = () => {
       style={{ backgroundColor: themeSettings.backgroundColor }}
     >
       <div
-        className="mt-4 flex items-center justify-between w-full h-20 border p-4 rounded-2xl"
+        className="mt-4 flex items-center justify-between w-full h-28 border p-4 rounded-2xl"
         style={{ backgroundColor: darkenColor(themeSettings.backgroundColor) }}
       >
         <div className="container flex items-center justify-between">
-          <div className="w-12 h-full rounded-full overflow-hidden">
+          <div className="w-20 h-full rounded-full overflow-hidden">
             <img
               className="w-full h-full object-cover"
               src="https://ideogram.ai/api/images/direct/5_ghuJHaTzKEhrH7Rq4Q5A.png"
@@ -114,7 +114,7 @@ const Nav = () => {
             {cats.length &&
               cats.map((cate, i) => (
                 <div
-                style={{color: themeSettings.textColor}}
+                  style={{ color: themeSettings.textColor }}
                   className="m-2 text-xl font-bold  cursor-pointer capitalize transition duration-300 ease-in-out hover:bg-gray-200 hover:shadow-md px-4 py-2 rounded-lg"
                   key={i}
                   onClick={() => setCat(cate)}
@@ -128,24 +128,26 @@ const Nav = () => {
             <MicIcon
               className="cursor-pointer"
               onClick={() => navigate("/speech")}
-              style={{ color: "black", fontSize: "24px" }}
+              style={{ color: "black", fontSize: "28px" }}
             />
-            <button
-            style={{backgroundColor: themeSettings.textColor, color: themeSettings.backgroundColor}}
-              onClick={handleSignOut}
-              className="px-6 py-2 bg-blue-500 text-white text-xs font-bold rounded-md shadow-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
-            >
-              Sign Out
-            </button>
+
 
             <MenuIcon
               onClick={() => setShowOptions(!showOptions)}
               className="cursor-pointer"
+              fontSize="large"
               style={{
                 background:
                   themeSettings.backgroundColor === "#000000" ? "white" : "",
               }}
             />
+            <button
+              style={{ backgroundColor: themeSettings.textColor, color: themeSettings.backgroundColor }}
+              onClick={handleSignOut}
+              className="px-8 py-4 bg-blue-500 text-white text-xl font-bold rounded-md shadow-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
+            >
+              Sign Out
+            </button>
           </div>
         </div>
       </div>
@@ -182,8 +184,8 @@ const Nav = () => {
               <label
                 htmlFor="backgroundColor"
                 className="block mb-2 font-semibold"
-              
-              style={{color: themeSettings.textColor}}>
+
+                style={{ color: themeSettings.textColor }}>
                 Background Color:
               </label>
               <input
@@ -196,7 +198,7 @@ const Nav = () => {
             </div>
             <div className="mb-6">
               <label htmlFor="textColor" className="block mb-2 font-semibold"
-              style={{color: themeSettings.textColor}}>
+                style={{ color: themeSettings.textColor }}>
                 Text Color:
               </label>
               <input
@@ -209,7 +211,7 @@ const Nav = () => {
             </div>
             <div className="mb-6">
               <label htmlFor="h1FontSize" className="block mb-2 font-semibold"
-              style={{color: themeSettings.textColor}}>
+                style={{ color: themeSettings.textColor }}>
                 H1 Font Size:
               </label>
               <input
@@ -226,7 +228,7 @@ const Nav = () => {
             </div>
             <div className="mb-6">
               <label htmlFor="h2FontSize" className="block mb-2 font-semibold"
-              style={{color: themeSettings.textColor}}>
+                style={{ color: themeSettings.textColor }}>
                 H2 Font Size:
               </label>
               <input
@@ -243,7 +245,7 @@ const Nav = () => {
             </div>
             <div className="mb-6">
               <label htmlFor="pFontSize" className="block mb-2 font-semibold"
-              style={{color: themeSettings.textColor}}>
+                style={{ color: themeSettings.textColor }}>
                 Paragraph Font Size:
               </label>
               <input
