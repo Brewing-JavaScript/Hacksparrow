@@ -36,15 +36,15 @@ function Recommendation() {
     "Parenting",
   ];
 
-  // Initialize selectedKeywords state with values from localStorage or default to all false
+  // Initialize selectedKeywords state with values from sessionStorage or default to all false
   const [selectedKeywords, setSelectedKeywords] = useState(() => {
-    const storedKeywords = JSON.parse(localStorage.getItem("selectedKeywords"));
+    const storedKeywords = JSON.parse(sessionStorage.getItem("selectedKeywords"));
     return storedKeywords || Array(keywords.length).fill(false);
   });
 
-  // Update localStorage whenever selectedKeywords changes
+  // Update sessionStorage whenever selectedKeywords changes
   useEffect(() => {
-    localStorage.setItem("selectedKeywords", JSON.stringify(selectedKeywords));
+    sessionStorage.setItem("selectedKeywords", JSON.stringify(selectedKeywords));
   }, [selectedKeywords]);
 
   const toggleKeyword = (index) => {
