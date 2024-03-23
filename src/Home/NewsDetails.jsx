@@ -316,6 +316,15 @@ const ArticleDetail = () => {
             <div>
               <h2 className="text-2xl font-semibold mb-2">
                 {trans ? trans : article.title}
+                {trans && (
+                  <VolumeUpIcon
+                    onClick={hindiSpeaking}
+                    fontSize="large"
+                    color="primary"
+                    className=" ml-10 w-[90px] h-[90]
+                  font-bold rounded border border-blue-500"
+                  />
+                )}
               </h2>
               {analytics && (
                 <div
@@ -379,13 +388,6 @@ const ArticleDetail = () => {
                 >
                   translate
                 </div>
-                {trans && (
-                  <VolumeUpIcon>
-                    onClick={hindiSpeaking}
-                    className="bg-blue-500 hover:bg-blue-700 text-white
-                    font-bold py-2 px-4 rounded"
-                  </VolumeUpIcon>
-                )}
               </div>
 
               <p className="text-gray-600 mb-2">{article.byline}</p>
