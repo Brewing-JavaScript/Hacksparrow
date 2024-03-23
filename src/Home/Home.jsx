@@ -14,7 +14,6 @@ const Home = ({ country = 'in', category = '', pagesize = 6 }) => {
   const [page, setPage] = useState(1);
 
   const { ui } = useContext(UiContext); // Destructure ui from UiContext
-  console.log(ui);
   useEffect(() => {
     // fetchNews();
     // getUi();
@@ -107,12 +106,11 @@ const Home = ({ country = 'in', category = '', pagesize = 6 }) => {
   }
 
   // Your fetchNews, handleNextClick, and handlePreviousClick functions here
-  const backgroundColor = ui.backgroundColor || '#ffffff';
 
   return (
     <>
       <Nav />
-      <div style={{ backgroundColor: ui.backgroundColor && ui.backgroundColor, color: ui.textColor && ui.textColor }} className={"container my-3 d-flex align-items-center justify-content-center flex-column varad bg-[" + { backgroundColor } + "]"}>
+      <div style={{ backgroundColor: ui.backgroundColor, color: ui.textColor }} className="container my-3 d-flex align-items-center justify-content-center flex-column varad">
         <h1 className="text-center">Top headlines</h1>
 
         {loading && <Spinner />}

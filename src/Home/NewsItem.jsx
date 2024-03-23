@@ -1,10 +1,11 @@
 import React, { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { UrlContext } from '../App';
+import { UiContext, UrlContext } from '../App';
 
 const NewsItem = ({ title, description, imgUrl, newsurl, author, date, source }) => {
     const navigate = useNavigate();
     let { currentUrl, setCurrentUrl } = useContext(UrlContext);
+    let {ui} = useContext(UiContext)
 
     const handleMove = async (newsurl) => {
         await setCurrentUrl(newsurl);
@@ -23,9 +24,9 @@ const NewsItem = ({ title, description, imgUrl, newsurl, author, date, source })
                 />
                 <div className="p-4">
                     {/* News title */}
-                    <h5 className="text-lg font-semibold">{title}...</h5>
+                    <h5 style={{fontSize : ui.fontSizes.h2}} className="text-lg ">{title}...</h5>
                     {/* News description */}
-                    <p className="mt-2 text-gray-600">{description}...</p>
+                    <p style={{fontSize : ui.fontSizes.p  , color : ui.textColor}} className="mt-2">{description}...</p>
                     {/* Author and date */}
                     <p className="mt-2 text-sm text-gray-500">By {author} on {date}</p>
                     {/* Button to read more */}
