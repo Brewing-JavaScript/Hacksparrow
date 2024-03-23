@@ -31,6 +31,7 @@
     "framer-motion": "^11.0.20",
     "google-translate-api": "^2.3.0",
     "google-translate-api-x": "^10.6.8",
+    "isomorphic-fetch": "^3.0.0",
     "node-summarizer": "^1.0.7",
     "node-summary": "^1.2.0",
     "react": "^18.2.0",

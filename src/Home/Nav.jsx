@@ -108,7 +108,7 @@ const Nav = () => {
               src="https://ideogram.ai/api/images/direct/5_ghuJHaTzKEhrH7Rq4Q5A.png"
               alt="logo"
             />
-            <h3 className="ml-4" style={{fontWeight: 700, fontSize: "1.5rem", marginLeftL :"0.5rem"}}>NewsWeb</h3>
+            <h3 className="ml-4" style={{fontWeight: 500, fontSize: "1.5rem", marginLeftL :"0.5rem"}}>NewsWeb</h3>
           </div>
           <nav className="flex">
             {cats.length &&

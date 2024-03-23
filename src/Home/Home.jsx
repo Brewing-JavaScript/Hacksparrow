@@ -1,10 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
-import "../App.css";
 import NewsItem from "./NewsItem";
-import { Spinner } from "flowbite-react";
-import toast from "react-hot-toast";
 import api from "../Api/Api";
-import { getUi } from "../Api/GetUi";
 import Nav from "./Nav";
 import { UiContext, catContext } from "../App";
 import { useNavigate } from "react-router-dom";
@@ -17,8 +13,7 @@ const Home = ({ country = "in", category = "general", pagesize = 6 }) => {
   const [articles, setArticles] = useState([]);
 
   const { cat } = useContext(catContext);
-  const { ui } = useContext(UiContext); // Destructure ui from UiContext
-
+  const { ui } = useContext(UiContext);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -29,38 +24,55 @@ const Home = ({ country = "in", category = "general", pagesize = 6 }) => {
     }
 
     fetchNews();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [country, category, pagesize, api, ui, cat, page]);
 
-    // getUi();
-    document.getElementById("root").style.backgroundColor = ui.backgroundColor;
-  }, [country, category, pagesize, api, ui, cat]);
-
-  const fetchNews = () => {
+  const fetchNews = async () => {
     try {
       setLoading(true);
-      api.post("/news", { cat }).then((res) => {
-        setLoading(false);
-        setArticles(res.data.articles);
-      });
+      const res = await api.post("/news", { cat, page, pagesize });
+      setLoading(false);
+      setTotalResults(res.data.totalResults);
+      setArticles(res.data.articles);
     } catch (error) {
       setLoading(false);
+      console.error("Error fetching news:", error);
+    }
+  };
 
-      toast.error(error.message);
+  const handleNextClick = () => {
+    if (page + 1 <= Math.ceil(totalResults / pagesize)) {
+      setPage(page + 1);
+    }
+  };
+
+  const handlePreviousClick = () => {
+    if (page > 1) {
+      setPage(page - 1);
     }
   };
 
   return (
     <>
-      {" "}
-      {loading && <Loader message={"loading news..."} />}
+      {loading && <Loader message={"Loading news..."} />}
       <Nav />
       <div
         style={{ backgroundColor: ui.backgroundColor, color: ui.textColor , width: "80%"}}
         className="container my-3 d-flex align-items-center justify-content-center flex-column mx-auto"
       >
-        <h1
-          className="text-center mt-4"
-          style={{ fontSize: "4rem", fontWeight: 700 }}
+        <div
+          onClick={() => navigate("/feedback")}
+          className="h-16 w-52 border absolute -left-20 top-[16rem] bg-red-600 -rotate-90 flex items-center justify-center text-2xl font-bold text-white rounded-xl cursor-pointer hover:scale-110 duration-150"
         >
+          FEEDBACK
+        </div>
+        <div
+          onClick={() => navigate("/recommendation")}
+          className="h-16 w-52 border absolute -left-20 top-[35rem] bg-red-600 -rotate-90 flex items-center justify-center text-2xl font-bold text-white rounded-xl cursor-pointer hover:scale-110 duration-150"
+        >
+          categories
+        </div>
+        <h1 className="text-center" style={{ fontSize: "4rem", fontWeight: 700 }}>
           Top Headlines
         </h1>
 
@@ -70,11 +82,7 @@ const Home = ({ country = "in", category = "general", pagesize = 6 }) => {
               <div className="col-md-4" key={ele.url}>
                 <NewsItem
                   title={ele.title ? ele.title.slice(0, 50) : ""}
-                  description={
-                    ele.description
-                      ? ele.description.slice(0, 90)
-                      : "description"
-                  }
+                  description={ele.description ? ele.description.slice(0, 90) : "description"}
                   imgUrl={ele.urlToImage}
                   newsurl={ele.url}
                   author={ele.author}
@@ -84,10 +92,24 @@ const Home = ({ country = "in", category = "general", pagesize = 6 }) => {
               </div>
             ))}
         </div>
-        {/* <div className="container d-flex justify-content-between">
-          <button disabled={page < 1} type="button" className="btn btn-dark" onClick={handlePreviousClick}>&larr; Previous</button>
-          <button disabled={page + 1 > Math.ceil(totalResults / pagesize)} type="button" className="btn btn-dark" onClick={handleNextClick}>Next &rarr;</button>
-        </div> */}
+        <div className="container flex items-center justify-between">
+          <button
+            disabled={page <= 1}
+            type="button"
+            className="btn btn-dark"
+            onClick={handlePreviousClick}
+          >
+            &larr; Previous
+          </button>
+          <button
+            disabled={page >= Math.ceil(totalResults / pagesize)}
+            type="button"
+            className="btn btn-dark"
+            onClick={handleNextClick}
+          >
+            Next &rarr;
+          </button>
+        </div>
       </div>
     </>
   );
