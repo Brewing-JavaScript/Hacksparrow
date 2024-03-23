@@ -13,7 +13,7 @@ const Nav = () => {
   const [themeSettings, setThemeSettings] = useState(() => {
     const storedThemeSettings = JSON.parse(sessionStorage.getItem('themeSettings'));
     return storedThemeSettings || {
-      backgroundColor: '#3F83F8',
+      backgroundColor: '#FFFFFF',
       textColor: '#000000',
       fontSizes: {
         h1: 24,

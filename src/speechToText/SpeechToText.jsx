@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import api from "../Api/Api";
 import { useNavigate } from "react-router-dom";
+import Recording from "../Loader/Recording";
+
 
 function SpeechToText() {
   const [transcription, setTranscription] = useState("");
@@ -57,38 +59,46 @@ function SpeechToText() {
         transcription: text,
       });
       console.log("Response data:", response.data);
-      updateTextColor(response.data.colorName);
+      updateTextColor(response.data);
     } catch (error) {
       console.error("Error:", error);
     }
   };
 
-  const updateTextColor = (colorName) => {
+  const updateTextColor = (color) => {
     // Update textColor property with color name
     const themeSettingsString = sessionStorage.getItem("themeSettings");
     if (themeSettingsString) {
       const themeSettings = JSON.parse(themeSettingsString);
-      const updatedThemeSettings = { ...themeSettings, textColor: colorName };
+      const updatedThemeSettings = { ...themeSettings, textColor: color.colorName, backgroundColor: color.backgroundColor };
       sessionStorage.setItem(
         "themeSettings",
         JSON.stringify(updatedThemeSettings)
       );
       navigate("/");
+      // {"colorName":"green","backgroundColor":"#99CC99"}
     }
   };
 
   return (
-    <div className="w-full h-screen flex items-center justify-center">
-      <button className="py-4 px-20 border" onClick={() => setRecording((prev) => !prev)}>
-        {recording ? "Stop Recording" : "Start Recording"}
-      </button>
-      {transcription && (
-        <div className="w-[80%] ">
-          <h2>Transcription:</h2>
-          <p>{transcription}</p>
-        </div>
-      )}
-    </div>
+    <>
+      {
+        recording ? <Recording />
+          :
+          <div className="w-full h-screen flex items-center flex-col gap-12 justify-center">
+            <h1 className="text-3xl font-bold shadow-md p-8">give voice command to customize display</h1>
+            <button className="py-4 px-20 border" onClick={() => setRecording((prev) => !prev)}>
+              {recording ? "Stop Recording" : "Start Recording"}
+            </button>
+            {transcription && (
+              <div className="w-[80%] ">
+                <h2>Transcription:</h2>
+                <p>{transcription}</p>
+              </div>
+            )}
+          </div>
+      }
+    </>
   );
 }
 
