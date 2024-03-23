@@ -78,12 +78,12 @@ function SpeechToText() {
   };
 
   return (
-    <div>
-      <button onClick={() => setRecording((prev) => !prev)}>
+    <div className="w-full h-screen flex items-center justify-center">
+      <button className="py-4 px-20 border" onClick={() => setRecording((prev) => !prev)}>
         {recording ? "Stop Recording" : "Start Recording"}
       </button>
       {transcription && (
-        <div>
+        <div className="w-[80%] ">
           <h2>Transcription:</h2>
           <p>{transcription}</p>
         </div>
