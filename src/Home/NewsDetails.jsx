@@ -72,6 +72,12 @@ const ArticleDetail = () => {
         speechSynthesis.speak(utterance);
     };
 
+    const hindiSpeaking = () => {
+        const utterance = new SpeechSynthesisUtterance(trans);
+        utterance.lang = 'hi-IN';
+        speechSynthesis.speak(utterance);
+    }
+
   return (
     <div className="w-full bg-gray-100">
       <div className="max-w-screen-xl mx-auto px-4">
@@ -81,7 +87,7 @@ const ArticleDetail = () => {
             <div>
               <h2 className="text-2xl font-semibold mb-2">{trans ? trans : article.title}</h2>
               {analytics && (
-                <div className="flex justify-between mb-4">
+                <div className="flex justify-between mb-4" style={{width: "100%"}}>
                   <div className="flex flex-col items-center">
                     <div className={`text-xl font-semibold ${analytics.probabilities.fake > analytics.probabilities.true ? 'text-red-600' : 'text-green-600'} animate-pulse`}>
                       Fake Probability:
@@ -101,7 +107,12 @@ const ArticleDetail = () => {
                 </div>
               )}
 
-              <div className='border py-4 px-20 bg-red-300' onClick={translate}>translate</div>
+            <div className="flex" style={{width: "50%", justifyContent: "space-between"}}>
+                <div className='border py-4 px-20 bg-red-300' onClick={translate}>translate</div>
+                {trans && (<button onClick={hindiSpeaking} className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded'>Speak</button>)}
+                
+            </div>
+
               <p className="text-gray-600 mb-2">{article.byline}</p>
               <p className="text-gray-600 mb-2">Published Time: {new Date(article.publishedTime).toLocaleString()}</p>
               <img src={article.image} alt="Article" className="w-full rounded mb-4" />
