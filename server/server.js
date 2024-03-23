@@ -304,8 +304,8 @@ server.post("/news", async (req, res) => {
   const { country = "in", cat, pageSize = 6 } = req.body;
 
   let category = cat ? cat : ""
-  // const apiKey = "c6016f699894412bbf4a510194f7787b";
-  const apiKey = "720f8330961644819519fcbb2766699a";
+  const apiKey = "c6016f699894412bbf4a510194f7787b";
+  // const apiKey = "720f8330961644819519fcbb2766699a";
   const url = `https://newsapi.org/v2/top-headlines?country=${country}&category=${category}&apiKey=${apiKey}&page=1&pageSize=${pageSize}`;
 
   try {
@@ -345,6 +345,28 @@ server.post("/detail-news", async (req, res) => {
   }
 });
 
+const colorBackgroundMap = {
+  "red": "#00FFFF",    // Cyan (opposite of red)
+  "blue": "#FFCC00",   // Gold (opposite of blue)
+  "green": "#FF0099",  // Magenta (opposite of green)
+  "yellow": "#6600FF", // Indigo (opposite of yellow)
+  "orange": "#0066FF", // Cobalt blue (opposite of orange)
+  "purple": "#FFFF00", // Yellow (opposite of purple)
+  "pink": "#00FFFF",   // Cyan (opposite of pink)
+  "brown": "#66CCFF",  // Light blue (complementary to brown)
+  "black": "#FFFFFF",  // White (for contrast)
+  "white": "#000000",  // Black (for contrast)
+};
+
+
+
+// Function to get background color based on color name
+function getBackgroundColor(colorName) {
+  // Lookup color name in the colorBackgroundMap
+  return colorBackgroundMap[colorName.toLowerCase()] || "#FFFFFF"; // Default to white if color not found
+}
+
+// Example usage in your server endpoint
 server.post("/speech-to-text", async (req, res) => {
   const { transcription } = req.body; // Assuming the transcribed text is sent in the request body
 
@@ -357,9 +379,13 @@ server.post("/speech-to-text", async (req, res) => {
       .json({ error: "No color name found in the transcription" });
   }
 
-  console.log(colorName);
-  return res.status(200).json({ colorName });
+  // Get the corresponding background color
+  const backgroundColor = getBackgroundColor(colorName);
+
+  console.log(colorName, backgroundColor);
+  return res.status(200).json({ colorName, backgroundColor });
 });
+
 
 function extractColorName(text) {
   // Logic to extract color name from the text (you can use regex or any other method)
