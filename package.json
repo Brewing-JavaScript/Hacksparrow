@@ -21,13 +21,14 @@
     "@mantine/hooks": "^7.6.1",
     "@mui/icons-material": "^5.15.14",
     "@mui/material": "^5.15.14",
+    "@mui/styled-engine-sc": "^6.0.0-alpha.18",
     "@tabler/icons-react": "^2.47.0",
     "axios": "^1.6.8",
     "chart.js": "^4.4.2",
     "clsx": "^2.1.0",
     "flowbite": "^2.3.0",
     "flowbite-react": "^0.7.2",
-    "framer-motion": "^11.0.8",
+    "framer-motion": "^11.0.20",
     "google-translate-api": "^2.3.0",
     "google-translate-api-x": "^10.6.8",
     "node-summarizer": "^1.0.7",
@@ -37,7 +38,12 @@
     "react-dom": "^18.2.0",
     "react-hot-toast": "^2.4.1",
     "react-router-dom": "^6.22.2",
+<<<<<<< HEAD
+    "styled-components": "^6.1.8",
     "tailwind-merge": "^2.2.1",
+=======
+    "tailwind-merge": "^2.2.2",
+>>>>>>> 44e93a20287d2432717307eb477299176a7307e6
     "translate.js": "^1.3.2"
   },
   "devDependencies": {
