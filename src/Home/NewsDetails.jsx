@@ -107,6 +107,7 @@ const ArticleDetail = () => {
                 <div>
                   <h2 className="text-2xl font-semibold mb-2">
                     {trans ? trans : article.title}
+                    
                     {trans && (
                       <VolumeUpIcon
                         onClick={hindiSpeaking}
@@ -117,6 +118,17 @@ const ArticleDetail = () => {
                       />
                     )}
                   </h2>
+                  <div
+                    className="flex"
+                    style={{ width: "50%", justifyContent: "space-between" }}
+                  >
+                    <button
+                      className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mb-8"
+                      onClick={translate}
+                    >
+                      Translate to Hindi
+                    </button>
+                  </div>
                   {analytics && (
                     <div
                       className="flex justify-between mb-4"
@@ -165,17 +177,7 @@ const ArticleDetail = () => {
                     </div>
                   )}
 
-                  <div
-                    className="flex"
-                    style={{ width: "50%", justifyContent: "space-between" }}
-                  >
-                    <div
-                      className="border py-4 px-20 cursor-pointer bg-red-300"
-                      onClick={translate}
-                    >
-                      translate
-                    </div>
-                  </div>
+                  
 
                   <p className="text-gray-600 mb-2">{article.byline}</p>
                   <p className="text-gray-600 mb-2">
@@ -205,9 +207,10 @@ const ArticleDetail = () => {
                     setText(article.content.substring(0, 10));
                     handleSpeak();
                   }}
-                  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-6"
+                  style={{backgroundColor: ui.textColor, color: ui.backgroundColor}}
                 >
-                  Speak
+                  Text to Speech
                 </button>
                 {speaking && (
                   <button

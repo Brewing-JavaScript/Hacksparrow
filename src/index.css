@@ -18,9 +18,9 @@
 
 }
 
-#root{
+/* #root{
   background-color: red;
-}
+} */
 
 .App-header {
   background-color: #282c34;
@@ -67,11 +67,14 @@
 }
 
 #dataHolder h2{
-  font-size: 2rem;
+  font-size: 2.5rem;
+  line-height: 1.2;
+  font-weight: 600;
 }
 
 #dataHolder p{
   margin-bottom: 2rem;
+  margin-top: 2rem;
 }
 
 figcaption{
@@ -95,6 +98,10 @@ nav ul li{
   display: grid;
   grid-template-columns: auto auto auto;
   row-gap: 2rem;
+}
+
+#mainArea p{
+  margin-bottom: 2rem;
 }
 
 @keyframes App-logo-spin {

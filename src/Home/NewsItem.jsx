@@ -43,13 +43,13 @@ const NewsItem = ({ title, description, imgUrl, newsurl, author, date, source })
                 <div className="p-4 newsItem" style={{backgroundColor: ui.backgroundColor === '#000000' ? "#282828" : (ui.backgroundColor === "#ffffff" ? "#F7F7F7" : darkenColor(ui.backgroundColor))
 }}>
                     {/* News title */}
-                    <h5 style={{fontSize : ui.fontSizes.h2, color : ui.backgroundColor === "#000000"? "white" : (ui.backgroundColor === "ffffff" ? "#000000" : ui.textColor )}} className="text-lg ">{title}...</h5>
+                    <h5 style={{fontSize : ui.fontSizes.h2, color : ui.textColor}} className="text-lg ">{title}...</h5>
                     {/* News description */}
-                    <p style={{fontSize : ui.fontSizes.p  , color : ui.backgroundColor === "#000000"? "white" : ui.textColor}} className="mt-2">{description}...</p>
+                    <p style={{fontSize : ui.fontSizes.p  , color : ui.textColor}} className="mt-2">{description}...</p>
                     {/* Author and date */}
-                    <p className="mt-2 text-sm text-gray-500">By {author} on {date}</p>
+                    <p style={{color: ui.textColor}} className="mt-2 text-sm text-gray-500">By {author} on {date}</p>
                     {/* Button to read more */}
-                    <div onClick={() => handleMove(newsurl)} className="w-fit mt-4 px-4 py-2 bg-blue-500 text-white rounded-md cursor-pointer hover:bg-blue-600 transition-all duration-300">Read More</div>
+                    <div onClick={() => handleMove(newsurl)} className="w-fit mt-4 px-4 py-2 bg-blue-500 text-white rounded-md cursor-pointer transition-all duration-300" style={{backgroundColor: ui.textColor, color: ui.backgroundColor}}>Read More</div>
                 </div>
             </div>
         </div>

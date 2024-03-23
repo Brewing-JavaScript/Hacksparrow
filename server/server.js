@@ -2,7 +2,7 @@ import express from "express";
 import mongoose from "mongoose";
 import path from "path";
 import { v2 } from "cloudinary";
-import { translate } from 'google-translate-api-x';
+import { translate } from "google-translate-api-x";
 import cloudinary from "cloudinary";
 import http from "http";
 import qs from "querystring";
@@ -20,6 +20,7 @@ import { JSDOM } from "jsdom";
 import { Readability } from "@mozilla/readability";
 import puppeteer from "puppeteer";
 import { AssemblyAI } from "assemblyai";
+import Feedback from "./schema/FeedbackSchema.js";
 const server = express();
 
 server.use(express.json());
@@ -303,7 +304,7 @@ server.post("/google", async (req, res) => {
 server.post("/news", async (req, res) => {
   const { country = "in", cat, pageSize = 6 } = req.body;
 
-  let category = cat ? cat : ""
+  let category = cat ? cat : "";
   // const apiKey = "c6016f699894412bbf4a510194f7787b";
   // const apiKey = "720f8330961644819519fcbb2766699a";
   const apiKey = "bc2fbd3b5e5d4477842cb1e1c2b84704";
@@ -347,19 +348,17 @@ server.post("/detail-news", async (req, res) => {
 });
 
 const colorBackgroundMap = {
-  "red": "#00FFFF",    // Cyan (opposite of red)
-  "blue": "#FFCC00",   // Gold (opposite of blue)
-  "green": "#FF0099",  // Magenta (opposite of green)
-  "yellow": "#6600FF", // Indigo (opposite of yellow)
-  "orange": "#0066FF", // Cobalt blue (opposite of orange)
-  "purple": "#FFFF00", // Yellow (opposite of purple)
-  "pink": "#00FFFF",   // Cyan (opposite of pink)
-  "brown": "#66CCFF",  // Light blue (complementary to brown)
-  "black": "#FFFFFF",  // White (for contrast)
-  "white": "#000000",  // Black (for contrast)
+  red: "#00FFFF", // Cyan (opposite of red)
+  blue: "#FFCC00", // Gold (opposite of blue)
+  green: "#FF0099", // Magenta (opposite of green)
+  yellow: "#6600FF", // Indigo (opposite of yellow)
+  orange: "#0066FF", // Cobalt blue (opposite of orange)
+  purple: "#FFFF00", // Yellow (opposite of purple)
+  pink: "#00FFFF", // Cyan (opposite of pink)
+  brown: "#66CCFF", // Light blue (complementary to brown)
+  black: "#FFFFFF", // White (for contrast)
+  white: "#000000", // Black (for contrast)
 };
-
-
 
 // Function to get background color based on color name
 function getBackgroundColor(colorName) {
@@ -386,7 +385,6 @@ server.post("/speech-to-text", async (req, res) => {
   console.log(colorName, backgroundColor);
   return res.status(200).json({ colorName, backgroundColor });
 });
-
 
 function extractColorName(text) {
   // Logic to extract color name from the text (you can use regex or any other method)
@@ -454,9 +452,6 @@ server.post("/get-cats", async (req, res) => {
   }
 });
 
-
-
-
 //   const textToTranslate = "hii , how are u ";
 
 //   const translateOptions = { ...options };
@@ -486,9 +481,49 @@ server.post("/get-cats", async (req, res) => {
 //   translateReq.end();
 // });
 
+server.post("/feedback", async (req, res) => {
+  try {
+    // Extract rating, feedbackText, and _id from the request body
+    const { rating, feedbackText, _id } = req.body.feedbackData;
+
+    // Assuming User is a Mongoose model, retrieve user data based on _id
+    const user = await User.findById(_id);
+
+    // Create a new instance of Feedback using the extracted data
+    const newFeedback = new Feedback({
+      rating,
+      feedbackText,
+      name: user ? user.username : "Anonymous", // Set name based on user existence
+    });
+
+    // Save the feedback to the database
+    const savedFeedback = await newFeedback.save();
+
+    // Send the updated feedback in the response
+    res.status(200).json({
+      message: "Feedback submitted successfully",
+      feedback: savedFeedback, // Include the saved feedback in the response
+    });
+  } catch (error) {
+    console.error("Error submitting feedback:", error);
+    res
+      .status(500)
+      .json({ error: "An error occurred while submitting feedback" });
+  }
+});
+
+server.get("/all-feedback", async (req, res) => {
+  try {
+    const feedback = await Feedback.find({});
+
+    return res.status(200).json(feedback);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
 server.post("/translate", async (req, res) => {
   const { text } = req.body; // Extract text to translate and target language from request body
-
 
   try {
     // Perform translation using google-translate-api-x

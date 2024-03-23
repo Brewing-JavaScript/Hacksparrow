@@ -4,6 +4,7 @@ import MicIcon from "@mui/icons-material/Mic";
 import { useNavigate } from "react-router-dom";
 import { UiContext, catContext } from "../App";
 import api from "../Api/Api";
+import { theme } from "flowbite-react";
 
 const Nav = () => {
   const [showOptions, setShowOptions] = useState(false);
@@ -113,7 +114,8 @@ const Nav = () => {
             {cats.length &&
               cats.map((cate, i) => (
                 <div
-                  className="m-2 text-xl font-bold cursor-pointer capitalize transition duration-300 ease-in-out hover:bg-gray-200 hover:shadow-md px-4 py-2 rounded-lg"
+                style={{color: themeSettings.textColor}}
+                  className="m-2 text-xl font-bold  cursor-pointer capitalize transition duration-300 ease-in-out hover:bg-gray-200 hover:shadow-md px-4 py-2 rounded-lg"
                   key={i}
                   onClick={() => setCat(cate)}
                 >
@@ -129,6 +131,7 @@ const Nav = () => {
               style={{ color: "black", fontSize: "24px" }}
             />
             <button
+            style={{backgroundColor: themeSettings.textColor, color: themeSettings.backgroundColor}}
               onClick={handleSignOut}
               className="px-6 py-2 bg-blue-500 text-white text-xs font-bold rounded-md shadow-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
             >
@@ -179,7 +182,8 @@ const Nav = () => {
               <label
                 htmlFor="backgroundColor"
                 className="block mb-2 font-semibold"
-              >
+              
+              style={{color: themeSettings.textColor}}>
                 Background Color:
               </label>
               <input
@@ -191,7 +195,8 @@ const Nav = () => {
               />
             </div>
             <div className="mb-6">
-              <label htmlFor="textColor" className="block mb-2 font-semibold">
+              <label htmlFor="textColor" className="block mb-2 font-semibold"
+              style={{color: themeSettings.textColor}}>
                 Text Color:
               </label>
               <input
@@ -203,7 +208,8 @@ const Nav = () => {
               />
             </div>
             <div className="mb-6">
-              <label htmlFor="h1FontSize" className="block mb-2 font-semibold">
+              <label htmlFor="h1FontSize" className="block mb-2 font-semibold"
+              style={{color: themeSettings.textColor}}>
                 H1 Font Size:
               </label>
               <input
@@ -219,7 +225,8 @@ const Nav = () => {
               />
             </div>
             <div className="mb-6">
-              <label htmlFor="h2FontSize" className="block mb-2 font-semibold">
+              <label htmlFor="h2FontSize" className="block mb-2 font-semibold"
+              style={{color: themeSettings.textColor}}>
                 H2 Font Size:
               </label>
               <input
@@ -235,7 +242,8 @@ const Nav = () => {
               />
             </div>
             <div className="mb-6">
-              <label htmlFor="pFontSize" className="block mb-2 font-semibold">
+              <label htmlFor="pFontSize" className="block mb-2 font-semibold"
+              style={{color: themeSettings.textColor}}>
                 Paragraph Font Size:
               </label>
               <input
