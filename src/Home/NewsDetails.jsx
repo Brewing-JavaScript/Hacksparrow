@@ -46,41 +46,43 @@ const ArticleDetail = () => {
   };
 
   return (
-    <div className="article-container mx-auto p-4">
-      <div className="news-page bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
-        <h1 className="text-3xl font-bold mb-4">Article Details</h1>
-        {analytics && (
-          <div className="flex justify-between mb-4">
-            <div className="flex flex-col items-center">
-              <div className={`text-xl font-semibold ${analytics.probabilities.fake > analytics.probabilities.true ? 'text-red-600' : 'text-green-600'} animate-pulse`}>
-                Fake Probability:
+    <div className="w-full bg-gray-100">
+      <div className="max-w-screen-xl mx-auto px-4">
+        <div className="news-page bg-white shadow-md rounded p-8 mb-4">
+          
+          {article ? (
+            <div>
+              <h2 className="text-2xl font-semibold mb-2">{article.title}</h2>
+              {analytics && (
+            <div className="flex justify-between mb-4">
+              <div className="flex flex-col items-center">
+                <div className={`text-xl font-semibold ${analytics.probabilities.fake > analytics.probabilities.true ? 'text-red-600' : 'text-green-600'} animate-pulse`}>
+                  Fake Probability:
+                </div>
+                <div className={`text-2xl font-bold ${analytics.probabilities.fake > analytics.probabilities.true ? 'text-red-600' : 'text-green-600'}`}>
+                  {analytics.probabilities.fake.toFixed(2)}%
+                </div>
               </div>
-              <div className={`text-2xl font-bold ${analytics.probabilities.fake > analytics.probabilities.true ? 'text-red-600' : 'text-green-600'}`}>
-                {analytics.probabilities.fake.toFixed(2)}
+              <div className="flex flex-col items-center">
+                <div className={`text-xl font-semibold ${analytics.probabilities.true > analytics.probabilities.fake ? 'text-green-600' : 'text-red-600'} animate-pulse`}>
+                  True Probability:
+                </div>
+                <div className={`text-2xl font-bold ${analytics.probabilities.true > analytics.probabilities.fake ? 'text-green-600' : 'text-red-600'}`}>
+                  {analytics.probabilities.true.toFixed(2)}%
+                </div>
               </div>
             </div>
-            <div className="flex flex-col items-center">
-              <div className={`text-xl font-semibold ${analytics.probabilities.true > analytics.probabilities.fake ? 'text-green-600' : 'text-red-600'} animate-pulse`}>
-                True Probability:
-              </div>
-              <div className={`text-2xl font-bold ${analytics.probabilities.true > analytics.probabilities.fake ? 'text-green-600' : 'text-red-600'}`}>
-                {analytics.probabilities.true.toFixed(2)}
-              </div>
+          )}
+              <p className="text-gray-600 mb-2">{article.byline}</p>
+              <p className="text-gray-600 mb-2">Published Time: {new Date(article.publishedTime).toLocaleString()}</p>
+              <img src={article.image} alt="Article" className="w-full rounded mb-4" />
+              <div className="article-content" dangerouslySetInnerHTML={{ __html: translatedArticle || article.content }}></div>
+              <p className="text-gray-600">Length: {article.length} words</p>
             </div>
-          </div>
-        )}
-        {article ? (
-          <div>
-            <h2 className="text-2xl font-semibold mb-2">{article.title}</h2>
-            <p className="text-gray-600 mb-2">{article.byline}</p>
-            <p className="text-gray-600 mb-2">Published Time: {new Date(article.publishedTime).toLocaleString()}</p>
-            <img src={article.image} alt="Article" className="w-full rounded mb-4" />
-            <div className="article-content" dangerouslySetInnerHTML={{ __html: translatedArticle || article.content }}></div>
-            <p className="text-gray-600">Length: {article.length} words</p>
-          </div>
-        ) : (
-          <p>Loading...</p>
-        )}
+          ) : (
+            <p>Loading...</p>
+          )}
+        </div>
       </div>
     </div>
   );
