@@ -12,6 +12,7 @@ import ArticleDetail from "./Home/NewsDetails";
 import SpeechToText from "./speechToText/SpeechToText";
 import TextToSpeechTrial from "./TextToSpeechTrial";
 import Recommendation from "./Recommendation/Recommendation";
+import Community from "./Home/Community";
 
 export const UrlContext = createContext();
 export const UiContext = createContext();
@@ -45,6 +46,7 @@ function App() {
             <Route path="/recomendation" element={<Recommendation />} />
             <Route path="/tts" element={<TextToSpeechTrial />} />
             <Route path="/recommendation" element={<Recommendation />} />
+            <Route path="/feedback" element={<Community />} />
 
           </Routes>
         </Router>
