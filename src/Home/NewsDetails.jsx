@@ -256,8 +256,9 @@ const ArticleDetail = () => {
   }, [currentUrl]);
 
   useEffect(() => {
-    document.getElementById("root").style.backgroundColor = ui.backgroundColor;
-    document.getElementById("root").style.color = ui.textColor;
+    document.getElementById("news-page").style.backgroundColor = ui.backgroundColor;
+    document.getElementById("bgOfNews").style.backgroundColor = ui.backgroundColor;
+    document.getElementById("news-page").style.color = ui.textColor;
   });
 
   useEffect(() => {
@@ -309,9 +310,9 @@ const ArticleDetail = () => {
   };
 
   return (
-    <div className="w-full bg-gray-100">
+    <div id="bgOfNews" className="w-full bg-gray-100">
       <div className="max-w-screen-xl mx-auto px-4">
-        <div className="news-page bg-white shadow-md rounded p-8 mb-4">
+        <div id="news-page" className="news-page bg-white shadow-md rounded p-8 mb-4">
           {article ? (
             <div>
               <h2 className="text-2xl font-semibold mb-2">
