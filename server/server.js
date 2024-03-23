@@ -301,8 +301,9 @@ server.post("/google", async (req, res) => {
 });
 
 server.post("/news", async (req, res) => {
-  const { country = "in", cat: category, pageSize = 6 } = req.body;
-  console.log(category);
+  const { country = "in", cat, pageSize = 6 } = req.body;
+
+  let category = cat ? cat : ""
   // const apiKey = "c6016f699894412bbf4a510194f7787b";
   const apiKey = "720f8330961644819519fcbb2766699a";
   const url = `https://newsapi.org/v2/top-headlines?country=${country}&category=${category}&apiKey=${apiKey}&page=1&pageSize=${pageSize}`;
@@ -426,20 +427,9 @@ server.post("/get-cats", async (req, res) => {
   }
 });
 
-const options = {
-  method: "POST",
-  hostname: "google-translate1.p.rapidapi.com",
-  port: null,
-  path: "/language/translate/v2/detect",
-  headers: {
-    "content-type": "application/x-www-form-urlencoded",
-    "Accept-Encoding": "application/gzip",
-    "X-RapidAPI-Key": "c15630ab9dmsh811b42e0068f62ap1cc5c9jsnc2f3abffc7ec",
-    "X-RapidAPI-Host": "google-translate1.p.rapidapi.com",
-  },
-};
 
-// server.post("/translate", (req, res) => {
+
+
 //   const textToTranslate = "hii , how are u ";
 
 //   const translateOptions = { ...options };

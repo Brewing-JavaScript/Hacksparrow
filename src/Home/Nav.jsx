@@ -4,6 +4,7 @@ import { UiContext, catContext } from '../App';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import api from '../Api/Api';
+import MicIcon from '@mui/icons-material/Mic';
 
 const Nav = () => {
     const [showOptions, setShowOptions] = useState(false);
@@ -28,11 +29,11 @@ const Nav = () => {
         const red = parseInt(hexColor.slice(1, 3), 16);
         const green = parseInt(hexColor.slice(3, 5), 16);
         const blue = parseInt(hexColor.slice(5, 7), 16);
-      
+
         const darkerRed = Math.max(0, red - 40);
         const darkerGreen = Math.max(0, green - 40);
         const darkerBlue = Math.max(0, blue - 40);
-      
+
         const darkerHexColor = `#${darkerRed.toString(16).padStart(2, '0')}${darkerGreen.toString(16).padStart(2, '0')}${darkerBlue.toString(16).padStart(2, '0')}`;
 
         return darkerHexColor;
@@ -69,7 +70,7 @@ const Nav = () => {
         sessionStorage.setItem('themeSettings', JSON.stringify(themeSettings));
         setUi(themeSettings);
     }, [themeSettings, setUi]); // Include setUi as a dependency if it affects cats fetching
-    
+
 
     const navigate = useNavigate()
 
@@ -115,6 +116,7 @@ const Nav = () => {
                         </ul>
                     </nav>
                     <div className='p-4 flex items-center justify-center gap-4'>
+                        <MicIcon className='cursor-pointer' onClick={()=>navigate('/speech')} style={{color : 'white', fontSize:'24px'}} />
                         <button onClick={hanleSignOut} className='px-16 py-3 border bg-[#2BC2D2] text-xs font-bold'>Sign Out</button>
                         <MenuIcon onClick={() => setShowOptions(!showOptions)} className="cursor-pointer" style={{ background: themeSettings.backgroundColor === '#000000' ? 'white' : '' }} />
                     </div>

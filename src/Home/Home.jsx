@@ -20,10 +20,10 @@ const Home = ({ country = 'in', category = 'general', pagesize = 6 }) => {
 
   useEffect(() => {
 
-    if (cat) {
 
-      fetchNews();
-    }
+
+    fetchNews();
+
     // getUi();
     document.getElementById('root').style.backgroundColor = ui.backgroundColor
   }, [country, category, pagesize, api, ui, cat]);
