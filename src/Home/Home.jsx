@@ -8,7 +8,7 @@ import { getUi } from '../Api/GetUi'
 import Nav from "./Nav";
 import { UiContext, catContext } from "../App";
 
-const Home = ({ country = 'in', category = '', pagesize = 6 }) => {
+const Home = ({ country = 'in', category = 'general', pagesize = 6 }) => {
   const [loading, setLoading] = useState(false);
   const [totalResults, setTotalResults] = useState(0);
   const [page, setPage] = useState(1);
