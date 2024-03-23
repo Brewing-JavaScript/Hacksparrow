@@ -1,27 +1,14 @@
-import puppeteer from 'puppeteer';
+import { translate } from 'google-translate-api-x';
 
-async function transcribeSpeech() {
-    const browser = await puppeteer.launch();
-    const page = await browser.newPage();
-    await page.goto('https://www.google.com/intl/en/chrome/demos/speech.html');
+async function performTranslation() {
+  try {
+    const res = await translate('how are you', { to: 'hi' });
 
-    const transcription = await page.evaluate(() => {
-        return new Promise((resolve, reject) => {
-            const recognition = new webkitSpeechRecognition();
-            recognition.onresult = (event) => {
-                const speechToText = event.results[0][0].transcript;
-                resolve(speechToText);
-            };
-            recognition.onerror = (event) => {
-                reject(event.error);
-            };
-            recognition.start();
-        });
-    });
-
-    console.log('Transcription:', transcription);
-
-    await browser.close();
+    console.log(res.text); // Output: I speak English
+    console.log(res.from.language.iso); // Output: nl
+  } catch (error) {
+    console.error('Error during translation:', error);
+  }
 }
 
-transcribeSpeech();
+performTranslation();
