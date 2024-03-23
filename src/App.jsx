@@ -44,6 +44,7 @@ function App() {
             <Route path="/speech" element={<SpeechToText />} />
             <Route path="/recomendation" element={<Recommendation />} />
             <Route path="/tts" element={<TextToSpeechTrial />} />
+            <Route path="/recommendation" element={<Recommendation />} />
 
           </Routes>
         </Router>
