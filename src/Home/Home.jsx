@@ -51,7 +51,7 @@ const Home = ({ country = "in", category = "general", pagesize = 6 }) => {
   return (
     <>
       {" "}
-      {loading && <Loader message={"loading news..."} />}
+      {loading && <Loader message={"Loading News..."} />}
       <Nav />
       <div
         style={{ backgroundColor: ui.backgroundColor, color: ui.textColor }}

@@ -102,7 +102,7 @@ const Community = () => {
   return (
     <>
       {
-        loader ? <Loader message={"submitting feedback..."} /> : <div className="container mx-auto px-4 py-8">
+        loader ? <Loader message={"Submitting Feedback..."} /> : <div className="container mx-auto px-4 py-8">
           <h1 className="text-3xl font-bold mb-4">Community Feedback</h1>
 
           {/* Feedback Form */}

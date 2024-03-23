@@ -6,6 +6,11 @@
   text-align: center;
 }
 
+body {
+  font-family: "Times New Roman", Times, serif;
+}
+
+
 .App-logo {
   height: 40vmin;
   pointer-events: none;
