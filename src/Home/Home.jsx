@@ -17,6 +17,7 @@ const Home = ({ country = 'in', category = '', pagesize = 6 }) => {
   useEffect(() => {
     // fetchNews();
     // getUi();
+    document.getElementById('root').style.backgroundColor = ui.backgroundColor
   }, [country, category, pagesize, api, ui]);
 
 

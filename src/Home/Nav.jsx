@@ -53,7 +53,7 @@ const Nav = () => {
     }, [themeSettings, setUi]);
 
     return (
-        <div className='relative'>
+        <div className='relative' style={{backgroundColor: themeSettings.backgroundColor}}>
             <div className='flex items-center justify-between w-full h-20 border p-4'>
                 <div className='w-12 h-full'>
                     <img
@@ -63,7 +63,7 @@ const Nav = () => {
                     />
                 </div>
                 <div className='p-4 flex items-center justify-center'>
-                    <MenuIcon onClick={() => setShowOptions(!showOptions)} className="cursor-pointer" />
+                    <MenuIcon onClick={() => setShowOptions(!showOptions)} className="cursor-pointer" style={{background: themeSettings.backgroundColor === '#000000'? 'white' : ''}} />
                 </div>
             </div>
 
