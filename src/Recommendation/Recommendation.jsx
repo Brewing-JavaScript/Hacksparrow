@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import api from '../Api/Api';
+import { useNavigate } from "react-router-dom";
 
 function Recommendation({ userId }) {
   const keywords = [
@@ -11,6 +12,26 @@ function Recommendation({ userId }) {
     "sports",
     "technology",
   ];
+  const [cats, setCats] = useState([])
+
+  useEffect(() => {
+    getCats()
+  }, [])
+
+  const getCats = () => {
+    const userInSession = sessionStorage.getItem('_id');
+    const _id = JSON.parse(userInSession);
+    try {
+      api.post('/get-cats', { _id }).then((res) => {
+        setCats(res.data)
+        setSelectedKeywords(res.data)
+      })
+    } catch (error) {
+
+      console.log(error.message);
+
+    }
+  }
 
   // Initialize selectedKeywords state with all false values
   const [selectedKeywords, setSelectedKeywords] = useState(Array(keywords.length).fill(false));
@@ -34,15 +55,19 @@ function Recommendation({ userId }) {
     }
   };
 
+  const navigate = useNavigate()
+
   const handleSaveCategories = () => {
     updateCategories();
+    navigate('/')
+
   };
 
   return (
     <div className="bg-gray-100 min-h-screen py-8">
       <div className="container mx-auto px-4">
         <h1 className="text-3xl font-bold text-center mb-8">
-          Select your Preferences
+          {cats ? "Your Preferences" : "select your preference"}
         </h1>
 
         <div className="flex flex-wrap gap-4 justify-center">
@@ -50,9 +75,8 @@ function Recommendation({ userId }) {
             <div
               key={index}
               onClick={() => toggleKeyword(index)}
-              className={`flex items-center justify-center bg-blue-200 rounded-[1.6rem] p-4 text-lg cursor-pointer ${
-                selectedKeywords[index] ? "border-green-500 border-4" : ""
-              }`}
+              className={`flex items-center justify-center bg-blue-200 rounded-[1.6rem] p-4 text-lg cursor-pointer ${selectedKeywords[index] ? "border-green-500 border-4" : ""
+                }`}
             >
               {keyword}
               {selectedKeywords[index] ? (
@@ -92,7 +116,7 @@ function Recommendation({ userId }) {
 
         <div className="flex justify-center mt-4">
           <button onClick={handleSaveCategories} className="bg-green-500 text-white px-4 py-2 rounded-md">
-            Save Categories
+            {cats ? "Home Page" : "Save Categories"}
           </button>
         </div>
       </div>
