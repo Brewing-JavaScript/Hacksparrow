@@ -1,7 +1,9 @@
-import React, { useState, useEffect, useContext } from "react";
-import MenuIcon from "@mui/icons-material/Menu";
-import { UiContext, catContext } from "../App";
-import axios from "axios";
+import React, { useState, useEffect, useContext } from 'react';
+import MenuIcon from '@mui/icons-material/Menu';
+import { UiContext, catContext } from '../App';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import api from '../Api/Api';
 
 const Nav = () => {
   const [showOptions, setShowOptions] = useState(false);
@@ -66,10 +68,34 @@ const Nav = () => {
     }));
   };
 
-  useEffect(() => {
-    sessionStorage.setItem("themeSettings", JSON.stringify(themeSettings));
-    setUi(themeSettings);
-  }, [themeSettings, setUi]);
+    useEffect(() => {
+        getCats(); // Always fetch cats when component mounts or themeSettings/setUi change
+        sessionStorage.setItem('themeSettings', JSON.stringify(themeSettings));
+        setUi(themeSettings);
+    }, [themeSettings, setUi]); // Include setUi as a dependency if it affects cats fetching
+    
+
+    const navigate = useNavigate()
+
+    const hanleSignOut = () => {
+        sessionStorage.clear()
+        navigate('/auth')
+
+    }
+
+    const getCats = () => {
+        const userInSession = sessionStorage.getItem('_id');
+        const _id = JSON.parse(userInSession);
+        try {
+            api.post('/get-cats', { _id }).then((res) => {
+                setCats(res.data)
+            })
+        } catch (error) {
+
+            console.log(error.message);
+
+        }
+    }
 
   return (
     <div
