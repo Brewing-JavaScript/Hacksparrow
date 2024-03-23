@@ -2,7 +2,10 @@ import express from "express";
 import mongoose from "mongoose";
 import path from "path";
 import { v2 } from "cloudinary";
+import { translate } from 'google-translate-api-x';
 import cloudinary from "cloudinary";
+import http from "http";
+import qs from "querystring";
 import fs from "fs/promises";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import nodemailer from "nodemailer";
@@ -32,8 +35,6 @@ mongoose.connect(
     autoIndex: true,
   }
 );
-
-
 
 const sendEmail = async function (data, user) {
   console.log("varad");
@@ -425,6 +426,67 @@ server.post("/get-cats", async (req, res) => {
   }
 });
 
+const options = {
+  method: "POST",
+  hostname: "google-translate1.p.rapidapi.com",
+  port: null,
+  path: "/language/translate/v2/detect",
+  headers: {
+    "content-type": "application/x-www-form-urlencoded",
+    "Accept-Encoding": "application/gzip",
+    "X-RapidAPI-Key": "c15630ab9dmsh811b42e0068f62ap1cc5c9jsnc2f3abffc7ec",
+    "X-RapidAPI-Host": "google-translate1.p.rapidapi.com",
+  },
+};
+
+// server.post("/translate", (req, res) => {
+//   const textToTranslate = "hii , how are u ";
+
+//   const translateOptions = { ...options };
+//   translateOptions.path = "/language/translate/v2";
+
+//   const translateReq = http.request(translateOptions, (translateRes) => {
+//     const chunks = [];
+
+//     translateRes.on("data", (chunk) => {
+//       chunks.push(chunk);
+//     });
+
+//     translateRes.on("end", () => {
+//       const body = Buffer.concat(chunks);
+//       const translatedText = JSON.parse(body.toString());
+//       res.json({ translatedText });
+//     });
+//   });
+
+//   translateReq.write(
+//     qs.stringify({
+//       q: textToTranslate,
+//       target: "hi", // Change 'fr' to the desired target language code
+//     })
+//   );
+//   res.send({translatedText });
+//   translateReq.end();
+// });
+
+server.post("/translate", async (req, res) => {
+  const { text } = req.body; // Extract text to translate and target language from request body
+
+
+  try {
+    // Perform translation using google-translate-api-x
+    const translation = await translate(text, { to: "hi" });
+
+    // Send the translated text in the response
+    res.json({
+      translatedText: translation.text,
+      fromLanguage: translation.from.language.iso,
+    });
+  } catch (error) {
+    console.error("Error during translation:", error);
+    res.status(500).json({ error: "Translation failed" }); // Send an error response
+  }
+});
 server.listen(PORT, () => {
   console.log(`listing on ${PORT}`);
 });
