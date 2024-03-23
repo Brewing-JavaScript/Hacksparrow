@@ -22,6 +22,7 @@ const TextToSpeechTrial = () => {
         <option value="zh-CN">Chinese</option>
 
         {/* Add more language options as needed */}
+
       </select>
       <button onClick={handleSpeak}>Speak</button>
     </div>
@@ -29,3 +30,11 @@ const TextToSpeechTrial = () => {
 };
 
 export default TextToSpeechTrial;
+
+// ORIGINAL CODE
+
+
+
+
+
+
