@@ -1,56 +1,41 @@
-
-
 import React, { useState, useEffect } from "react";
+import api from '../Api/Api';
 
-function Recommendation() {
+function Recommendation({ userId }) {
   const keywords = [
-    "Technology",
-    "Sports",
-    "Budget",
-    "Science",
-    "Entertainment",
-    "Fashion",
-    "Food",
-    "Travel",
-    "Health",
-    "Fitness",
-    "Art",
-    "Music",
-    "Books",
-    "Movies",
-    "Gaming",
-    "Business",
-    "Politics",
-    "Education",
-    "Environment",
-    "Pets",
-    "Home",
-    "DIY",
-    "Crafts",
-    "Cars",
-    "Photography",
-    "Beauty",
-    "Lifestyle",
-    "Spirituality",
-    "History",
-    "Parenting",
+    "business",
+    "entertainment",
+    "general",
+    "health",
+    "science",
+    "sports",
+    "technology",
   ];
 
-  // Initialize selectedKeywords state with values from sessionStorage or default to all false
-  const [selectedKeywords, setSelectedKeywords] = useState(() => {
-    const storedKeywords = JSON.parse(sessionStorage.getItem("selectedKeywords"));
-    return storedKeywords || Array(keywords.length).fill(false);
-  });
-
-  // Update sessionStorage whenever selectedKeywords changes
-  useEffect(() => {
-    sessionStorage.setItem("selectedKeywords", JSON.stringify(selectedKeywords));
-  }, [selectedKeywords]);
+  // Initialize selectedKeywords state with all false values
+  const [selectedKeywords, setSelectedKeywords] = useState(Array(keywords.length).fill(false));
 
   const toggleKeyword = (index) => {
     const updatedKeywords = [...selectedKeywords];
     updatedKeywords[index] = !updatedKeywords[index];
     setSelectedKeywords(updatedKeywords);
+  };
+
+  const updateCategories = async () => {
+    const selectedCategories = keywords.filter((_, idx) => selectedKeywords[idx]);
+    const userInSession = sessionStorage.getItem('_id');
+    const _id = JSON.parse(userInSession);
+
+    try {
+      await api.post('/update-cats', { cats: selectedCategories, _id });
+      console.log("Categories updated successfully");
+    } catch (error) {
+      console.error("Error updating categories:", error);
+    }
+  };
+
+  const handleSaveCategories = () => {
+    updateCategories();
   };
 
   return (
@@ -65,7 +50,7 @@ function Recommendation() {
             <div
               key={index}
               onClick={() => toggleKeyword(index)}
-              className={`flex items-center justify-center bg-blue-200 rounded-[1.6rem] p-4 text-lg  cursor-pointer hover:scale-110 ${
+              className={`flex items-center justify-center bg-blue-200 rounded-[1.6rem] p-4 text-lg cursor-pointer ${
                 selectedKeywords[index] ? "border-green-500 border-4" : ""
               }`}
             >
@@ -103,6 +88,12 @@ function Recommendation() {
               )}
             </div>
           ))}
+        </div>
+
+        <div className="flex justify-center mt-4">
+          <button onClick={handleSaveCategories} className="bg-green-500 text-white px-4 py-2 rounded-md">
+            Save Categories
+          </button>
         </div>
       </div>
     </div>
