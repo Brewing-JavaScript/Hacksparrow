@@ -54,11 +54,11 @@ const Home = ({ country = "in", category = "general", pagesize = 6 }) => {
       {loading && <Loader message={"loading news..."} />}
       <Nav />
       <div
-        style={{ backgroundColor: ui.backgroundColor, color: ui.textColor }}
-        className="container my-3 d-flex align-items-center justify-content-center flex-column varad"
+        style={{ backgroundColor: ui.backgroundColor, color: ui.textColor , width: "80%"}}
+        className="container my-3 d-flex align-items-center justify-content-center flex-column mx-auto"
       >
         <h1
-          className="text-center"
+          className="text-center mt-4"
           style={{ fontSize: "4rem", fontWeight: 700 }}
         >
           Top Headlines

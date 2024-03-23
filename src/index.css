@@ -98,6 +98,7 @@ nav ul li{
   display: grid;
   grid-template-columns: auto auto auto;
   row-gap: 2rem;
+  column-gap: 1rem;
 }
 
 #mainArea p{
