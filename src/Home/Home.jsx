@@ -66,7 +66,7 @@ const Home = ({ country = 'in', category = '', pagesize = 6 }) => {
 
             {loading && <Spinner />}
 
-            <div className="row">
+            <div className="row" style={{margin: "0 auto", width: "80%", display: "grid", gridTemplateColumns: "auto auto auto"}}>
                 {!loading &&
                     articles.map((ele) => (
                         <div className="col-md-4" key={ele.url}>

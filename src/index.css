@@ -40,6 +40,38 @@
   border-radius: 0.375rem;
   outline: none;
 }
+.article-container{
+  margin: 0 auto;
+  width: 70%;
+}
+
+#readability-page-1 #container img{
+  width: 5rem;
+  height: 5rem;
+  border-radius: 50%;
+}
+
+#dataHolder{
+  max-width: 70%;
+}
+
+#dataHolder h2{
+  font-size: 2rem;
+}
+
+#dataHolder p{
+  margin-bottom: 2rem;
+}
+
+figcaption{
+  font-size: 2rem;
+  width: 50%;
+  margin-left: 2rem;
+}
+
+figure{
+  display: flex;
+}
 
 .input:focus {
   border-color: black;
