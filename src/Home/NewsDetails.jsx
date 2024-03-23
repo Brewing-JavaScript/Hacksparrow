@@ -109,7 +109,22 @@ const ArticleDetail = () => {
 
             <div className="flex" style={{width: "50%", justifyContent: "space-between"}}>
                 <div className='border py-4 px-20 bg-red-300' onClick={translate}>translate</div>
-                {trans && (<button onClick={hindiSpeaking} className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded'>Speak</button>)}
+                {trans && (<button onClick={hindiSpeaking} className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded'>    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      aria-hidden="true"
+      focusable="false"
+      width="1em"
+      height="1em"
+      className="svg-inline--fa fa-volume-up fa-w-14"
+      viewBox="0 0 448 512"
+    >
+      <path
+        fill="currentColor"
+        d="M52 176h92.1c18.6 0 29.8-20.7 20.9-36.7-19.5-35.5-54.4-59.6-94.5-59.6H0v192h78.5c40.1 0 75 24.1 94.5 59.6 9 16 32.3 9.2 32.3-10.7V186.7c0-19.9-23.3-26.7-32.3-10.7-9.1 16-9.1 36.7-9.1 36.7H52c-6.6 0-12-5.4-12-12v-72c0-6.6 5.4-12 12-12zm366.8-21.4c-4.3-4.3-10.1-6.6-16-6.6H302.2c-5.9 0-11.7 2.3-16 6.6-4.2 4.2-6.6 10-6.6 16v131.5c0 19.9-23.3 26.7-32.3 10.7-9.1-16-9.1-36.7-9.1-36.7H192v93.7c0 20.9-23.3 26.7-32.3 10.7-9.1-16-9.1-36.7-9.1-36.7v-214c0-20.9 23.3-26.7 32.3-10.7 9.1 16 9.1 36.7 9.1 36.7h113.3c5.9 0 11.7 2.3 16 6.6 4.3 4.3 6.6 10.1 6.6 16v131.5c0 9.4 7.5 17.1 16.9 17.1 2.7 0 5.3-.6 7.8-1.7l103.7-47.5c6.5-3 10.7-9.7 10.7-16.8v-94.8c.1-6.9-4.2-13.3-10.8-16.6zM354.2 272l-69.3 31.8c-4.3 2-7.3 6.2-7.3 11.1v92.1l-82.6 37.9c-7.9 3.6-17.6-1.2-17.6-10.4V171.4c0-9.2 9.7-14 17.6-10.4l82.6 37.9v92.1c0 4.9 3 9.1 7.3 11.1l69.3 31.8c3.5 1.6 7.5.6 10.1-2.4 3.2-3.5 3.2-8.9 0-12.4zM416 256c0-30.9-25.1-56-56-56s-56 25.1-56 56 25.1 56 56 56 56-25.1 56-56zm32 0c0 44.2-35.8 80-80 80s-80-35.8-80-80 35.8-80 80-80 80 35.8 80 80z"
+      ></path>
+    </svg>
+
+</button>)}
                 
             </div>
 
