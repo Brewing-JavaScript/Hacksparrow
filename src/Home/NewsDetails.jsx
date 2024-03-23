@@ -1,12 +1,19 @@
 import React, { useState, useEffect, useContext } from 'react';
 import api from '../Api/Api';
 import { useParams } from 'react-router-dom';
-import { UrlContext } from '../App';
+import { UrlContext, UiContext } from '../App';
+
+
 
 const ArticleDetail = () => {
     const [article, setArticle] = useState(null);
     let { currentUrl, setCurrentUrl } = useContext(UrlContext)
+    let {ui} = useContext(UiContext);
 
+    useEffect(() => {
+        document.getElementById('root').style.backgroundColor = ui.backgroundColor;
+        document.getElementById('root').style.color = ui.textColor;
+    })
 
     useEffect(() => {
         console.log(currentUrl);
