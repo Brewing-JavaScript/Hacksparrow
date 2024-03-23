@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useContext } from "react";
 import api from "../Api/Api";
 import axios from "axios";
@@ -6,21 +5,21 @@ import { useParams } from "react-router-dom";
 import { UrlContext, UiContext } from "../App";
 import VolumeUpIcon from "@mui/icons-material/VolumeUp";
 import Loader from "../Loader/Spinner";
+import fetch from 'isomorphic-fetch';
+
 const ArticleDetail = () => {
   const [article, setArticle] = useState(null);
   const { currentUrl, setCurrentUrl } = useContext(UrlContext);
   const { ui } = useContext(UiContext);
   const [translatedArticle, setTranslatedArticle] = useState(null);
   const [analytics, setAnalytics] = useState(null);
-  const [loader, setLoader] = useState(false)
+  const [loader, setLoader] = useState(false);
+  const [summary, setSummary] = useState("");
+  const [speaking, setSpeaking] = useState(false);
 
   useEffect(() => {
-    // Used to cancel
-    // speechSynthesis.cancel();
-    // setSpeaking(false);
     const fetchData = async () => {
       try {
-
         if (currentUrl) {
           const responseDetailNews = await api.post("/detail-news", {
             currentUrl,
@@ -31,11 +30,9 @@ const ArticleDetail = () => {
             "http://localhost:5000/predict",
             { title: responseDetailNews.data.article.title }
           );
-
           setAnalytics(responsePredict.data);
         }
       } catch (error) {
-
         console.error("Error fetching data:", error);
       }
     };
@@ -44,8 +41,10 @@ const ArticleDetail = () => {
   }, [currentUrl]);
 
   useEffect(() => {
-    document.getElementById("news-page").style.backgroundColor = ui.backgroundColor;
-    document.getElementById("bgOfNews").style.backgroundColor = ui.backgroundColor;
+    document.getElementById("news-page").style.backgroundColor =
+      ui.backgroundColor;
+    document.getElementById("bgOfNews").style.backgroundColor =
+      ui.backgroundColor;
     document.getElementById("news-page").style.color = ui.textColor;
   });
 
@@ -62,6 +61,7 @@ const ArticleDetail = () => {
     );
     setTranslatedArticle(translatedContent);
   };
+
   const [trans, setTrans] = useState("");
 
   const translate = () => {
@@ -74,21 +74,10 @@ const ArticleDetail = () => {
     }
   };
 
-  // Text to speech
-  const [text, setText] = useState("");
-  const [lang, setLang] = useState("en-US"); // Default language is English (United States)
-  const [speaking, setSpeaking] = useState(false);
-
   const handleSpeak = () => {
     const utterance = new SpeechSynthesisUtterance(article.content);
-    utterance.lang = lang;
+    utterance.lang = "en-US";
     speechSynthesis.speak(utterance);
-    setSpeaking(true);
-  };
-
-  const handleStop = () => {
-    speechSynthesis.cancel();
-    setSpeaking(false);
   };
 
   const hindiSpeaking = () => {
@@ -97,17 +86,46 @@ const ArticleDetail = () => {
     speechSynthesis.speak(utterance);
   };
 
+  
+const summarizeArticle = async () => {
+  try {
+
+    // let currentUrl = 'https://www.moneycontrol.com/news/politics/tm-krishna-award-row-annamalai-zohos-sridhar-vembu-back-ranjani-gayatri-12511121.html'
+
+      const apiKey = 'd5e53e8c63760fc7cac37a74b6151770'; // Replace with your actual key
+
+      const formData = new FormData();
+      formData.append('key', apiKey);
+      formData.append('url', currentUrl);
+      formData.append('sentences', 5); // Adjust the number of sentences as needed
+
+      const response = await fetch('http://api.meaningcloud.com/summarization-1.0', {
+          method: 'POST',
+          body: formData,
+      });
+
+      const data = await response.json();
+      setSummary(data.summary);
+      return data.summary;
+  } catch (error) {
+      console.error('Error summarizing article:', error);
+      // Handle errors gracefully, e.g., display an error message to the user
+      return null; // Or return an empty string or error indicator
+  }
+};
+
   return (
     <>
-      {
-        loader ? <Loader /> : <div id="bgOfNews" className="w-full bg-gray-100">
+      {loader ? (
+        <Loader />
+      ) : (
+        <div id="bgOfNews" className="w-full bg-gray-100">
           <div className="max-w-screen-xl mx-auto px-4">
             <div id="news-page" className="news-page bg-white shadow-md rounded p-8 mb-4">
               {article ? (
                 <div>
                   <h2 className="text-2xl font-semibold mb-2">
                     {trans ? trans : article.title}
-                    
                     {trans && (
                       <VolumeUpIcon
                         onClick={hindiSpeaking}
@@ -120,7 +138,10 @@ const ArticleDetail = () => {
                   </h2>
                   <div
                     className="flex"
-                    style={{ width: "50%", justifyContent: "space-between" }}
+                    style={{
+                      width: "50%",
+                      justifyContent: "space-between",
+                    }}
                   >
                     <button
                       className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mb-8"
@@ -128,6 +149,7 @@ const ArticleDetail = () => {
                     >
                       Translate to Hindi
                     </button>
+                    
                   </div>
                   {analytics && (
                     <div
@@ -136,48 +158,50 @@ const ArticleDetail = () => {
                     >
                       <div className="flex flex-col items-center">
                         <div
-                          className={`text-xl font-semibold ${analytics.probabilities.fake >
+                          className={`text-xl font-semibold ${
+                            analytics.probabilities.fake >
                             analytics.probabilities.true
-                            ? "text-red-600"
-                            : "text-green-600"
-                            } animate-pulse`}
+                              ? "text-red-600"
+                              : "text-green-600"
+                          } animate-pulse`}
                         >
                           Fake Probability:
                         </div>
                         <div
-                          className={`text-2xl font-bold ${analytics.probabilities.fake >
+                          className={`text-2xl font-bold ${
+                            analytics.probabilities.fake >
                             analytics.probabilities.true
-                            ? "text-red-600"
-                            : "text-green-600"
-                            }`}
+                              ? "text-red-600"
+                              : "text-green-600"
+                          }`}
                         >
                           {analytics.probabilities.fake.toFixed(2)}%
                         </div>
                       </div>
                       <div className="flex flex-col items-center">
                         <div
-                          className={`text-xl font-semibold ${analytics.probabilities.true >
+                          className={`text-xl font-semibold ${
+                            analytics.probabilities.true >
                             analytics.probabilities.fake
-                            ? "text-green-600"
-                            : "text-red-600"
-                            } animate-pulse`}
+                              ? "text-green-600"
+                              : "text-red-600"
+                          } animate-pulse`}
                         >
                           True Probability:
                         </div>
                         <div
-                          className={`text-2xl font-bold ${analytics.probabilities.true >
+                          className={`text-2xl font-bold ${
+                            analytics.probabilities.true >
                             analytics.probabilities.fake
-                            ? "text-green-600"
-                            : "text-red-600"
-                            }`}
+                              ? "text-green-600"
+                              : "text-red-600"
+                          }`}
                         >
                           {analytics.probabilities.true.toFixed(2)}%
                         </div>
                       </div>
                     </div>
                   )}
-
-                  
 
                   <p className="text-gray-600 mb-2">{article.byline}</p>
                   <p className="text-gray-600 mb-2">
@@ -196,9 +220,10 @@ const ArticleDetail = () => {
                     }}
                   ></div>
                   <p className="text-gray-600">Length: {article.length} words</p>
+                
                 </div>
               ) : (
-                <Loader/>
+                <Loader />
               )}
 
               <div>
@@ -208,7 +233,7 @@ const ArticleDetail = () => {
                     handleSpeak();
                   }}
                   className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-6"
-                  style={{backgroundColor: ui.textColor, color: ui.backgroundColor}}
+                  style={{ backgroundColor: ui.textColor, color: ui.backgroundColor }}
                 >
                   Text to Speech
                 </button>
@@ -220,13 +245,27 @@ const ArticleDetail = () => {
                     Stop
                   </button>
                 )}
+                <button
+                      className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-8"
+                      onClick={summarizeArticle}
+                    >
+                      Summarize
+                    </button>
+                    {summary && (
+                    <div className="mt-4">
+                      <h3 className="text-xl font-semibold mb-2">Summary:</h3>
+                      <p>{summary}</p>
+                    </div>
+                  )}
+                  
               </div>
             </div>
           </div>
         </div>
-      }
+      )}
     </>
   );
 };
 
 export default ArticleDetail;
+
