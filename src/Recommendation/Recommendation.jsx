@@ -1,62 +1,4 @@
-// import React from "react";
 
-// function Recommendation() {
-//   const keywords = [
-//     "Technology",
-//     "Sports",
-//     "Budget",
-//     "Science",
-//     "Entertainment",
-//     "Fashion",
-//     "Food",
-//     "Travel",
-//     "Health",
-//     "Fitness",
-//     "Art",
-//     "Music",
-//     "Books",
-//     "Movies",
-//     "Gaming",
-//     "Business",
-//     "Politics",
-//     "Education",
-//     "Environment",
-//     "Pets",
-//     "Home",
-//     "DIY",
-//     "Crafts",
-//     "Cars",
-//     "Photography",
-//     "Beauty",
-//     "Lifestyle",
-//     "Spirituality",
-//     "History",
-//     "Parenting",
-//   ];
-
-//   return (
-//     <div className="bg-gray-100 min-h-screen py-8">
-//       <div className="container mx-auto px-4">
-//         <h1 className="text-3xl font-bold text-center mb-8">
-//           Select your Preferences
-//         </h1>
-
-//         <div className="flex flex-wrap gap-4 justify-center">
-//           {keywords.map((keyword, index) => (
-//             <div
-//               key={index}
-//               className="bg-blue-200 rounded-[1.6rem]  p-4 text-lg flex items-center justify-center"
-//             >
-//               {keyword}
-//             </div>
-//           ))}
-//         </div>
-//       </div>
-//     </div>
-//   );
-// }
-
-// export default Recommendation;
 
 import React, { useState, useEffect } from "react";
 
@@ -112,7 +54,7 @@ function Recommendation() {
   };
 
   return (
-    <div className="bg-gray-100 min-h-screen py-8">
+    <div className="bg-slate-200 min-h-screen py-8">
       <div className="container mx-auto px-4">
         <h1 className="text-3xl font-bold text-center mb-8">
           Select your Preferences
@@ -123,7 +65,7 @@ function Recommendation() {
             <div
               key={index}
               onClick={() => toggleKeyword(index)}
-              className={`flex items-center justify-center bg-blue-200 rounded-[1.6rem] p-4 text-lg  cursor-pointer ${
+              className={`flex items-center justify-center bg-blue-200 rounded-[1.6rem] p-4 text-lg  cursor-pointer hover:scale-110 ${
                 selectedKeywords[index] ? "border-green-500 border-4" : ""
               }`}
             >
