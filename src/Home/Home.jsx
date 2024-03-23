@@ -1,18 +1,24 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import '../App.css';
 import NewsItem from "./NewsItem";
 import { Spinner } from "flowbite-react";
 import toast from "react-hot-toast";
 import api from '../Api/Api'
+import { getUi } from '../Api/GetUi'
 import Nav from "./Nav";
+import { UiContext } from "../App";
 
 const Home = ({ country = 'in', category = '', pagesize = 6 }) => {
-  // const [articles, setArticles] = useState([]);
-
   const [loading, setLoading] = useState(false);
   const [totalResults, setTotalResults] = useState(0);
   const [page, setPage] = useState(1);
 
+  const { ui } = useContext(UiContext); // Destructure ui from UiContext
+  console.log(ui);
+  useEffect(() => {
+    // fetchNews();
+    // getUi();
+  }, [country, category, pagesize, api, ui]);
 
 
   let articles = {
@@ -100,54 +106,13 @@ const Home = ({ country = 'in', category = '', pagesize = 6 }) => {
     ]
   }
 
-
-  useEffect(() => {
-
-    // fetchNews()
-
-  }, [country, category, pagesize, api]);
-
-  const fetchNews = () => {
-    try {
-      api.post('/news').then((res) => {
-        setArticles(res.data.articles)
-      })
-
-    } catch (error) {
-
-      toast.error(error.message)
-
-    }
-  }
-
-  const handleNextClick = async () => {
-    if (!(page + 1 > Math.ceil(totalResults / pagesize))) {
-      setLoading(true);
-      let url = `https://newsapi.org/v2/top-headlines?country=${country}&category=${category}&apiKey=${api}&page=${page + 1}&pageSize=${pagesize}`;
-      let data = await fetch(url);
-      let parsedData = await data.json();
-
-      setArticles(parsedData.articles);
-      setPage(page + 1);
-      setLoading(false);
-    }
-  };
-
-  const handlePreviousClick = async () => {
-    setPage(page - 1);
-    setLoading(true);
-    let url = `https://newsapi.org/v2/top-headlines?country=${country}&category=${category}&apiKey=${api}&page=${page - 1}&pageSize=${pagesize}`;
-    let data = await fetch(url);
-    let parsedData = await data.json();
-
-    setArticles(parsedData.articles);
-    setLoading(false);
-  };
+  // Your fetchNews, handleNextClick, and handlePreviousClick functions here
+  const backgroundColor = ui.backgroundColor || '#ffffff';
 
   return (
     <>
       <Nav />
-      <div className="container my-3 d-flex align-items-center justify-content-center flex-column varad">
+      <div style={{ backgroundColor: ui.backgroundColor && ui.backgroundColor, color: ui.textColor && ui.textColor }} className={"container my-3 d-flex align-items-center justify-content-center flex-column varad bg-[" + { backgroundColor } + "]"}>
         <h1 className="text-center">Top headlines</h1>
 
         {loading && <Spinner />}
@@ -168,17 +133,13 @@ const Home = ({ country = 'in', category = '', pagesize = 6 }) => {
               </div>
             ))}
         </div>
-        <div className="container d-flex justify-content-between">
+        {/* <div className="container d-flex justify-content-between">
           <button disabled={page < 1} type="button" className="btn btn-dark" onClick={handlePreviousClick}>&larr; Previous</button>
           <button disabled={page + 1 > Math.ceil(totalResults / pagesize)} type="button" className="btn btn-dark" onClick={handleNextClick}>Next &rarr;</button>
-        </div>
+        </div> */}
       </div>
     </>
   );
 };
 
 export default Home;
-
-
-
-
