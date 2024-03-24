@@ -138,10 +138,10 @@ const Nav = () => {
       >
         <div className="flex items-center justify-between" style={{ width: "80%", margin: "0 auto" }}>
 
-          <div className="w-20 h-full flex" style={{ alignItems: "center" }}>
+          <div className="w-20 h-full flex -translate-x-20" style={{ alignItems: "center" }}>
             <img
               style={{ width: "4rem", marginRight: "1rem" }}
-              className="w-full h-full rounded-full"
+              className="w-full h-full rounded-full "
               src="https://ideogram.ai/api/images/direct/5_ghuJHaTzKEhrH7Rq4Q5A.png"
               alt="logo"
             />
