@@ -75,6 +75,9 @@ const ArticleDetail = () => {
     }
   };
 
+  const [text, setText] = useState("");
+  const [lang, setLang] = useState("en-US"); // Default language is English (United States)
+
   const handleSpeak = () => {
     const utterance = new SpeechSynthesisUtterance(article.content);
     utterance.lang = "en-US";
