@@ -8,6 +8,7 @@ import SpeechToText from "./speechToText/SpeechToText";
 import TextToSpeechTrial from "./TextToSpeechTrial";
 import Recommendation from "./Recommendation/Recommendation";
 import Community from "./Home/Community";
+import Query from "./Home/Query";
 
 // import Speech from "./Speech/Speech";
 
@@ -43,6 +44,7 @@ function App() {
             <Route path="/tts" element={<TextToSpeechTrial />} />
             <Route path="/recommendation" element={<Recommendation />} />
             <Route path="/feedback" element={<Community />} />
+            <Route path="/query" element={<Query />} />
 
           </Routes>
         </Router>
