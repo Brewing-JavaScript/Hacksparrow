@@ -4,13 +4,13 @@ import { useNavigate } from "react-router-dom";
 
 function Recommendation({ userId }) {
   const keywords = [
-    "business",
-    "entertainment",
-    "general",
-    "health",
-    "science",
-    "sports",
-    "technology",
+    "Business",
+    "Entertainment",
+    "General",
+    "Health",
+    "Science",
+    "Sports",
+    "Technology",
   ];
   const [cats, setCats] = useState([])
 
@@ -27,13 +27,10 @@ function Recommendation({ userId }) {
         setSelectedKeywords(res.data)
       })
     } catch (error) {
-
       console.log(error.message);
-
     }
   }
 
-  // Initialize selectedKeywords state with all false values
   const [selectedKeywords, setSelectedKeywords] = useState(Array(keywords.length).fill(false));
 
   const toggleKeyword = (index) => {
@@ -60,14 +57,13 @@ function Recommendation({ userId }) {
   const handleSaveCategories = () => {
     updateCategories();
     navigate('/')
-
   };
 
   return (
     <div className=" min-h-screen py-8 " style={{background: "rgb(12, 12, 12)"}}>
       <div className="container mx-auto px-4">
         <h1 className="text-3xl font-bold text-center mb-8">
-          {cats ? "Your Preferences" : "select your preference"}
+          {cats ? "Your Preferences" : "Select Your Preferences"}
         </h1>
 
         <div className="flex flex-wrap gap-4 justify-center">
@@ -115,9 +111,19 @@ function Recommendation({ userId }) {
         </div>
 
         <div className="flex justify-center mt-4">
-          <button onClick={handleSaveCategories} className="bg-green-500 text-white px-4 py-2 rounded-md">
-            {cats ? "Home Page" : "Save Categories"}
+          <button onClick={handleSaveCategories} className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600">
+            {cats ? "Return to Home" : "Save Preferences"}
           </button>
+        </div>
+      </div>
+
+      {/* Additional Content Section */}
+      <div className="bg-[#E2E8F0] py-8 mt-8">
+        <div className="container mx-auto px-4">
+          <h2 className="text-2xl font-semibold mb-4 text-center">Why Choose Your Preferences?</h2>
+          <p className="text-lg text-center text-gray-700">
+            Selecting your preferences helps us tailor content specifically for you. Get personalized recommendations and stay updated with the latest news and topics that matter to you the most.
+          </p>
         </div>
       </div>
     </div>

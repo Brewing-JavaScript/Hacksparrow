@@ -1,4 +1,5 @@
-# Vega
+# Hacksparrow
+# WebNews
 
 We are Team Brewing JavaScript
 
