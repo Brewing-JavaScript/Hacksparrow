@@ -70,7 +70,7 @@ const Home = ({ country = "in", category = "general", pagesize = 6 }) => {
           onClick={() => navigate("/recommendation")}
           className="h-16 w-52 border absolute -left-20 top-[35rem] bg-red-600 -rotate-90 flex items-center justify-center text-2xl font-bold text-white rounded-xl cursor-pointer hover:scale-110 duration-150"
         >
-          categories
+          Preferences
         </div>
         <h1 className="text-center" style={{ fontSize: "4rem", fontWeight: 700 }}>
           Top Headlines
