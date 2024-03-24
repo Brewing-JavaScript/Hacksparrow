@@ -55,7 +55,7 @@ const Home = ({ country = "in", category = "general", pagesize = 6 }) => {
   return (
     <>
       {loading && <Loader message={"Loading news..."} />}
-      <Nav />
+      <Nav /> 
       <div
         style={{ backgroundColor: ui.backgroundColor, color: ui.textColor }}
         className="d-flex align-items-center justify-content-center flex-column varad"
@@ -70,13 +70,13 @@ const Home = ({ country = "in", category = "general", pagesize = 6 }) => {
           onClick={() => navigate("/recommendation")}
           className="h-16 w-52 border absolute -left-20 top-[35rem] bg-red-600 -rotate-90 flex items-center justify-center text-2xl font-bold text-white rounded-xl cursor-pointer hover:scale-110 duration-150"
         >
-          categories
+          Preferences
         </div>
         <h1 className="text-center" style={{ fontSize: "4rem", fontWeight: 700 }}>
           Top Headlines
         </h1>
 
-        <div className="row">
+        <div className="row" style={{width: "80%", margin: "0 auto"}}>
           {!loading &&
             articles.map((ele) => (
               <div className="col-md-4" key={ele.url}>

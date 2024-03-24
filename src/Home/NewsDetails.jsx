@@ -125,18 +125,19 @@ const ArticleDetail = () => {
 
   const sendmail = (sum) => {
     try {
-      setLoader(true);
+
+      const loader = toast.loading('sending email...')
       const userInSession = sessionStorage.getItem("_id");
       const _id = JSON.parse(userInSession);
       api
         .post("/send-sum-mail", { sum, _id })
         .then((res) => {
-          setLoader(false);
-          toast.success("mail send");
+          toast.dismiss(loader)
+          return toast.success("mail send");
         })
         .catch((err) => {
-          setLoader(false);
-          toast.error(err.message);
+          toast.dismiss(loader)
+          return toast.error(err.message);
         });
     } catch (error) {
       console.log(error);
@@ -189,44 +190,40 @@ const ArticleDetail = () => {
                     >
                       <div className="flex flex-col items-center">
                         <div
-                          className={`text-xl font-semibold ${
-                            analytics.probabilities.fake >
+                          className={`text-xl font-semibold ${analytics.probabilities.fake >
                             analytics.probabilities.true
-                              ? "text-red-600"
-                              : "text-green-600"
-                          } animate-pulse`}
+                            ? "text-red-600"
+                            : "text-green-600"
+                            } animate-pulse`}
                         >
                           Fake Probability:
                         </div>
                         <div
-                          className={`text-2xl font-bold ${
-                            analytics.probabilities.fake >
+                          className={`text-2xl font-bold ${analytics.probabilities.fake >
                             analytics.probabilities.true
-                              ? "text-red-600"
-                              : "text-green-600"
-                          }`}
+                            ? "text-red-600"
+                            : "text-green-600"
+                            }`}
                         >
                           {analytics.probabilities.fake.toFixed(2)}%
                         </div>
                       </div>
                       <div className="flex flex-col items-center">
                         <div
-                          className={`text-xl font-semibold ${
-                            analytics.probabilities.true >
+                          className={`text-xl font-semibold ${analytics.probabilities.true >
                             analytics.probabilities.fake
-                              ? "text-green-600"
-                              : "text-red-600"
-                          } animate-pulse`}
+                            ? "text-green-600"
+                            : "text-red-600"
+                            } animate-pulse`}
                         >
                           True Probability:
                         </div>
                         <div
-                          className={`text-2xl font-bold ${
-                            analytics.probabilities.true >
+                          className={`text-2xl font-bold ${analytics.probabilities.true >
                             analytics.probabilities.fake
-                              ? "text-green-600"
-                              : "text-red-600"
-                          }`}
+                            ? "text-green-600"
+                            : "text-red-600"
+                            }`}
                         >
                           {analytics.probabilities.true.toFixed(2)}%
                         </div>
@@ -257,7 +254,7 @@ const ArticleDetail = () => {
                 <Loader />
               )}
 
-              <div>
+              <div className="space-x-4">
                 <button
                   onClick={() => {
                     handleSpeak(article.content);
@@ -287,12 +284,12 @@ const ArticleDetail = () => {
                 {summary && (
                   <div className="mt-4">
                     <h3 className="text-xl font-semibold mb-2">Summary:</h3>
-                    <p>{summary}</p>
+                    <p class="text-lg">{summary}</p>
                     <button
                       className="py-4 px-12 border bg-black text-white text-xl m-4"
                       onClick={() => sendmail(summary)}
                     >
-                      Send Mail
+                      Send Mail 📧
                     </button>
                   </div>
                 )}

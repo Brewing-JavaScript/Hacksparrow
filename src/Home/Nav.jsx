@@ -128,23 +128,26 @@ const Nav = () => {
       style={{ backgroundColor: themeSettings.backgroundColor }}
     >
       <div
-        className="mt-4 flex items-center justify-between w-full h-28 border p-4 rounded-2xl"
-        style={{ backgroundColor: darkenColor(themeSettings.backgroundColor) }}
+        className="flex items-center justify-between w-full h-28 p-4 rounded-2xl"
+        style={{ backgroundColor: themeSettings.backgroundColor }}
       >
-        <div className="container flex items-center justify-between">
-          <div className="w-20 h-full rounded-full overflow-hidden">
+        <div className="flex items-center justify-between" style={{width: "80%", margin: "0 auto"}}>
+
+          <div className="w-20 h-full flex" style={{alignItems: "center"}}> 
             <img
-              className="w-full h-full object-cover"
+            style={{width: "4rem", marginRight: "1rem"}}
+              className="w-full h-full rounded-full"
               src="https://ideogram.ai/api/images/direct/5_ghuJHaTzKEhrH7Rq4Q5A.png"
               alt="logo"
             />
+            <h3 style={{fontSize: "2rem", fontWeight: 600}}>NewsWeb</h3>
           </div>
-          <nav className="flex gap-12">
+          <nav className="flex gap-12 items-center">
             {cats.length &&
               cats.map((cate, i) => (
                 <div
-                  style={{ color: themeSettings.textColor }}
-                  className="m-2 text-xl font-bold cursor-pointer capitalize transition duration-300 ease-in-out hover:bg-gray-200 hover:shadow-md px-4 py-2 rounded-lg"
+                  style={{ color: themeSettings.textColor, fontStyle: "normal" }}
+                  className="m-2 text-xl cursor-pointer capitalize transition duration-300 ease-in-out hover:bg-gray-200 hover:shadow-md px-2 py-2 rounded-lg"
                   key={i}
                   onClick={() => setCat(cate)}
                 >
@@ -152,11 +155,11 @@ const Nav = () => {
                 </div>
               ))}
           </nav>
-          <div className="p-4 flex items-center justify-center gap-4">
+          <div className="flex items-center justify-center gap-4">
             <MicIcon
               className={`cursor-pointer ${listening ? 'text-green-500' : 'text-gray-500'}`}
               onClick={toggleListening}
-              style={{ fontSize: "48px" }}
+              style={{ fontSize: "40px" }}
             />
             <MenuIcon
               onClick={() => setShowOptions(!showOptions)}
@@ -168,8 +171,10 @@ const Nav = () => {
               }}
             />
           </div>
+
         </div>
       </div>
+        <hr style={{width: "80%", margin: "0 auto", border: "1px solid " + themeSettings.textColor}}/>
       {showOptions && (
         <>
           <div
