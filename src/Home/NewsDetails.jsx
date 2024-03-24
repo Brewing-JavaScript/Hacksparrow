@@ -17,8 +17,11 @@ const ArticleDetail = () => {
   const [loader, setLoader] = useState(false);
   const [summary, setSummary] = useState("");
   const [speaking, setSpeaking] = useState(false);
+  const [theme , setTheme] = useState({})
 
   useEffect(() => {
+
+  
     const fetchData = async () => {
       try {
         if (currentUrl) {
@@ -259,6 +262,7 @@ const ArticleDetail = () => {
                     style={{width: "50%"}}
                   />
                   <div
+                  style={{fontSize:'20px'}}
                     className="article-content"
                     dangerouslySetInnerHTML={{
                       __html: translatedArticle || article.content,
