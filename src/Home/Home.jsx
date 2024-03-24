@@ -62,29 +62,43 @@ const Home = ({ country = "in", category = "general", pagesize = 6 }) => {
       >
         <div
           onClick={() => navigate("/feedback")}
-          style={{color: ui.textColor, borderColor: ui.textColor}}
-          className="h-16 w-52 border absolute -left-20 top-[16rem] bg-red-600 -rotate-90 flex items-center justify-center text-2xl font-bold text-white rounded-xl cursor-pointer hover:scale-110 duration-15  0"
+          style={{ color: ui.textColor, borderColor: ui.textColor }}
+          className="h-16 w-52 border absolute -left-20 top-[13rem] bg-red-300 -rotate-90 flex items-center justify-center text-2xl font-bold text-white rounded-xl cursor-pointer hover:scale-110 duration-15  0"
         >
           Feedback
         </div>
         <div
           onClick={() => navigate("/recommendation")}
-          style={{color: ui.textColor, borderColor: ui.textColor}}
-          className="h-16 w-52 border absolute -left-20 top-[35rem] bg-red-600 -rotate-90 flex items-center justify-center text-2xl font-bold text-white rounded-xl cursor-pointer hover:scale-110 duration-150"
+          style={{ color: ui.textColor, borderColor: ui.textColor }}
+          className="h-16 w-52 border absolute -left-20 top-[29rem] bg-red-300 -rotate-90 flex items-center justify-center text-2xl font-bold text-white rounded-xl cursor-pointer hover:scale-110 duration-150"
         >
           Preferences
         </div>
-        <h1 className="text-center" style={{ fontSize: "4rem", fontWeight: 700 }}>
+        <div
+          onClick={() => navigate("/query")}
+          style={{ color: ui.textColor, borderColor: ui.textColor }}
+          className="h-16 w-52 border absolute -left-20 top-[45rem] bg-red-300 -rotate-90 flex items-center justify-center text-2xl font-bold text-white rounded-xl cursor-pointer hover:scale-110 duration-150"
+        >
+          Query
+        </div>
+        <h1
+          className="text-center"
+          style={{ fontSize: "4rem", fontWeight: 700 }}
+        >
           Top Headlines
         </h1>
 
-        <div className="row" style={{width: "80%", margin: "0 auto"}}>
+        <div className="row" style={{ width: "80%", margin: "0 auto" }}>
           {!loading &&
             articles.map((ele) => (
               <div className="col-md-4" key={ele.url}>
                 <NewsItem
                   title={ele.title ? ele.title.slice(0, 50) : ""}
-                  description={ele.description ? ele.description.slice(0, 90) : "description"}
+                  description={
+                    ele.description
+                      ? ele.description.slice(0, 90)
+                      : "description"
+                  }
                   imgUrl={ele.urlToImage}
                   newsurl={ele.url}
                   author={ele.author}
@@ -98,7 +112,7 @@ const Home = ({ country = "in", category = "general", pagesize = 6 }) => {
           <button
             disabled={page <= 1}
             type="button"
-            className="btn btn-dark"
+            className="bg-blue-300 text-black btn btn-dark px-4 py-2 rounded-2xl"
             onClick={handlePreviousClick}
           >
             &larr; Previous
@@ -106,7 +120,7 @@ const Home = ({ country = "in", category = "general", pagesize = 6 }) => {
           <button
             disabled={page >= Math.ceil(totalResults / pagesize)}
             type="button"
-            className="btn btn-dark"
+            className="bg-blue-300 text-black btn btn-dark px-4 py-2 rounded-2xl"
             onClick={handleNextClick}
           >
             Next &rarr;

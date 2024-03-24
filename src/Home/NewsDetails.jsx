@@ -17,8 +17,11 @@ const ArticleDetail = () => {
   const [loader, setLoader] = useState(false);
   const [summary, setSummary] = useState("");
   const [speaking, setSpeaking] = useState(false);
+  const [theme , setTheme] = useState({})
 
   useEffect(() => {
+
+  
     const fetchData = async () => {
       try {
         if (currentUrl) {
@@ -128,18 +131,19 @@ const ArticleDetail = () => {
 
   const sendmail = (sum) => {
     try {
-      setLoader(true);
+
+      const loader = toast.loading('sending email...')
       const userInSession = sessionStorage.getItem("_id");
       const _id = JSON.parse(userInSession);
       api
         .post("/send-sum-mail", { sum, _id })
         .then((res) => {
-          setLoader(false);
-          toast.success("mail send");
+          toast.dismiss(loader)
+          return toast.success("mail send");
         })
         .catch((err) => {
-          setLoader(false);
-          toast.error(err.message);
+          toast.dismiss(loader)
+          return toast.error(err.message);
         });
     } catch (error) {
       console.log(error);
@@ -258,6 +262,7 @@ const ArticleDetail = () => {
                     style={{width: "50%"}}
                   />
                   <div
+                  style={{fontSize:'20px'}}
                     className="article-content"
                     dangerouslySetInnerHTML={{
                       __html: translatedArticle || article.content,

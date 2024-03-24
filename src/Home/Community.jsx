@@ -28,9 +28,11 @@ const Community = () => {
   };
 
   const [loader, setLoader] = useState(false);
-  const [info, setInfo] = useState(false);
+  const [v,set] = useState(false);
+  const [info, setInfo] = useState({});
 
   useEffect(() => {
+    set(false)
     setLoader(true);
     api
       .get("/all-feedback")
@@ -42,7 +44,7 @@ const Community = () => {
         console.log(err.message);
         setLoader(false);
       });
-  }, []);
+  }, [v]);
 
   const handleSubmit = async (e) => {
     setLoader(true);
@@ -61,6 +63,7 @@ const Community = () => {
         .post("/feedback", { feedbackData })
         .then((res) => {
           setInfo(res.data);
+          set(true)
           setLoader(false);
           toast.success("Done..👍");
           setFeedbackText("");
@@ -95,6 +98,24 @@ const Community = () => {
 
     return parsedData;
   }
+
+// Function to calculate average rating
+function calculateAverageRating(feedbackData) {
+  if (!Array.isArray(feedbackData)) {
+      console.error('Feedback data is not an array.');
+      return null; // Handle the error or return a default value
+  }
+
+  // Calculate total sum of ratings
+  const totalRatings = feedbackData.reduce((sum, feedback) => sum + feedback.rating, 0);
+  
+  // Calculate average rating
+  const averageRating = totalRatings / feedbackData.length;
+
+  return averageRating;
+}
+
+
 
   return (
     <div
