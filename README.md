@@ -1,5 +1,5 @@
 # Hacksparrow
-# WebNews
+# InclusiveNews Hub
 
 We are Team Brewing JavaScript
 
