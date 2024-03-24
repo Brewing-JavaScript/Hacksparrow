@@ -257,7 +257,7 @@ const ArticleDetail = () => {
                 <Loader />
               )}
 
-              <div>
+              <div className="space-x-4">
                 <button
                   onClick={() => {
                     handleSpeak(article.content);
@@ -287,12 +287,12 @@ const ArticleDetail = () => {
                 {summary && (
                   <div className="mt-4">
                     <h3 className="text-xl font-semibold mb-2">Summary:</h3>
-                    <p>{summary}</p>
+                    <p class="text-lg">{summary}</p>
                     <button
                       className="py-4 px-12 border bg-black text-white text-xl m-4"
                       onClick={() => sendmail(summary)}
                     >
-                      Send Mail
+                      Send Mail 📧
                     </button>
                   </div>
                 )}
