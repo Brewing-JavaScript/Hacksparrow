@@ -142,10 +142,10 @@ const Nav = () => {
             <img
               style={{ width: "4rem", marginRight: "1rem" }}
               className="w-full h-full rounded-full "
-              src="https://ideogram.ai/api/images/direct/5_ghuJHaTzKEhrH7Rq4Q5A.png"
+              src="https://ideogram.ai/api/images/direct/M1vW8MwLRsOS5Ugs9K170Q.png"
               alt="logo"
             />
-            <h3 style={{ fontSize: "2rem", fontWeight: 600 }}>NewsWeb</h3>
+            <h3 style={{ fontSize: "2rem", fontWeight: 600 }}>Inclusive News</h3>
           </div>
           <nav className="flex gap-12 items-center">
             {cats.length &&
