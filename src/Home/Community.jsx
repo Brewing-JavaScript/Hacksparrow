@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { Rating, Typography } from "@mui/material";
 import toast from "react-hot-toast";
 import Loader from "../Loader/Spinner";
+// import 'flowbite/css/flowbite.css';
 
 const Community = () => {
   const [feedbackText, setFeedbackText] = useState("");
@@ -97,22 +98,25 @@ const Community = () => {
 
   return (
     <div
-    //  className="bg-[#252f3d]"
-    style={{background: "rgb(12, 12, 12)"}}
-     >
+      //  className="bg-[#252f3d]"
+      style={{ background: "rgb(12, 12, 12)" }}
+    >
       {loader ? (
         <Loader message={"submitting feedback..."} />
       ) : (
-        <div style={{width: "80%", margin: "0 auto"}}>
-          <h1 className="text-3xl font-bold  py-4 text-[#ffc144] ">
+        <div style={{ width: "80%", margin: "0 auto", padding: "2rem 0", fontSize: "3rem"}}>
+          <h1 className=" font-bold  py-4
+          // text-[#ffc144] 
+          text-white
+          ">
             Community Feedback
           </h1>
 
-          <div className="w-[100%] h-[91vh]  flex justify-between gap-[2rem]">
+          <div className="w-[100%]  flex justify-between gap-[2rem]" style={{height: "auto"}}>
             <div className="w-[70%]">
               <div
                 className="bg-slate-300 w-full rounded-lg  p-4 mb-6 "
-                // style={{boxShadow: "10px 10px 10px 20px #87b9ffd7" }}
+              // style={{boxShadow: "10px 10px 10px 20px #87b9ffd7" }}
               >
                 <h2 className="text-2xl font-bold mb-4">Rating</h2>
                 <Typography component="legend" className="font-bold text-2xl">
@@ -152,12 +156,13 @@ const Community = () => {
 
               {/* Feedback Form */}
               <div className="bg-slate-300 rounded-lg  p-2  ">
-                <h2 className="text-xl font-bold mb-2 ">Provide Feedback</h2>
+              <h2 className="text-xl font-bold mb-4">Provide Feedback</h2>
                 <form onSubmit={handleSubmit}>
                   <div className="mb-4">
                     <label
                       htmlFor="feedback"
                       className="block text-gray-700 font-semibold mb-2"
+                      style={{fontSize: "1rem"}}
                     >
                       Your Feedback:
                     </label>
@@ -175,6 +180,7 @@ const Community = () => {
                   <button
                     type="submit"
                     className="font-bold bg-gradient-to-b from-yellow-200 to-yellow-400 text-black px-4 py-2 rounded-md hover:bg-blue-600"
+                    style={{fontSize: "1rem"}}
                   >
                     Submit Feedback
                   </button>
@@ -183,10 +189,10 @@ const Community = () => {
             </div>
             <div className="w-full h-uto">
               {/* Recent Feedback */}
-              <div className="  bg-slate-300 rounded-lg  p-8 ">
-                <h2 className="text-xl font-bold ">Recent Feedback</h2>
-                <div className="space-y-2 ">
-                  {info.length &&
+              <div className="  bg-slate-300 rounded-lg  p-4 pr-8" >
+                <h2 className="text-xl font-bold mb-4">Recent Feedback</h2>
+                <div className="space-y-2 grid" style={{gridTemplateColumns: "auto auto", columnGap: "2rem", rowGap: "1rem"}}> 
+                  {/* {info.length &&
                     info.map((feedback, index) => (
                       <div
                         key={index}
@@ -204,7 +210,29 @@ const Community = () => {
                         <p>---</p>
                         <p>{feedback.feedbackText}</p>
                       </div>
+                    ))} */}
+
+
+                    {info.length && 
+                    info.map((feedback, index) =>(
+                      <div key={index} class="flex items-start gap-2.5">
+                        <img class="w-8 h-8 rounded-full" src={`https://randomuser.me/api/portraits/men/${index}.jpg`} alt="Jese image" />
+                        <div class="flex flex-col w-full max-w-[320px] leading-1.5 p-4 border-gray-200 bg-gray-100 rounded-e-xl rounded-es-xl dark:bg-gray-700">
+                          <div class="flex items-center space-x-2 rtl:space-x-reverse">
+                            <span class="text-sm font-semibold text-gray-900 dark:text-white">{`${feedback.name}`}</span>
+                            <span class="text-sm font-normal text-gray-500 dark:text-gray-400">{`${parseCreatedAt(feedback.createdAt).day}/${parseCreatedAt(feedback.createdAt).month}/${parseCreatedAt(feedback.createdAt).year}`}</span>
+                          </div>
+                          <p class="text-sm font-normal py-2.5 text-gray-900 dark:text-white">{feedback.feedbackText}</p>
+                          <div className="flex justify-between">
+
+                          <Rating name="simple-controlled" value={feedback.rating}/>
+                          <img src="../../public/double-check.png" style={{width: "1rem", marginLeft: "1rem"}} alt="" />
+                          </div>
+                        </div>
+                      </div>
                     ))}
+                  
+
                 </div>
               </div>
             </div>
