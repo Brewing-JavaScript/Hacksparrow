@@ -70,9 +70,16 @@ const Home = ({ country = "in", category = "general", pagesize = 6 }) => {
         <div
           onClick={() => navigate("/recommendation")}
           style={{ color: ui.textColor, borderColor: ui.textColor }}
-          className="h-16 w-52 border absolute -left-20 top-[35rem] bg-red-600 -rotate-90 flex items-center justify-center text-2xl font-bold text-white rounded-xl cursor-pointer hover:scale-110 duration-150"
+          className="h-16 w-52 border absolute -left-20 top-[32rem] bg-red-600 -rotate-90 flex items-center justify-center text-2xl font-bold text-white rounded-xl cursor-pointer hover:scale-110 duration-150"
         >
           Preferences
+        </div>
+        <div
+          onClick={() => navigate("/query")}
+          style={{ color: ui.textColor, borderColor: ui.textColor }}
+          className="h-16 w-52 border absolute -left-20 top-[48rem] bg-red-600 -rotate-90 flex items-center justify-center text-2xl font-bold text-white rounded-xl cursor-pointer hover:scale-110 duration-150"
+        >
+          Query
         </div>
         <h1
           className="text-center"

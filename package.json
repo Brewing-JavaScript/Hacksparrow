@@ -16,6 +16,7 @@
     "@babel/preset-env": "^7.24.3",
     "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.11.0",
+    "@google-cloud/speech": "^6.3.0",
     "@heroicons/react": "^2.1.1",
     "@mantine/core": "^7.6.1",
     "@mantine/hooks": "^7.6.1",

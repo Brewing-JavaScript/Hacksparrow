@@ -122,6 +122,11 @@ const Nav = () => {
     }
   };
 
+  const handleLogOut = () =>{
+    sessionStorage.clear()
+    navigate('/auth')
+  }
+
   return (
     <div
       className="relative"
@@ -131,16 +136,16 @@ const Nav = () => {
         className="flex items-center justify-between w-full h-28 p-4 rounded-2xl"
         style={{ backgroundColor: themeSettings.backgroundColor }}
       >
-        <div className="flex items-center justify-between" style={{width: "80%", margin: "0 auto"}}>
+        <div className="flex items-center justify-between" style={{ width: "80%", margin: "0 auto" }}>
 
-          <div className="w-20 h-full flex" style={{alignItems: "center"}}> 
+          <div className="w-20 h-full flex" style={{ alignItems: "center" }}>
             <img
-            style={{width: "4rem", marginRight: "1rem"}}
+              style={{ width: "4rem", marginRight: "1rem" }}
               className="w-full h-full rounded-full"
               src="https://ideogram.ai/api/images/direct/5_ghuJHaTzKEhrH7Rq4Q5A.png"
               alt="logo"
             />
-            <h3 style={{fontSize: "2rem", fontWeight: 600}}>NewsWeb</h3>
+            <h3 style={{ fontSize: "2rem", fontWeight: 600 }}>NewsWeb</h3>
           </div>
           <nav className="flex gap-12 items-center">
             {cats.length &&
@@ -170,11 +175,15 @@ const Nav = () => {
                   themeSettings.backgroundColor === "#000000" ? "white" : "",
               }}
             />
+            <div className="py-4 px-12 border bg-blue-300 text-black text-xl font-bold rounded-md cursor-pointer" onClick={handleLogOut}>
+              sign Out
+
+            </div>
           </div>
 
         </div>
       </div>
-        <hr style={{width: "80%", margin: "0 auto", border: "1px solid " + themeSettings.textColor}}/>
+      <hr style={{ width: "80%", margin: "0 auto", border: "1px solid " + themeSettings.textColor }} />
       {showOptions && (
         <>
           <div
@@ -204,14 +213,14 @@ const Nav = () => {
                 />
               </svg>
             </button>
-            
+
 
             <div className="mb-6">
               <label
                 htmlFor="backgroundColor"
                 className="block mb-2 font-semibold"
-              
-              style={{color: themeSettings.textColor}}>
+
+                style={{ color: themeSettings.textColor }}>
                 Background Color:
               </label>
               <input
@@ -224,7 +233,7 @@ const Nav = () => {
             </div>
             <div className="mb-6">
               <label htmlFor="textColor" className="block mb-2 font-semibold"
-              style={{color: themeSettings.textColor}}>
+                style={{ color: themeSettings.textColor }}>
                 Text Color:
               </label>
               <input
@@ -237,7 +246,7 @@ const Nav = () => {
             </div>
             <div className="mb-6">
               <label htmlFor="h1FontSize" className="block mb-2 font-semibold"
-              style={{color: themeSettings.textColor}}>
+                style={{ color: themeSettings.textColor }}>
                 H1 Font Size:
               </label>
               <input
@@ -254,7 +263,7 @@ const Nav = () => {
             </div>
             <div className="mb-6">
               <label htmlFor="h2FontSize" className="block mb-2 font-semibold"
-              style={{color: themeSettings.textColor}}>
+                style={{ color: themeSettings.textColor }}>
                 H2 Font Size:
               </label>
               <input
@@ -271,7 +280,7 @@ const Nav = () => {
             </div>
             <div className="mb-6">
               <label htmlFor="pFontSize" className="block mb-2 font-semibold"
-              style={{color: themeSettings.textColor}}>
+                style={{ color: themeSettings.textColor }}>
                 Paragraph Font Size:
               </label>
               <input
