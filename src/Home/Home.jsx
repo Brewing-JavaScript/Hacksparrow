@@ -76,7 +76,7 @@ const Home = ({ country = "in", category = "general", pagesize = 6 }) => {
           Top Headlines
         </h1>
 
-        <div className="row">
+        <div className="row" style={{width: "80%", margin: "0 auto"}}>
           {!loading &&
             articles.map((ele) => (
               <div className="col-md-4" key={ele.url}>
