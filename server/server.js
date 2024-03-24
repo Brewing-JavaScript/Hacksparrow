@@ -369,7 +369,7 @@ server.post("/news", async (req, res) => {
   // const apiKey = "0ac62707cf514837b818e1320b5d9635";
   // const apiKey = "d50506d188ea4f8eb2750887160eed27";
   // const apiKey = "bc2fbd3b5e5d4477842cb1e1c2b84704";
-  const apiKey = "d50506d188ea4f8eb2750887160eed27";
+  const apiKey = "a799023e7b934f25b8833f3b199058a5";
   const url = `https://newsapi.org/v2/top-headlines?country=${country}&category=${category}&apiKey=${apiKey}&page=${page}&pageSize=${pagesize}`;
 
   try {
