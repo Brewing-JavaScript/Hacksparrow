@@ -55,19 +55,21 @@ const Home = ({ country = "in", category = "general", pagesize = 6 }) => {
   return (
     <>
       {loading && <Loader message={"Loading news..."} />}
-      <Nav />
+      <Nav /> 
       <div
         style={{ backgroundColor: ui.backgroundColor, color: ui.textColor }}
         className="d-flex align-items-center justify-content-center flex-column varad"
       >
         <div
           onClick={() => navigate("/feedback")}
-          className="h-16 w-52 border absolute -left-20 top-[16rem] bg-red-600 -rotate-90 flex items-center justify-center text-2xl font-bold text-white rounded-xl cursor-pointer hover:scale-110 duration-150"
+          style={{color: ui.textColor, borderColor: ui.textColor}}
+          className="h-16 w-52 border absolute -left-20 top-[16rem] bg-red-600 -rotate-90 flex items-center justify-center text-2xl font-bold text-white rounded-xl cursor-pointer hover:scale-110 duration-15  0"
         >
-          FEEDBACK
+          Feedback
         </div>
         <div
           onClick={() => navigate("/recommendation")}
+          style={{color: ui.textColor, borderColor: ui.textColor}}
           className="h-16 w-52 border absolute -left-20 top-[35rem] bg-red-600 -rotate-90 flex items-center justify-center text-2xl font-bold text-white rounded-xl cursor-pointer hover:scale-110 duration-150"
         >
           Preferences

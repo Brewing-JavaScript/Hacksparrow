@@ -147,7 +147,7 @@ const Nav = () => {
               cats.map((cate, i) => (
                 <div
                   style={{ color: themeSettings.textColor, fontStyle: "normal" }}
-                  className="m-2 text-xl cursor-pointer capitalize transition duration-300 ease-in-out hover:bg-gray-200 hover:shadow-md px-4 py-2 rounded-lg"
+                  className="m-2 text-xl cursor-pointer capitalize transition duration-300 ease-in-out hover:bg-gray-200 hover:shadow-md px-2 py-2 rounded-lg"
                   key={i}
                   onClick={() => setCat(cate)}
                 >

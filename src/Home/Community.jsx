@@ -27,9 +27,11 @@ const Community = () => {
   };
 
   const [loader, setLoader] = useState(false);
-  const [info, setInfo] = useState(false);
+  const [v,set] = useState(false);
+  const [info, setInfo] = useState({});
 
   useEffect(() => {
+    set(false)
     setLoader(true);
     api
       .get("/all-feedback")
@@ -41,7 +43,7 @@ const Community = () => {
         console.log(err.message);
         setLoader(false);
       });
-  }, []);
+  }, [v]);
 
   const handleSubmit = async (e) => {
     setLoader(true);
@@ -60,6 +62,7 @@ const Community = () => {
         .post("/feedback", { feedbackData })
         .then((res) => {
           setInfo(res.data);
+          set(true)
           setLoader(false);
           toast.success("Done..👍");
           setFeedbackText("");
@@ -96,11 +99,14 @@ const Community = () => {
   }
 
   return (
-    <div className="bg-[#252f3d]">
+    <div
+    //  className="bg-[#252f3d]"
+    style={{background: "rgb(12, 12, 12)"}}
+     >
       {loader ? (
         <Loader message={"submitting feedback..."} />
       ) : (
-        <div className="container w-[100%]  ">
+        <div style={{width: "80%", margin: "0 auto"}}>
           <h1 className="text-3xl font-bold  py-4 text-[#ffc144] ">
             Community Feedback
           </h1>

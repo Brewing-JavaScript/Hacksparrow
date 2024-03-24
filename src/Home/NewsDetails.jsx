@@ -47,7 +47,10 @@ const ArticleDetail = () => {
     document.getElementById("bgOfNews").style.backgroundColor =
       ui.backgroundColor;
     document.getElementById("news-page").style.color = ui.textColor;
-  });
+    Array.from(document.querySelectorAll('img')).filter(img => img.alt === "Article")
+    .forEach(img => img.style.display = 'none');
+
+  }, []);
 
   useEffect(() => {
     if (article) {
@@ -125,18 +128,19 @@ const ArticleDetail = () => {
 
   const sendmail = (sum) => {
     try {
-      setLoader(true);
+
+      const loader = toast.loading('sending email...')
       const userInSession = sessionStorage.getItem("_id");
       const _id = JSON.parse(userInSession);
       api
         .post("/send-sum-mail", { sum, _id })
         .then((res) => {
-          setLoader(false);
-          toast.success("mail send");
+          toast.dismiss(loader)
+          return toast.success("mail send");
         })
         .catch((err) => {
-          setLoader(false);
-          toast.error(err.message);
+          toast.dismiss(loader)
+          return toast.error(err.message);
         });
     } catch (error) {
       console.log(error);
@@ -158,9 +162,12 @@ const ArticleDetail = () => {
                 <div>
                   <h2 className="text-2xl font-semibold mb-2">
                     {trans ? trans : article.title}
-                    {trans && (
+                    {trans && ( 
                       <VolumeUpIcon
-                        onClick={hindiSpeaking}
+                        onClick={()=>{
+                            console.log(trans);
+                            hindiSpeaking()}
+                        }
                         fontSize="large"
                         color="primary"
                         className=" ml-10 w-[90px] h-[90]
@@ -184,51 +191,58 @@ const ArticleDetail = () => {
                   </div>
                   {analytics && (
                     <div
-                      className="flex justify-between mb-4"
+                      className="mb-4"
                       style={{ width: "100%" }}
                     >
-                      <div className="flex flex-col items-center">
-                        <div
-                          className={`text-xl font-semibold ${
-                            analytics.probabilities.fake >
-                            analytics.probabilities.true
-                              ? "text-red-600"
-                              : "text-green-600"
-                          } animate-pulse`}
-                        >
-                          Fake Probability:
+                        <h3 className={`${analytics.probabilities.fake > analytics.probabilities.true ? "text-red-600": "text-green-600"}`}
+                        style={{fontSize: "2rem"}}>Fact Checker: News is
+                        {analytics.probabilities.fake > analytics.probabilities.true ? (<span> Fake!</span>) : <span> Authentic!</span>} </h3>
+                         
+                    <div className="flex">
+                        
+                        <div className="flex items-center mr-8">
+                            <div
+                            className={`text-xl font-semibold ${
+                                analytics.probabilities.true >
+                                analytics.probabilities.fake
+                                ? "text-green-600"
+                                : "text-red-600"
+                            } animate-pulse`}
+                            >
+                            True Probability:
+                            </div>
+                            <div
+                            className={`text-2xl font-bold ${
+                                analytics.probabilities.true >
+                                analytics.probabilities.fake
+                                ? "text-green-600"
+                                : "text-red-600"
+                            }`}
+                            > 
+                            {analytics.probabilities.true.toFixed(2)}%
+                            </div>
                         </div>
-                        <div
-                          className={`text-2xl font-bold ${
-                            analytics.probabilities.fake >
-                            analytics.probabilities.true
-                              ? "text-red-600"
-                              : "text-green-600"
-                          }`}
-                        >
-                          {analytics.probabilities.fake.toFixed(2)}%
-                        </div>
-                      </div>
-                      <div className="flex flex-col items-center">
-                        <div
-                          className={`text-xl font-semibold ${
-                            analytics.probabilities.true >
-                            analytics.probabilities.fake
-                              ? "text-green-600"
-                              : "text-red-600"
-                          } animate-pulse`}
-                        >
-                          True Probability:
-                        </div>
-                        <div
-                          className={`text-2xl font-bold ${
-                            analytics.probabilities.true >
-                            analytics.probabilities.fake
-                              ? "text-green-600"
-                              : "text-red-600"
-                          }`}
-                        >
-                          {analytics.probabilities.true.toFixed(2)}%
+                        <div className="flex items-center">
+                            <div
+                            className={`text-xl font-semibold ${
+                                analytics.probabilities.fake >
+                                analytics.probabilities.true
+                                ? "text-red-600"
+                                : "text-green-600"
+                            } animate-pulse`}
+                            >
+                            Fake Probability:
+                            </div>
+                            <div
+                            className={`text-2xl font-bold ${
+                                analytics.probabilities.fake >
+                                analytics.probabilities.true
+                                ? "text-red-600"
+                                : "text-green-600"
+                            }`}
+                            >
+                            {analytics.probabilities.fake.toFixed(2)}%
+                            </div>
                         </div>
                       </div>
                     </div>
@@ -241,7 +255,8 @@ const ArticleDetail = () => {
                   <img
                     src={article.image}
                     alt="Article"
-                    className="w-full rounded mb-4"
+                    className=" rounded mb-4"
+                    style={{width: "50%"}}
                   />
                   <div
                     className="article-content"
