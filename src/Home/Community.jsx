@@ -96,11 +96,14 @@ const Community = () => {
   }
 
   return (
-    <div className="bg-[#252f3d]">
+    <div
+    //  className="bg-[#252f3d]"
+    style={{background: "rgb(12, 12, 12)"}}
+     >
       {loader ? (
         <Loader message={"submitting feedback..."} />
       ) : (
-        <div className="container w-[100%]  ">
+        <div style={{width: "80%", margin: "0 auto"}}>
           <h1 className="text-3xl font-bold  py-4 text-[#ffc144] ">
             Community Feedback
           </h1>
