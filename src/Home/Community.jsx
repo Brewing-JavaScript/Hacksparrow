@@ -98,6 +98,24 @@ const Community = () => {
     return parsedData;
   }
 
+// Function to calculate average rating
+function calculateAverageRating(feedbackData) {
+  if (!Array.isArray(feedbackData)) {
+      console.error('Feedback data is not an array.');
+      return null; // Handle the error or return a default value
+  }
+
+  // Calculate total sum of ratings
+  const totalRatings = feedbackData.reduce((sum, feedback) => sum + feedback.rating, 0);
+  
+  // Calculate average rating
+  const averageRating = totalRatings / feedbackData.length;
+
+  return averageRating;
+}
+
+
+
   return (
     <div
     //  className="bg-[#252f3d]"
@@ -186,8 +204,16 @@ const Community = () => {
             </div>
             <div className="w-full h-uto">
               {/* Recent Feedback */}
-              <div className="  bg-slate-300 rounded-lg  p-8 ">
+              <div className="  bg-slate-300 rounded-lg  p-8 flex justify-between items-center flex-col space-y-3 ">
                 <h2 className="text-xl font-bold ">Recent Feedback</h2>
+                <div className="flex flex-col items-center justify-center p-2">
+                  <h2>Avarage Ratings</h2>
+                <Rating
+                  name="simple-controlled"
+                  value={info ? calculateAverageRating(info) : 1}
+              
+                />
+                </div>
                 <div className="space-y-2 ">
                   {info.length &&
                     info.map((feedback, index) => (
